@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Curso de Programación - Programming Course</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .card-link:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .card-link i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .language-toggle:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .emoji {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="language-toggle" onclick="toggleLanguage()">
+        🇪🇸 / 🇺🇸
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Curso de Programación</h1>
+            <p>Un repositorio educativo para aprender programación y tecnología</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Módulos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5+</div>
+                <div class="stat-label">Temas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Gratuito</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">🌐</div>
+                <div class="stat-label">Accesible</div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="card">
+                <h2><span class="emoji">🏭</span> Industria Tecnológica</h2>
+                <p>Explora las tendencias actuales de la industria tech, roles profesionales, tecnologías emergentes y el futuro del desarrollo de software.</p>
+                <div class="card-links">
+                    <a href="general/tech_industries.html" class="card-link">
+                        <i>📊</i> Industria Tech - Tendencias y Roles
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🛠️</span> Herramientas de Desarrollo</h2>
+                <p>Aprende a configurar y dominar las herramientas esenciales para el desarrollo de software, desde IDEs hasta entornos de trabajo.</p>
+                <div class="card-links">
+                    <a href="general/install_wsl.html" class="card-link">
+                        <i>🐧</i> Instalación de WSL (Windows Subsystem for Linux)
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🧮</span> Lógica y Algoritmos</h2>
+                <p>Desarrolla tu pensamiento computacional y lógico a través de algoritmos, estructuras de datos y técnicas de resolución de problemas.</p>
+                <div class="card-links">
+                    <a href="logic_algo/explicacion_breve.html" class="card-link">
+                        <i>🧠</i> Explicación Breve - Lógica y Algoritmos
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">📚</span> Recursos Adicionales</h2>
+                <p>Enlaces útiles y recursos complementarios para continuar tu aprendizaje en programación y tecnología.</p>
+                <div class="card-links">
+                    <a href="https://github.com/arleybri18/programming_course" class="card-link">
+                        <i>📖</i> Ver en GitHub
+                    </a>
+                    <a href="https://arleybri18.github.io/programming_course/" class="card-link">
+                        <i>🌐</i> GitHub Pages
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🌟 ¡Comparte el conocimiento y contribuye al proyecto! 🌟</p>
+            <p>Made with ❤️ for the developer community</p>
+        </div>
+    </div>
+
+    <script>
+        let currentLanguage = 'es';
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
+            updateContent();
+        }
+
+        function updateContent() {
+            const elements = {
+                'es': {
+                    title: '🚀 Curso de Programación',
+                    subtitle: 'Un repositorio educativo para aprender programación y tecnología',
+                    industry: {
+                        title: '🏭 Industria Tecnológica',
+                        description: 'Explora las tendencias actuales de la industria tech, roles profesionales, tecnologías emergentes y el futuro del desarrollo de software.',
+                        link: '📊 Industria Tech - Tendencias y Roles'
+                    },
+                    tools: {
+                        title: '🛠️ Herramientas de Desarrollo',
+                        description: 'Aprende a configurar y dominar las herramientas esenciales para el desarrollo de software, desde IDEs hasta entornos de trabajo.',
+                        link: '🐧 Instalación de WSL (Windows Subsystem for Linux)'
+                    },
+                    logic: {
+                        title: '🧮 Lógica y Algoritmos',
+                        description: 'Desarrolla tu pensamiento computacional y lógico a través de algoritmos, estructuras de datos y técnicas de resolución de problemas.',
+                        link: '🧠 Explicación Breve - Lógica y Algoritmos'
+                    },
+                    resources: {
+                        title: '📚 Recursos Adicionales',
+                        description: 'Enlaces útiles y recursos complementarios para continuar tu aprendizaje en programación y tecnología.',
+                        github: '📖 Ver en GitHub',
+                        pages: '🌐 GitHub Pages'
+                    },
+                    footer: '🌟 ¡Comparte el conocimiento y contribuye al proyecto! 🌟'
+                },
+                'en': {
+                    title: '🚀 Programming Course',
+                    subtitle: 'An educational repository for learning programming and technology',
+                    industry: {
+                        title: '🏭 Tech Industry',
+                        description: 'Explore current trends in the tech industry, professional roles, emerging technologies, and the future of software development.',
+                        link: '📊 Tech Industry - Trends and Roles'
+                    },
+                    tools: {
+                        title: '🛠️ Development Tools',
+                        description: 'Learn to configure and master essential tools for software development, from IDEs to work environments.',
+                        link: '🐧 WSL Installation (Windows Subsystem for Linux)'
+                    },
+                    logic: {
+                        title: '🧮 Logic and Algorithms',
+                        description: 'Develop your computational and logical thinking through algorithms, data structures, and problem-solving techniques.',
+                        link: '🧠 Brief Explanation - Logic and Algorithms'
+                    },
+                    resources: {
+                        title: '📚 Additional Resources',
+                        description: 'Useful links and complementary resources to continue your learning in programming and technology.',
+                        github: '📖 View on GitHub',
+                        pages: '🌐 GitHub Pages'
+                    },
+                    footer: '🌟 Share knowledge and contribute to the project! 🌟'
+                }
+            };
+
+            const content = elements[currentLanguage];
+
+            // Update header
+            document.querySelector('.header h1').textContent = content.title;
+            document.querySelector('.header p').textContent = content.subtitle;
+
+            // Update cards
+            const cards = document.querySelectorAll('.card');
+            cards[0].querySelector('h2').innerHTML = `<span class="emoji">🏭</span> ${content.industry.title.split(' ').slice(1).join(' ')}`;
+            cards[0].querySelector('p').textContent = content.industry.description;
+            cards[0].querySelector('.card-link').innerHTML = `<i>📊</i> ${content.industry.link}`;
+
+            cards[1].querySelector('h2').innerHTML = `<span class="emoji">🛠️</span> ${content.tools.title.split(' ').slice(1).join(' ')}`;
+            cards[1].querySelector('p').textContent = content.tools.description;
+            cards[1].querySelector('.card-link').innerHTML = `<i>🐧</i> ${content.tools.link}`;
+
+            cards[2].querySelector('h2').innerHTML = `<span class="emoji">🧮</span> ${content.logic.title.split(' ').slice(1).join(' ')}`;
+            cards[2].querySelector('p').textContent = content.logic.description;
+            cards[2].querySelector('.card-link').innerHTML = `<i>🧠</i> ${content.logic.link}`;
+
+            cards[3].querySelector('h2').innerHTML = `<span class="emoji">📚</span> ${content.resources.title.split(' ').slice(1).join(' ')}`;
+            cards[3].querySelector('p').textContent = content.resources.description;
+            cards[3].querySelectorAll('.card-link')[0].innerHTML = `<i>📖</i> ${content.resources.github}`;
+            cards[3].querySelectorAll('.card-link')[1].innerHTML = `<i>🌐</i> ${content.resources.pages}`;
+
+            // Update footer
+            document.querySelector('.footer p').textContent = content.footer;
+        }
+    </script>
+</body>
+</html>
