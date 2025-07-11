@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caminos en el Mundo de la Tecnología</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: La SPA se estructura para guiar a los estudiantes a través de las oportunidades en tecnología. Incluye una sección de bienvenida, una cuadrícula interactiva de "Tarjetas de Rol" (cada una representando una carrera), y una sección final sobre habilidades transversales. Al hacer clic en una tarjeta de rol, se abre un modal con detalles extendidos (descripción, responsabilidades, habilidades). Esta arquitectura permite una exploración no lineal y a ritmo propio, evitando la sobrecarga de información inicial y facilitando una inmersión profunda en roles de interés. La navegación fija permite saltar entre las secciones principales. -->
+    <!-- Visualization & Content Choices:
+        - Tarjetas de Rol: Goal:Inform/Organize -> Method:HTML/CSS cards con iconos Lucide. Interaction:Click para abrir modal. Justification:Permite una vista rápida y atractiva de los roles, con la opción de profundizar.
+        - Modal de Detalle de Rol: Goal:Explain/Inform -> Method:Texto detallado y listas con viñetas. Justification:Proporciona información completa y estructurada sin saturar la vista principal.
+        - Habilidades Transversales: Goal:Inform -> Method:Lista con iconos. Justification:Resalta la importancia de habilidades no técnicas de forma concisa.
+        - Icons: Lucide icons para todos los elementos visuales.
+        - Library/Method: Vanilla JS para la lógica de los modales y la navegación, Tailwind CSS para el diseño responsivo. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .nav-link.active { color: #f97316; font-weight: 600; }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #aaa;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #333;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800">
+
+    <header id="navbar" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-xl font-bold text-orange-600">Tech Explorer</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#explora-roles" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-orange-600 transition-colors duration-300">Explora Roles</a>
+                        <a href="#habilidades-clave" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-orange-600 transition-colors duration-300">Habilidades Clave</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+        <section id="inicio" class="text-center mb-16">
+            <h1 class="text-4xl sm:text-5xl font-bold text-stone-900 leading-tight">Tu Futuro en Tecnología: ¡Explora los Caminos!</h1>
+            <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">El mundo de la tecnología es vasto y lleno de oportunidades. Si estás empezando, es normal sentirse abrumado. Esta guía interactiva te ayudará a descubrir los diferentes roles, qué hacen y qué habilidades necesitan. ¡Encuentra tu pasión!</p>
+        </section>
+
+        <section id="explora-roles" class="scroll-mt-20 mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">Explora los Roles más Populares en Tecnología</h2>
+                <p class="mt-2 text-md text-stone-600">Haz clic en cada tarjeta para descubrir más sobre cada profesión.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Role Card Template -->
+                <!-- Example Card (will be generated by JS) -->
+                <!--
+                <div class="role-card bg-white p-6 rounded-xl shadow-lg cursor-pointer transition-transform duration-300 hover:scale-105" data-role-id="frontend">
+                    <div class="flex items-center gap-4 mb-4">
+                        <i data-lucide="layout-dashboard" class="w-10 h-10 text-orange-500"></i>
+                        <h3 class="text-xl font-bold">Desarrollador Frontend</h3>
+                    </div>
+                    <p class="text-stone-600">Crea la parte visual de las aplicaciones web con la que interactúas.</p>
+                </div>
+                -->
+            </div>
+        </section>
+
+        <section id="habilidades-clave" class="scroll-mt-20 mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">Habilidades Clave para Cualquier Rol Tech</h2>
+                <p class="mt-2 text-md text-stone-600">Más allá de las habilidades técnicas específicas, hay competencias que te harán destacar en cualquier camino que elijas.</p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="lightbulb" class="w-8 h-8 text-yellow-500 mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-bold">Resolución de Problemas</h3>
+                            <p class="text-stone-600">Identificar, analizar y encontrar soluciones creativas a desafíos técnicos y lógicos.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="message-square" class="w-8 h-8 text-blue-500 mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-bold">Comunicación Efectiva</h3>
+                            <p class="text-stone-600">Explicar ideas complejas de forma clara a técnicos y no técnicos, y escuchar activamente.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="users" class="w-8 h-8 text-teal-500 mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-bold">Trabajo en Equipo</h3>
+                            <p class="text-stone-600">Colaborar eficientemente con otros profesionales para alcanzar objetivos comunes.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="book-open" class="w-8 h-8 text-purple-500 mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-bold">Aprendizaje Continuo</h3>
+                            <p class="text-stone-600">La tecnología cambia rápido; la capacidad de aprender nuevas herramientas y conceptos es vital.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="brain" class="w-8 h-8 text-pink-500 mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-bold">Pensamiento Crítico</h3>
+                            <p class="text-stone-600">Evaluar información, identificar sesgos y tomar decisiones informadas.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <i data-lucide="activity" class="w-8 h-8 text-green-500 mt-1"></i>
+                        <div>
+                            <h3 class="text-xl font-bold">Adaptabilidad</h3>
+                            <p class="text-stone-600">Ajustarse a nuevos entornos, tecnologías y metodologías de trabajo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+            <p>&copy; 2024 Tech Explorer. Tu guía en el mundo de la tecnología.</p>
+        </div>
+    </footer>
+
+    <!-- Modal Structure -->
+    <div id="roleModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 id="modalRoleName" class="text-2xl font-bold text-stone-900 mb-4"></h3>
+            <div class="flex items-center gap-3 mb-4">
+                <i id="modalRoleIcon" class="w-8 h-8 text-orange-500"></i>
+                <p id="modalRoleTagline" class="text-stone-600 text-lg"></p>
+            </div>
+
+            <h4 class="text-xl font-semibold text-stone-800 mt-6 mb-2">Descripción General</h4>
+            <p id="modalRoleDescription" class="text-stone-700 leading-relaxed mb-4"></p>
+
+            <h4 class="text-xl font-semibold text-stone-800 mb-2">Responsabilidades Clave</h4>
+            <ul id="modalRoleResponsibilities" class="list-disc list-inside text-stone-700 mb-4 space-y-1"></ul>
+
+            <h4 class="text-xl font-semibold text-stone-800 mb-2">Habilidades Tecnológicas Clave</h4>
+            <ul id="modalRoleSkills" class="list-disc list-inside text-stone-700 space-y-1"></ul>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const roleCardsContainer = document.querySelector('#explora-roles .grid');
+            const roleModal = document.getElementById('roleModal');
+            const closeButton = document.querySelector('.close-button');
+            const modalRoleName = document.getElementById('modalRoleName');
+            const modalRoleIcon = document.getElementById('modalRoleIcon');
+            const modalRoleTagline = document.getElementById('modalRoleTagline');
+            const modalRoleDescription = document.getElementById('modalRoleDescription');
+            const modalRoleResponsibilities = document.getElementById('modalRoleResponsibilities');
+            const modalRoleSkills = document.getElementById('modalRoleSkills');
+
+            const roles = [
+                {
+                    id: 'frontend',
+                    name: 'Desarrollador Frontend',
+                    icon: 'layout-dashboard',
+                    color: 'orange',
+                    tagline: 'Crea la experiencia visual y la interacción del usuario en la web.',
+                    description: 'El desarrollador frontend es el arquitecto de la interfaz de usuario (UI) y la experiencia de usuario (UX) en aplicaciones web. Su trabajo es asegurar que todo lo que ves y con lo que interactúas en una página web sea funcional, atractivo y fácil de usar.',
+                    responsibilities: [
+                        'Convertir diseños UI/UX en código interactivo.',
+                        'Optimizar la aplicación para máxima velocidad y escalabilidad.',
+                        'Asegurar la compatibilidad con diferentes navegadores y dispositivos.',
+                        'Implementar funcionalidades del lado del cliente (formularios, animaciones).'
+                    ],
+                    skills: [
+                        'HTML, CSS (Tailwind CSS, Bootstrap)',
+                        'JavaScript (React, Angular, Vue.js)',
+                        'Diseño Responsivo',
+                        'Control de Versiones (Git)'
+                    ]
+                },
+                {
+                    id: 'backend',
+                    name: 'Desarrollador Backend',
+                    icon: 'server',
+                    color: 'blue',
+                    tagline: 'Construye la lógica, bases de datos y servidores que hacen funcionar una aplicación.',
+                    description: 'El desarrollador backend se encarga de la "trastienda" de una aplicación: la lógica del servidor, las bases de datos, las APIs y la infraestructura que permite que todo funcione. Su código no es visible para el usuario final, pero es crucial para el procesamiento de datos y la seguridad.',
+                    responsibilities: [
+                        'Diseñar y gestionar bases de datos (SQL, NoSQL).',
+                        'Desarrollar APIs (Application Programming Interfaces).',
+                        'Implementar la lógica de negocio del lado del servidor.',
+                        'Asegurar la seguridad y la autenticación de datos.'
+                    ],
+                    skills: [
+                        'Lenguajes de servidor (Python/Django, Node.js/Express, Java/Spring, PHP/Laravel)',
+                        'Bases de Datos (PostgreSQL, MongoDB, MySQL)',
+                        'APIs RESTful/GraphQL',
+                        'Control de Versiones (Git)'
+                    ]
+                },
+                 {
+                    id: 'fullstack',
+                    name: 'Desarrollador Fullstack',
+                    icon: 'code-square',
+                    color: 'purple',
+                    tagline: 'Domina tanto el frontend como el backend, construyendo la aplicación de principio a fin.',
+                    description: 'Un desarrollador fullstack tiene la capacidad de trabajar en todas las capas de una aplicación, desde la interfaz de usuario hasta la base de datos y el servidor. Son perfiles muy versátiles y demandados, ideales para startups o equipos pequeños donde se necesita flexibilidad.',
+                    responsibilities: [
+                        'Diseñar y desarrollar la interfaz de usuario.',
+                        'Construir la lógica del servidor y las APIs.',
+                        'Gestionar bases de datos.',
+                        'Participar en todas las fases del ciclo de desarrollo de software.'
+                    ],
+                    skills: [
+                        'HTML, CSS, JavaScript (con frameworks frontend)',
+                        'Lenguajes de servidor (Python, Node.js, Java, PHP)',
+                        'Bases de Datos',
+                        'APIs, Control de Versiones (Git)'
+                    ]
+                },
+                {
+                    id: 'ux-designer',
+                    name: 'Diseñador UX (Experiencia de Usuario)',
+                    icon: 'user-check',
+                    color: 'emerald',
+                    tagline: 'Investiga y diseña para que un producto sea fácil, útil y agradable de usar.',
+                    description: 'El diseñador UX se enfoca en cómo se siente el usuario al interactuar con un producto. Realiza investigaciones, crea prototipos y pruebas de usabilidad para asegurar que la experiencia del usuario sea intuitiva, eficiente y satisfactoria. Su objetivo es resolver problemas del usuario.',
+                    responsibilities: [
+                        'Investigación de usuarios (entrevistas, encuestas).',
+                        'Creación de wireframes y prototipos.',
+                        'Pruebas de usabilidad y análisis de datos.',
+                        'Diseño de flujos de usuario y arquitectura de información.'
+                    ],
+                    skills: [
+                        'Pensamiento de Diseño (Design Thinking)',
+                        'Herramientas de Prototipado (Figma, Sketch, Adobe XD)',
+                        'Investigación de Usuarios (ej. Lovable, Maze)',
+                        'Psicología del Usuario'
+                    ]
+                },
+                {
+                    id: 'ui-designer',
+                    name: 'Diseñador UI (Interfaz de Usuario)',
+                    icon: 'palette',
+                    color: 'pink',
+                    tagline: 'Se encarga de la estética visual y la interactividad de la interfaz de un producto.',
+                    description: 'Mientras el diseñador UX se enfoca en la funcionalidad, el diseñador UI se concentra en la apariencia visual y la interactividad de la interfaz. Elige colores, tipografías, iconos y elementos gráficos para crear una interfaz atractiva y coherente con la marca, asegurando que cada elemento sea visualmente agradable y fácil de usar.',
+                    responsibilities: [
+                        'Diseñar la apariencia visual de la interfaz.',
+                        'Crear guías de estilo y sistemas de diseño.',
+                        'Seleccionar paletas de colores y tipografías.',
+                        'Asegurar la coherencia visual en todo el producto.'
+                    ],
+                    skills: [
+                        'Principios de Diseño Visual',
+                        'Herramientas de Diseño (Figma, Sketch, Adobe Photoshop/Illustrator)',
+                        'Tipografía y Teoría del Color',
+                        'Diseño Responsivo'
+                    ]
+                },
+                {
+                    id: 'data-analyst',
+                    name: 'Analista de Datos',
+                    icon: 'bar-chart-2',
+                    color: 'indigo',
+                    tagline: 'Recopila, procesa y analiza grandes volúmenes de datos para extraer información valiosa.',
+                    description: 'El analista de datos es un detective de la información. Su rol es transformar datos brutos en insights accionables que ayuden a las empresas a tomar mejores decisiones. Utilizan herramientas estadísticas y de programación para limpiar, organizar y visualizar datos.',
+                    responsibilities: [
+                        'Recopilar y limpiar conjuntos de datos.',
+                        'Realizar análisis estadísticos y predictivos.',
+                        'Crear visualizaciones de datos (gráficos, dashboards).',
+                        'Presentar hallazgos y recomendaciones a stakeholders.'
+                    ],
+                    skills: [
+                        'SQL',
+                        'Python (Pandas, NumPy, Matplotlib)',
+                        'R',
+                        'Herramientas de Visualización (Tableau, Power BI)',
+                        'Estadística'
+                    ]
+                },
+                 {
+                    id: 'data-scientist',
+                    name: 'Científico de Datos',
+                    icon: 'cpu',
+                    color: 'red',
+                    tagline: 'Construye modelos predictivos y algoritmos de aprendizaje automático a partir de datos.',
+                    description: 'El científico de datos es un paso más allá del analista. No solo interpretan datos, sino que construyen modelos complejos y algoritmos de Machine Learning para predecir tendencias, automatizar decisiones y descubrir patrones ocultos. Requieren una base sólida en matemáticas, estadística y programación.',
+                    responsibilities: [
+                        'Diseñar y desarrollar modelos de Machine Learning (ML).',
+                        'Realizar análisis exploratorio de datos a gran escala.',
+                        'Implementar algoritmos predictivos y prescriptivos.',
+                        'Validar y optimizar el rendimiento de los modelos ML.'
+                    ],
+                    skills: [
+                        'Python (Scikit-learn, TensorFlow, PyTorch)',
+                        'R',
+                        'Estadística Avanzada y Álgebra Lineal',
+                        'Big Data (Spark, Hadoop)'
+                    ]
+                },
+                {
+                    id: 'project-manager',
+                    name: 'Project Manager (TI)',
+                    icon: 'clipboard-list',
+                    color: 'green',
+                    tagline: 'Lidera equipos y proyectos tecnológicos, asegurando que se entreguen a tiempo y dentro del presupuesto.',
+                    description: 'El Project Manager de TI es el orquestador del proyecto. Se asegura de que los equipos trabajen de manera cohesionada, los recursos se utilicen eficientemente y los objetivos del proyecto se cumplan. Es un rol que requiere fuertes habilidades de liderazgo, comunicación y organización.',
+                    responsibilities: [
+                        'Planificar, ejecutar y cerrar proyectos tecnológicos.',
+                        'Gestionar el presupuesto y los recursos del proyecto.',
+                        'Comunicar el progreso a los stakeholders.',
+                        'Identificar y mitigar riesgos.'
+                    ],
+                    skills: [
+                        'Metodologías Ágiles (Scrum, Kanban)',
+                        'Gestión de Riesgos',
+                        'Liderazgo y Comunicación',
+                        'Herramientas de Gestión de Proyectos (Jira, Asana)'
+                    ]
+                },
+                {
+                    id: 'cybersecurity',
+                    name: 'Especialista en Ciberseguridad',
+                    icon: 'shield',
+                    color: 'gray',
+                    tagline: 'Protege sistemas, redes y datos de amenazas y ataques cibernéticos.',
+                    description: 'En un mundo cada vez más digital, la ciberseguridad es fundamental. Estos profesionales son los guardianes de la información, encargados de prevenir, detectar y responder a ataques cibernéticos. Diseñan e implementan sistemas de seguridad robustos para proteger la infraestructura de TI de una organización.',
+                    responsibilities: [
+                        'Monitorear redes y sistemas en busca de vulnerabilidades.',
+                        'Implementar protocolos y herramientas de seguridad.',
+                        'Realizar pruebas de penetración y auditorías de seguridad.',
+                        'Responder a incidentes de seguridad y recuperarse de ataques.'
+                    ],
+                    skills: [
+                        'Conocimiento de Redes y Sistemas Operativos',
+                        'Criptografía',
+                        'Análisis de Malware',
+                        'Normativas de Seguridad (GDPR, ISO 27001)'
+                    ]
+                },
+                {
+                    id: 'devops',
+                    name: 'Ingeniero DevOps',
+                    icon: 'cloud',
+                    color: 'sky',
+                    tagline: 'Une el desarrollo de software y las operaciones de TI para agilizar la entrega de productos.',
+                    description: 'DevOps es una cultura y un conjunto de prácticas que combinan el desarrollo de software (Dev) y las operaciones de TI (Ops). El ingeniero DevOps se enfoca en automatizar y optimizar los procesos de construcción, prueba y despliegue de software, buscando una entrega continua y eficiente. Son el puente entre los desarrolladores y los equipos de infraestructura.',
+                    responsibilities: [
+                        'Automatizar el ciclo de vida del desarrollo de software (CI/CD).',
+                        'Gestionar la infraestructura como código (IaC).',
+                        'Monitorear el rendimiento y la disponibilidad de los sistemas.',
+                        'Implementar y mantener herramientas de integración y despliegue continuo.'
+                    ],
+                    skills: [
+                        'Linux',
+                        'Contenedores (Docker, Kubernetes)',
+                        'Cloud (AWS, Azure, GCP)',
+                        'Herramientas CI/CD (Jenkins, GitLab CI)',
+                        'Scripting (Python, Bash)'
+                    ]
+                },
+                {
+                    id: 'cloud-engineer',
+                    name: 'Ingeniero Cloud',
+                    icon: 'cloud-cog',
+                    color: 'orange',
+                    tagline: 'Diseña, implementa y gestiona infraestructuras y servicios en la nube.',
+                    description: 'Con la creciente adopción de la computación en la nube, los ingenieros cloud son esenciales. Se especializan en plataformas como AWS, Azure o Google Cloud para diseñar arquitecturas escalables, seguras y eficientes. Su trabajo es migrar aplicaciones a la nube, optimizar costos y asegurar la disponibilidad de los servicios.',
+                    responsibilities: [
+                        'Diseñar arquitecturas de soluciones en la nube.',
+                        'Implementar y gestionar servicios de infraestructura (servidores, redes, bases de datos) en la nube.',
+                        'Optimizar el rendimiento y los costos de los recursos en la nube.',
+                        'Asegurar la seguridad y el cumplimiento normativo en entornos cloud.'
+                    ],
+                    skills: [
+                        'Plataformas Cloud (AWS, Azure, GCP)',
+                        'Virtualización',
+                        'Networking en la Nube',
+                        'Seguridad Cloud',
+                        'Automatización y Scripting'
+                    ]
+                },
+                {
+                    id: 'qa-engineer',
+                    name: 'Ingeniero QA (Control de Calidad)',
+                    icon: 'check-circle',
+                    color: 'lime',
+                    tagline: 'Asegura la calidad del software a través de pruebas y detección de errores.',
+                    description: 'El ingeniero de Control de Calidad (Quality Assurance) es el guardián de la calidad del software. Su misión es encontrar errores (bugs) y asegurar que el producto final cumpla con los requisitos y funcione correctamente antes de ser lanzado al público. Realizan pruebas manuales y automatizadas, y trabajan de cerca con los desarrolladores.',
+                    responsibilities: [
+                        'Diseñar y ejecutar planes de prueba (manuales y automatizados).',
+                        'Identificar, documentar y reportar defectos (bugs).',
+                        'Colaborar con los equipos de desarrollo para resolver problemas.',
+                        'Asegurar que el software cumpla con los estándares de calidad.'
+                    ],
+                    skills: [
+                        'Metodologías de Prueba (funcionales, regresión, rendimiento)',
+                        'Herramientas de Automatización de Pruebas (Selenium, Cypress)',
+                        'Gestión de Defectos (Jira, Bugzilla)',
+                        'Pensamiento Analítico y Detallista'
+                    ]
+                },
+                {
+                    id: 'product-manager',
+                    name: 'Product Manager',
+                    icon: 'package',
+                    color: 'rose',
+                    tagline: 'Define la visión, estrategia y hoja de ruta de un producto, conectando negocio y tecnología.',
+                    description: 'El Product Manager es el "CEO" del producto. Es responsable de la estrategia, hoja de ruta y lanzamiento de un producto, desde su concepción hasta su lanzamiento y más allá. Actúa como el puente entre los equipos de desarrollo, diseño, marketing y ventas, asegurando que el producto resuelva una necesidad real del mercado y del usuario.',
+                    responsibilities: [
+                        'Investigar el mercado y las necesidades de los usuarios.',
+                        'Definir la visión y estrategia del producto.',
+                        'Crear y mantener la hoja de ruta del producto.',
+                        'Priorizar funcionalidades y gestionar el backlog.'
+                    ],
+                    skills: [
+                        'Investigación de Mercado',
+                        'Estrategia de Producto',
+                        'Gestión de Stakeholders',
+                        'Comunicación y Liderazgo',
+                        'Conocimiento Técnico Básico',
+                        'Herramientas de Feedback y Research (ej. Lovable, Productboard)'
+                    ]
+                },
+                {
+                    id: 'scrum-master',
+                    name: 'Scrum Master',
+                    icon: 'handshake',
+                    color: 'orange',
+                    tagline: 'Facilita los equipos Scrum, elimina impedimentos y asegura la adherencia a la metodología ágil.',
+                    description: 'El Scrum Master es un líder de servicio en equipos que utilizan la metodología Scrum. Su rol principal es asegurar que el equipo comprenda y aplique Scrum, facilitando las reuniones, eliminando obstáculos que impidan el progreso y protegiendo al equipo de interrupciones externas. No es un gerente de proyecto, sino un facilitador.',
+                    responsibilities: [
+                        'Facilitar las ceremonias de Scrum (Daily Scrum, Sprint Planning, etc.).',
+                        'Eliminar impedimentos que afecten al equipo.',
+                        'Entrenar al equipo en las prácticas de Scrum.',
+                        'Proteger al equipo de distracciones externas.'
+                    ],
+                    skills: [
+                        'Conocimiento Profundo de Scrum',
+                        'Habilidades de Facilitación',
+                        'Resolución de Conflictos',
+                        'Coaching',
+                        'Comunicación'
+                    ]
+                },
+                {
+                    id: 'business-analyst',
+                    name: 'Analista de Negocio (BA)',
+                    icon: 'briefcase',
+                    color: 'purple',
+                    tagline: 'Sirve de puente entre las necesidades del negocio y las soluciones tecnológicas.',
+                    description: 'El Analista de Negocio es fundamental para traducir los requerimientos de los usuarios y las necesidades del negocio en especificaciones claras para los equipos de desarrollo. Investigan procesos, identifican áreas de mejora y diseñan soluciones que a menudo implican tecnología. Son expertos en documentación y comunicación.',
+                    responsibilities: [
+                        'Recopilar y analizar requisitos de negocio.',
+                        'Documentar procesos y flujos de trabajo.',
+                        'Diseñar soluciones funcionales para problemas de negocio.',
+                        'Actuar como enlace entre los equipos de negocio y TI.'
+                    ],
+                    skills: [
+                        'Análisis de Requisitos',
+                        'Modelado de Procesos (BPMN)',
+                        'Comunicación y Negociación',
+                        'Pensamiento Lógico y Analítico',
+                        'Herramientas de Documentación'
+                    ]
+                },
+                {
+                    id: 'it-support',
+                    name: 'Especialista de Soporte TI',
+                    icon: 'life-buoy',
+                    color: 'teal',
+                    tagline: 'Brinda asistencia técnica y resuelve problemas de hardware y software a los usuarios.',
+                    description: 'Los especialistas de soporte TI son la primera línea de defensa cuando algo falla. Ayudan a los usuarios con problemas técnicos, ya sea de hardware, software, red o sistemas. Su objetivo es mantener la operatividad y la productividad de los empleados y los sistemas.',
+                    responsibilities: [
+                        'Diagnosticar y resolver problemas técnicos.',
+                        'Instalar y configurar hardware y software.',
+                        'Brindar soporte a usuarios finales (remoto o presencial).',
+                        'Documentar soluciones y crear guías de usuario.'
+                    ],
+                    skills: [
+                        'Conocimiento de Sistemas Operativos (Windows, macOS, Linux)',
+                        'Redes Básicas',
+                        'Diagnóstico de Hardware y Software',
+                        'Atención al Cliente y Paciencia'
+                    ]
+                },
+                {
+                    id: 'virtual-assistant',
+                    name: 'Asistente Virtual (Tech-Savvy)',
+                    icon: 'laptop',
+                    color: 'fuchsia',
+                    tagline: 'Ofrece soporte administrativo y técnico remoto, a menudo con herramientas digitales avanzadas.',
+                    description: 'Un asistente virtual con conocimientos tecnológicos no solo maneja tareas administrativas, sino que también puede gestionar herramientas digitales, automatizar procesos, manejar redes sociales, asistir en la gestión de proyectos ligeros o incluso dar soporte básico en plataformas online. Son esenciales para emprendedores y pequeñas empresas.',
+                    responsibilities: [
+                        'Gestión de calendarios y correos electrónicos.',
+                        'Soporte en herramientas de gestión de proyectos (Trello, Asana).',
+                        'Gestión de redes sociales y creación de contenido básico.',
+                        'Automatización de tareas repetitivas con herramientas digitales.'
+                    ],
+                    skills: [
+                        'Dominio de Herramientas Digitales (Google Workspace, Microsoft 365)',
+                        'Organización y Gestión del Tiempo',
+                        'Comunicación Escrita',
+                        'Conocimiento Básico de Marketing Digital',
+                        'Proactividad'
+                    ]
+                },
+                {
+                    id: 'ai-engineer',
+                    name: 'Ingeniero de Inteligencia Artificial (IA)',
+                    icon: 'robot',
+                    color: 'violet',
+                    tagline: 'Diseña, desarrolla e implementa sistemas y aplicaciones basados en inteligencia artificial.',
+                    description: 'Los ingenieros de IA están a la vanguardia de la innovación, creando sistemas que pueden aprender, razonar y tomar decisiones. Trabajan con algoritmos de Machine Learning, Deep Learning y procesamiento de lenguaje natural para construir soluciones inteligentes en diversas industrias.',
+                    responsibilities: [
+                        'Diseñar y desarrollar modelos de IA y ML.',
+                        'Implementar algoritmos de aprendizaje automático.',
+                        'Optimizar el rendimiento y la escalabilidad de los sistemas de IA.',
+                        'Integrar soluciones de IA en aplicaciones existentes.'
+                    ],
+                    skills: [
+                        'Python (TensorFlow, Keras, PyTorch)',
+                        'Matemáticas y Estadística',
+                        'Algoritmos de ML/DL',
+                        'Procesamiento de Lenguaje Natural (NLP)',
+                        'Visión por Computadora'
+                    ]
+                },
+                {
+                    id: 'blockchain-developer',
+                    name: 'Desarrollador Blockchain',
+                    icon: 'blocks',
+                    color: 'yellow',
+                    tagline: 'Construye y mantiene aplicaciones descentralizadas y protocolos en redes blockchain.',
+                    description: 'Este rol se especializa en la tecnología blockchain, la base de las criptomonedas y las aplicaciones descentralizadas (dApps). El desarrollador blockchain crea contratos inteligentes, arquitecturas de red y soluciones que aprovechan la seguridad y la inmutabilidad de la cadena de bloques.',
+                    responsibilities: [
+                        'Diseñar y desarrollar contratos inteligentes (Smart Contracts).',
+                        'Construir aplicaciones descentralizadas (dApps).',
+                        'Implementar protocolos de consenso y arquitecturas de red blockchain.',
+                        'Asegurar la seguridad y la eficiencia de las soluciones blockchain.'
+                    ],
+                    skills: [
+                        'Solidity (para Ethereum)',
+                        'JavaScript/TypeScript',
+                        'Criptografía',
+                        'Conocimiento de Redes Descentralizadas',
+                        'Seguridad Blockchain'
+                    ]
+                },
+                {
+                    id: 'digital-marketing-specialist',
+                    name: 'Especialista en Marketing Digital',
+                    icon: 'megaphone',
+                    color: 'teal',
+                    tagline: 'Impulsa la visibilidad de la marca y las ventas a través de canales digitales.',
+                    description: 'El especialista en marketing digital utiliza diversas estrategias online para aumentar el reconocimiento de la marca, atraer clientes y generar ventas. Esto incluye SEO, marketing de contenidos, redes sociales, email marketing y publicidad digital. Trabajan con datos para optimizar campañas y alcanzar objetivos de negocio.',
+                    responsibilities: [
+                        'Desarrollar e implementar estrategias de marketing online.',
+                        'Gestionar campañas de SEO (optimización para motores de búsqueda).',
+                        'Crear y distribuir contenido relevante (blogs, videos, redes sociales).',
+                        'Analizar el rendimiento de las campañas y ajustar estrategias.'
+                    ],
+                    skills: [
+                        'SEO (Google Analytics, SEMrush)',
+                        'Marketing de Contenidos (CMS como WordPress)',
+                        'Publicidad Digital (Google Ads, Meta Ads)',
+                        'Email Marketing (Mailchimp, HubSpot)',
+                        'Análisis de Datos de Marketing'
+                    ]
+                },
+                {
+                    id: 'ml-engineer',
+                    name: 'Ingeniero de Machine Learning',
+                    icon: 'brain',
+                    color: 'cyan',
+                    tagline: 'Diseña, construye y despliega modelos de aprendizaje automático.',
+                    description: 'El ingeniero de Machine Learning (ML) se especializa en la aplicación práctica de algoritmos de inteligencia artificial. Su rol va más allá de la investigación, enfocándose en la implementación, optimización y mantenimiento de modelos de ML en entornos de producción, asegurando que sean escalables y eficientes.',
+                    responsibilities: [
+                        'Diseñar y desarrollar arquitecturas de sistemas de ML.',
+                        'Implementar algoritmos de ML y Deep Learning.',
+                        'Optimizar modelos para rendimiento y escalabilidad.',
+                        'Desplegar y monitorear modelos en producción (MLOps).'
+                    ],
+                    skills: [
+                        'Python (TensorFlow, PyTorch, Scikit-learn)',
+                        'Procesamiento de Datos (Pandas, NumPy)',
+                        'Model Deployment (Docker, Kubernetes)',
+                        'Plataformas Cloud ML (AWS Sagemaker, GCP AI Platform)',
+                        'MLOps'
+                    ]
+                },
+                {
+                    id: 'prompt-engineer',
+                    name: 'Ingeniero de Prompt',
+                    icon: 'message-square-more',
+                    color: 'amber',
+                    tagline: 'Optimiza las instrucciones para modelos de lenguaje grandes (LLMs) para obtener los mejores resultados.',
+                    description: 'Un rol emergente con la popularidad de la IA generativa. El ingeniero de prompt se dedica a diseñar, probar y refinar las "instrucciones" o "prompts" que se le dan a los modelos de lenguaje grandes (LLMs) para que generen respuestas precisas, creativas y útiles. Requiere una combinación de pensamiento lógico, creatividad y comprensión del funcionamiento de la IA.',
+                    responsibilities: [
+                        'Diseñar prompts efectivos para diferentes tareas de LLMs.',
+                        'Experimentar y refinar prompts para mejorar la calidad de las respuestas.',
+                        'Evaluar el rendimiento de los modelos de IA con diferentes prompts.',
+                        'Colaborar con equipos de desarrollo para integrar LLMs en aplicaciones.'
+                    ],
+                    skills: [
+                        'Comprensión de LLMs (GPT, Gemini, Llama)',
+                        'Técnicas de Prompting (Few-shot, Chain-of-Thought)',
+                        'Python (para interactuar con APIs de LLMs)',
+                        'Pensamiento Lógico y Creatividad',
+                        'Evaluación de Modelos de Lenguaje'
+                    ]
+                },
+                {
+                    id: 'no-code-low-code-developer',
+                    name: 'Desarrollador No-Code/Low-Code',
+                    icon: 'blocks',
+                    color: 'indigo',
+                    tagline: 'Construye aplicaciones rápidamente con poca o ninguna codificación manual.',
+                    description: 'Este rol se enfoca en el desarrollo ágil de aplicaciones utilizando plataformas que minimizan la necesidad de escribir código. Los desarrolladores No-Code utilizan interfaces visuales y lógica preconstruida, mientras que los Low-Code pueden añadir código personalizado para funcionalidades más complejas. Ideal para quienes buscan una entrada rápida al desarrollo o para automatizar procesos de negocio.',
+                    responsibilities: [
+                        'Diseñar y construir aplicaciones web y móviles en plataformas No-Code/Low-Code.',
+                        'Automatizar flujos de trabajo y procesos de negocio.',
+                        'Integrar aplicaciones con otros sistemas vía APIs.',
+                        'Colaborar con usuarios de negocio para entender y traducir requisitos.'
+                    ],
+                    skills: [
+                        'Plataformas No-Code (Bubble, Webflow, Adalo)',
+                        'Plataformas Low-Code (OutSystems, Mendix, Power Apps)',
+                        'Lógica de Negocio y Procesos',
+                        'Diseño de UI/UX (básico)',
+                        'Integración de APIs',
+                        'Automatización de Workflows (ej. n8n, Zapier)'
+                    ]
+                },
+                {
+                    id: 'automation-specialist',
+                    name: 'Especialista en Automatización (RPA/AI)',
+                    icon: 'workflow',
+                    color: 'violet',
+                    tagline: 'Diseña e implementa soluciones para automatizar tareas repetitivas y procesos de negocio.',
+                    description: 'El especialista en automatización se dedica a optimizar la eficiencia operativa de las empresas mediante la implementación de soluciones de automatización. Esto a menudo incluye la Automatización Robótica de Procesos (RPA) y la integración de capacidades de Inteligencia Artificial para manejar tareas más complejas y basadas en decisiones.',
+                    responsibilities: [
+                        'Identificar procesos manuales y repetitivos susceptibles de automatización.',
+                        'Diseñar, desarrollar y desplegar bots RPA.',
+                        'Integrar soluciones de automatización con sistemas existentes.',
+                        'Monitorear y mantener la infraestructura de automatización.'
+                    ],
+                    skills: [
+                        'Herramientas RPA (UiPath, Automation Anywhere, Blue Prism)',
+                        'Python o lenguajes de scripting',
+                        'Conocimiento de APIs y Web Services',
+                        'Análisis de Procesos de Negocio',
+                        'Conceptos de IA/ML para automatización inteligente',
+                        'Plataformas de Automatización de Workflows (ej. n8n, Zapier)'
+                    ]
+                },
+                {
+                    id: 'baas-fullstack-developer',
+                    name: 'Desarrollador BaaS/Fullstack',
+                    icon: 'database',
+                    color: 'green',
+                    tagline: 'Construye aplicaciones completas rápidamente usando servicios backend en la nube.',
+                    description: 'Este rol se enfoca en el desarrollo ágil de aplicaciones aprovechando plataformas "Backend as a Service" (BaaS). Permite a los desarrolladores construir aplicaciones completas sin gestionar la infraestructura de servidor, enfocándose en la lógica de negocio y la interfaz de usuario. Es ideal para prototipos rápidos y startups.',
+                    responsibilities: [
+                        'Configurar y gestionar bases de datos en la nube (ej. Supabase, Firebase).',
+                        'Implementar autenticación y autorización de usuarios.',
+                        'Desarrollar APIs y funciones serverless (Cloud Functions).',
+                        'Integrar servicios backend con interfaces frontend (web/móvil).',
+                        'Gestionar suscripciones en tiempo real y almacenamiento de archivos.'
+                    ],
+                    skills: [
+                        'Plataformas BaaS (Supabase, Firebase, Amplify)',
+                        'Bases de Datos (PostgreSQL para Supabase, Firestore para Firebase)',
+                        'APIs REST/GraphQL',
+                        'JavaScript/TypeScript',
+                        'Frameworks frontend (React, Vue, Angular)',
+                        'Conceptos de Serverless Computing'
+                    ]
+                }
+            ];
+
+            // Populate role cards
+            roles.forEach(role => {
+                const card = document.createElement('div');
+                card.className = `role-card bg-white p-6 rounded-xl shadow-lg cursor-pointer transition-transform duration-300 hover:scale-105 group`;
+                card.dataset.roleId = role.id;
+                card.innerHTML = `
+                    <div class="flex items-center gap-4 mb-4">
+                        <i data-lucide="${role.icon}" class="w-10 h-10 text-${role.color}-500 group-hover:text-${role.color}-600 transition-colors duration-300"></i>
+                        <h3 class="text-xl font-bold">${role.name}</h3>
+                    </div>
+                    <p class="text-stone-600">${role.tagline}</p>
+                `;
+                roleCardsContainer.appendChild(card);
+            });
+            lucide.createIcons(); // Re-render icons after adding new elements
+
+            // Modal functionality
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const roleId = card.dataset.roleId;
+                    const role = roles.find(r => r.id === roleId);
+                    if (role) {
+                        modalRoleName.textContent = role.name;
+                        modalRoleIcon.setAttribute('data-lucide', role.icon);
+                        modalRoleIcon.className = `w-8 h-8 text-${role.color}-500`; // Update icon color
+                        modalRoleTagline.textContent = role.tagline;
+                        modalRoleDescription.textContent = role.description;
+
+                        modalRoleResponsibilities.innerHTML = '';
+                        role.responsibilities.forEach(resp => {
+                            const li = document.createElement('li');
+                            li.textContent = resp;
+                            modalRoleResponsibilities.appendChild(li);
+                        });
+
+                        modalRoleSkills.innerHTML = '';
+                        role.skills.forEach(skill => {
+                            const li = document.createElement('li');
+                            li.textContent = skill;
+                            modalRoleSkills.appendChild(li);
+                        });
+
+                        lucide.createIcons(); // Re-render icon in modal
+                        roleModal.style.display = 'flex';
+                    }
+                });
+            });
+
+            closeButton.addEventListener('click', () => {
+                roleModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target === roleModal) {
+                    roleModal.style.display = 'none';
+                }
+            });
+
+            // Navbar active link on scroll
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Instalación: WSL y Ubuntu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: La SPA se organiza como una guía lineal, paso a paso, ideal para un proceso de instalación. Comienza con una introducción a WSL, seguida de una sección de prerrequisitos. El núcleo es una serie de "Pasos de Instalación" interactivos, donde el usuario avanza y retrocede mediante botones. Cada paso muestra instrucciones claras, comandos y expectativas. Finalmente, hay una sección de "Primeros Pasos" post-instalación. Esta estructura guiada es óptima para reducir la confusión y asegurar que los usuarios sigan el orden correcto, facilitando la comprensión y ejecución del proceso. -->
+    <!-- Visualization & Content Choices:
+        - Introducción/Prerrequisitos: Goal:Inform -> Method:Texto explicativo y listas con iconos Lucide. Justification:Proporciona contexto y prepara al usuario.
+        - Pasos de Instalación: Goal:Guide/Instruct -> Method:Contenido dinámico para cada paso, comandos en bloques de código copiables, iconos Lucide para acciones. Interaction:Botones "Siguiente" y "Anterior" para navegar. Justification:Desglosa un proceso complejo en partes manejables, reduce la sobrecarga de información y permite al usuario controlar su ritmo.
+        - Comandos de Terminal: Goal:Instruct -> Method:Bloques de código con fondo oscuro y texto claro. Justification:Claridad visual y fácil copia.
+        - Progress Indicator: Goal:Inform -> Method:Texto simple (e.g., "Paso X de Y"). Justification:Mantiene al usuario orientado en el proceso.
+        - Icons: Lucide icons para visualización de conceptos (descarga, terminal, reinicio).
+        - Library/Method: Vanilla JS para la lógica de navegación entre pasos, Tailwind CSS para el diseño y responsividad. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .nav-link.active { color: #f97316; font-weight: 600; }
+        .code-block {
+            background-color: #2d3748; /* Tailwind gray-800 */
+            color: #e2e8f0; /* Tailwind gray-200 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            position: relative; /* For copy button */
+        }
+        .code-block pre { margin: 0; }
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #4a5568; /* Tailwind gray-700 */
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800">
+
+    <header id="navbar" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-xl font-bold text-orange-600">WSL & Ubuntu</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#introduccion" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-orange-600 transition-colors duration-300">Introducción</a>
+                        <a href="#instalacion" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-orange-600 transition-colors duration-300">Instalación</a>
+                        <a href="#primeros-pasos" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-orange-600 transition-colors duration-300">Primeros Pasos</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+        <section id="inicio" class="text-center mb-16">
+            <h1 class="text-4xl sm:text-5xl font-bold text-stone-900 leading-tight">Guía Interactiva: Instala Linux en tu Windows con WSL</h1>
+            <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">¿Listo para combinar lo mejor de dos mundos? Con el Subsistema de Windows para Linux (WSL), puedes ejecutar un entorno Linux completo directamente en tu máquina Windows. ¡Sigue esta guía paso a paso para instalar Ubuntu y empezar a programar!</p>
+        </section>
+
+        <section id="introduccion" class="scroll-mt-20 mb-16 bg-white p-8 rounded-xl shadow-lg">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">¿Qué es WSL y por qué lo necesito?</h2>
+                <p class="mt-2 text-md text-stone-600">WSL te permite usar herramientas de línea de comandos de Linux, aplicaciones y utilidades directamente en Windows, sin la necesidad de una máquina virtual tradicional o un dual-boot.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="windows" class="w-6 h-6 text-blue-500"></i> Windows + <i data-lucide="linux" class="w-6 h-6 text-orange-500"></i> Linux = ❤️</h3>
+                    <p class="text-stone-700 mb-4">WSL (Windows Subsystem for Linux) es una característica de Windows que te permite ejecutar un entorno GNU/Linux, incluyendo la mayoría de las herramientas de línea de comandos, utilidades y aplicaciones, directamente en Windows, sin la sobrecarga de una máquina virtual tradicional. Esto es ideal para desarrolladores y estudiantes.</p>
+                    <h4 class="text-lg font-semibold mb-2">Ventajas Clave:</h4>
+                    <ul class="list-disc list-inside text-stone-700 space-y-1">
+                        <li>**Rendimiento:** Más rápido que una máquina virtual completa.</li>
+                        <li>**Integración:** Accede a tus archivos de Windows desde Linux y viceversa.</li>
+                        <li>**Herramientas:** Usa herramientas de desarrollo específicas de Linux.</li>
+                        <li>**Facilidad:** Simplifica la configuración de entornos de desarrollo.</li>
+                    </ul>
+                </div>
+                <div class="flex justify-center">
+                    <i data-lucide="laptop-2" class="w-32 h-32 text-stone-400"></i>
+                </div>
+            </div>
+        </section>
+
+        <section id="instalacion" class="scroll-mt-20 mb-16 bg-white p-8 rounded-xl shadow-lg">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">Guía de Instalación Paso a Paso</h2>
+                <p class="mt-2 text-md text-stone-600">Sigue estos pasos cuidadosamente. Puedes usar los botones para navegar.</p>
+            </div>
+
+            <div class="mb-6 text-center">
+                <p class="text-lg font-semibold text-stone-700">Paso <span id="currentStep">1</span> de <span id="totalSteps">5</span></p>
+            </div>
+
+            <div id="installationSteps" class="space-y-8">
+                <!-- Step 1 -->
+                <div id="step-1" class="step-content">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-2"><i data-lucide="download" class="w-8 h-8 text-green-500"></i> Paso 1: Instalar WSL</h3>
+                    <p class="text-stone-700 mb-4">Guia oficial de Microsoft: <a href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" class="text-orange-500 hover:text-orange-600">https://learn.microsoft.com/en-us/windows/wsl/install</a></p>
+                    <p class="text-stone-700 mb-4">Para instalar WSL, debes tener una cuenta de Microsoft. Si no tienes una, puedes crear una en <a href="https://account.microsoft.com/account/signup" target="_blank" class="text-orange-500 hover:text-orange-600">Microsoft Account</a>.</p>
+                    <p class="text-stone-700 mb-4">Abre la **Terminal de Windows** (o PowerShell) como **Administrador**. Puedes buscar "Terminal" en el menú de inicio, hacer clic derecho y seleccionar "Ejecutar como administrador".</p>
+                    <p class="text-stone-700 mb-4">Una vez abierta, ejecuta el siguiente comando. Esto habilitará las características necesarias de WSL e instalará la distribución de Ubuntu por defecto.</p>
+                    <div class="code-block">
+                        <pre><code>wsl --install</code></pre>
+                        <button class="copy-btn" data-clipboard-target="wsl --install">Copiar</button>
+                    </div>
+                    <p class="text-stone-700 mt-4">**¿Qué esperar?** Verás mensajes de descarga e instalación. Esto puede tardar unos minutos. Si ya tienes WSL instalado, el comando te informará.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div id="step-2" class="step-content hidden">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-2"><i data-lucide="rotate-ccw" class="w-8 h-8 text-red-500"></i> Paso 2: Reiniciar tu computadora</h3>
+                    <p class="text-stone-700 mb-4">Para que los cambios de la instalación de WSL se apliquen correctamente, es **fundamental** que reinicies tu sistema.</p>
+                    <p class="text-stone-700 mb-4">Guarda cualquier trabajo que tengas abierto y procede a reiniciar tu PC.</p>
+                    <div class="flex justify-center mt-6">
+                        <i data-lucide="power" class="w-24 h-24 text-red-400"></i>
+                    </div>
+                    <p class="text-stone-700 mt-4">**Importante:** No podrás continuar con los siguientes pasos hasta que hayas reiniciado.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div id="step-3" class="step-content hidden">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-2"><i data-lucide="terminal" class="w-8 h-8 text-purple-500"></i> Paso 3: Configurar tu distribución de Linux (Ubuntu)</h3>
+                    <p class="text-stone-700 mb-4">Después de reiniciar, la Terminal de Ubuntu se abrirá automáticamente (o puedes buscar "Ubuntu" en tu menú de inicio y abrirla). La primera vez que la ejecutes, te pedirá que crees un nombre de usuario y una contraseña para tu entorno Linux.</p>
+                    <div class="code-block">
+                        <pre><code># Ejemplo de lo que verás:
+# Installing, this may take a few minutes...
+# Please create a default UNIX user account.
+# The username does not need to match your Windows username.
+# For more information, please visit: https://aka.ms/wslusers
+# Enter new UNIX username: [Aquí escribes tu nombre de usuario]
+# Enter new UNIX password: [Aquí escribes tu contraseña]
+# Retype new UNIX password: [Aquí repites tu contraseña]
+# passwd: password updated successfully
+# Installation successful!</code></pre>
+                    </div>
+                    <p class="text-stone-700 mt-4">**Consejo:** La contraseña no se mostrará mientras la escribes por seguridad. Asegúrate de recordarla, ya que la necesitarás para comandos con `sudo` (permisos de administrador en Linux).</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div id="step-4" class="step-content hidden">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-2"><i data-lucide="refresh-cw" class="w-8 h-8 text-orange-500"></i> Paso 4: Actualizar y Mejorar Ubuntu</h3>
+                    <p class="text-stone-700 mb-4">Es una buena práctica actualizar los paquetes de tu sistema Linux después de la instalación. Abre tu Terminal de Ubuntu y ejecuta los siguientes comandos:</p>
+                    <div class="code-block mb-4">
+                        <pre><code>sudo apt update</code></pre>
+                        <button class="copy-btn" data-clipboard-target="sudo apt update">Copiar</button>
+                    </div>
+                    <p class="text-stone-700 mb-4">Este comando descarga la información más reciente sobre los paquetes disponibles.</p>
+                    <div class="code-block">
+                        <pre><code>sudo apt upgrade</code></pre>
+                        <button class="copy-btn" data-clipboard-target="sudo apt upgrade">Copiar</button>
+                    </div>
+                    <p class="text-stone-700 mt-4">Este comando instala las actualizaciones. Te pedirá tu contraseña de Linux. Responde `Y` (o `S` si está en español) cuando te pregunte si deseas continuar.</p>
+                </div>
+
+                <!-- Step 5 -->
+                <div id="step-5" class="step-content hidden">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-2"><i data-lucide="check-circle" class="w-8 h-8 text-green-600"></i> Paso 5: ¡Instalación Completa!</h3>
+                    <p class="text-stone-700 mb-4">¡Felicidades! Has instalado WSL y Ubuntu correctamente en tu sistema Windows. Ahora tienes un entorno Linux completamente funcional listo para el desarrollo.</p>
+                    <div class="flex justify-center mt-6">
+                        <i data-lucide="award" class="w-24 h-24 text-green-500"></i>
+                    </div>
+                    <p class="text-stone-700 mt-4">Puedes cerrar la Terminal de Ubuntu en cualquier momento y volver a abrirla desde el menú de inicio de Windows.</p>
+                </div>
+            </div>
+
+            <div class="flex justify-between mt-8">
+                <button id="prevStepBtn" class="bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-md hover:bg-gray-400 transition-colors flex items-center gap-2" disabled>
+                    <i data-lucide="arrow-left"></i> Anterior
+                </button>
+                <button id="nextStepBtn" class="bg-orange-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-orange-600 transition-colors flex items-center gap-2">
+                    Siguiente <i data-lucide="arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="primeros-pasos" class="scroll-mt-20 bg-white p-8 rounded-xl shadow-lg">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">Después de la Instalación: Primeros Pasos</h2>
+                <p class="mt-2 text-md text-stone-600">Ahora que tienes Ubuntu en tu Windows, ¿qué sigue?</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="folder-open" class="w-6 h-6 text-blue-500"></i> Acceder a tus Archivos de Windows</h3>
+                    <p class="text-stone-700 mb-4">Desde tu Terminal de Ubuntu, puedes acceder a tus unidades de Windows. Por ejemplo, para ir a tu unidad `C:`, usa:</p>
+                    <div class="code-block">
+                        <pre><code>cd /mnt/c</code></pre>
+                        <button class="copy-btn" data-clipboard-target="cd /mnt/c">Copiar</button>
+                    </div>
+                    <p class="text-stone-700 mt-4">Puedes navegar a cualquier carpeta de Windows desde aquí.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="code-square" class="w-6 h-6 text-green-500"></i> Instalar Herramientas de Desarrollo</h3>
+                    <p class="text-stone-700 mb-4">Ahora puedes instalar tus herramientas de desarrollo favoritas de Linux. Por ejemplo, para instalar `git` (un sistema de control de versiones):</p>
+                    <div class="code-block">
+                        <pre><code>sudo apt install git</code></pre>
+                        <button class="copy-btn" data-clipboard-target="sudo apt install git">Copiar</button>
+                    </div>
+                    <p class="text-stone-700 mt-4">O para instalar Python (si no viene preinstalado o quieres una versión específica):</p>
+                     <div class="code-block">
+                        <pre><code>sudo apt install python3</code></pre>
+                        <button class="copy-btn" data-clipboard-target="sudo apt install python3">Copiar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 text-center p-6 bg-yellow-50 rounded-xl shadow-inner">
+                <h3 class="text-xl font-bold text-yellow-800 mb-2">¡Explora y Experimenta!</h3>
+                <p class="text-yellow-700">El mundo de Linux es vasto. No dudes en buscar tutoriales, probar comandos y experimentar. ¡Tu viaje como desarrollador acaba de empezar!</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+            <p>&copy; 2024 Guía de Instalación WSL & Ubuntu. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            const stepContents = document.querySelectorAll('.step-content');
+            const prevStepBtn = document.getElementById('prevStepBtn');
+            const nextStepBtn = document.getElementById('nextStepBtn');
+            const currentStepSpan = document.getElementById('currentStep');
+            const totalStepsSpan = document.getElementById('totalSteps');
+
+            let currentStepIndex = 0;
+            const totalSteps = stepContents.length;
+            totalStepsSpan.textContent = totalSteps;
+
+            const showStep = (index) => {
+                stepContents.forEach((step, i) => {
+                    step.classList.toggle('hidden', i !== index);
+                });
+                currentStepSpan.textContent = index + 1;
+                prevStepBtn.disabled = index === 0;
+                nextStepBtn.disabled = index === totalSteps - 1;
+            };
+
+            prevStepBtn.addEventListener('click', () => {
+                if (currentStepIndex > 0) {
+                    currentStepIndex--;
+                    showStep(currentStepIndex);
+                }
+            });
+
+            nextStepBtn.addEventListener('click', () => {
+                if (currentStepIndex < totalSteps - 1) {
+                    currentStepIndex++;
+                    showStep(currentStepIndex);
+                }
+            });
+
+            showStep(currentStepIndex); // Show initial step
+
+            // Copy to clipboard functionality
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetText = button.previousElementSibling.textContent;
+                    navigator.clipboard.writeText(targetText).then(() => {
+                        const originalText = button.textContent;
+                        button.textContent = '¡Copiado!';
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                        }, 1500);
+                    }).catch(err => {
+                        console.error('Error al copiar: ', err);
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
