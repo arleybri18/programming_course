@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Lógica de Programación</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: La SPA se estructura como una guía de aprendizaje progresiva y detallada, ideal para una clase de 1:30 horas. Incluye: 1) Una introducción ampliada a los conceptos fundamentales (Lógica, Programación, Lógica de Programación), 2) Una sección exhaustiva sobre Algoritmos (definición, partes, ejemplos de la vida diaria y tipos), 3) Un módulo dedicado a Variables y Constantes (tipos de datos, asignaciones, ejemplos en pseudocódigo y Python), 4) Una exploración profunda de las Estructuras de control (Secuencia, Decisión con operadores lógicos, y Ciclos con sus variantes), y 5) Una sección práctica con ejemplos de código Python interactivos. Esta estructura modular permite al profesor seguir un flujo lógico, mientras que los estudiantes pueden explorar a su propio ritmo, reforzando el aprendizaje con interactividad y ejemplos concretos. -->
+    <!-- Visualization & Content Choices:
+        - Lógica/Programación: Goal:Inform/Define -> Method:Styled Cards con texto ampliado. Justification:Proporciona definiciones claras y concisas de los fundamentos.
+        - Algoritmos: Goal:Explain/Illustrate -> Method:Texto detallado, diagrama HTML/CSS para E-P-S, tarjetas para ejemplos de vida diaria. Justification:Desglosa el concepto central de algoritmo y lo hace tangible con analogías.
+        - Variables/Constantes: Goal:Inform/Demonstrate -> Method:Texto explicativo, tablas de tipos de datos, bloques de pseudocódigo y Python con salidas interactivas. Justification:Introduce el manejo de datos de forma incremental y permite la práctica inmediata.
+        - Estructuras (Secuencia, Decisión, Ciclos): Goal:Explain/Engage -> Method:Texto detallado, simuladores interactivos con JS para decisiones y ciclos, pseudocódigo para cada estructura. Justification:Permite a los estudiantes visualizar y experimentar directamente cómo la lógica controla el flujo del programa.
+        - Operadores: Goal:Inform/Reference -> Method:Tablas de operadores relacionales y lógicos. Justification:Proporciona una referencia rápida y clara de los operadores clave.
+        - Ejemplos de Código: Goal:Demonstrate/Practice -> Method:Simuladores de código Python con inputs y outputs. Justification:Ofrece una experiencia práctica para aplicar los conceptos aprendidos.
+        - Icons: Lucide icons para todos los elementos visuales, mejorando la comprensión visual.
+        - Library/Method: Vanilla JS para toda la lógica interactiva y dinámica, Tailwind CSS para el diseño y responsividad. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .nav-link.active { color: #f97316; font-weight: 600; }
+        .flow-path { transition: all 0.5s ease-in-out; }
+        .code-block {
+            background-color: #2d3748; /* Tailwind gray-800 */
+            color: #e2e8f0; /* Tailwind gray-200 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            position: relative; /* For copy button */
+        }
+        .code-block pre { margin: 0; }
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #4a5568; /* Tailwind gray-700 */
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+        .footnote-ref {
+            vertical-align: super;
+            font-size: 0.75em;
+            color: #f97316;
+            text-decoration: none;
+            margin-left: 2px;
+        }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800">
+
+    <header id="navbar" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-xl font-bold text-orange-600">Lógica 101</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#que-es" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-orange-600 transition-colors duration-300">¿Qué es?</a>
+                        <a href="#algoritmos" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-orange-600 transition-colors duration-300">Algoritmos</a>
+                        <a href="#variables-constantes" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-orange-600 transition-colors duration-300">Variables y Constantes</a>
+                        <a href="#estructuras" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-orange-600 transition-colors duration-300">Estructuras</a>
+                        <a href="#a-programar" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-orange-600 transition-colors duration-300">¡A Programar!</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+        <section id="inicio" class="text-center mb-16">
+            <h1 class="text-4xl sm:text-5xl font-bold text-stone-900 leading-tight">Lógica de Programación: Tu Primer Paso en el Mundo del Software</h1>
+            <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Esta guía interactiva te llevará de la mano por los fundamentos esenciales para pensar como una computadora. No necesitas experiencia previa, solo curiosidad y ganas de construir cosas geniales. ¡Prepárate para desatar tu creatividad lógica!</p>
+        </section>
+
+        <section id="que-es" class="scroll-mt-20 mb-16">
+             <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">Los Conceptos Fundamentales: La Base de Todo</h2>
+                <p class="mt-2 text-md text-stone-600">Antes de sumergirnos en el código, es crucial entender tres pilares que sostienen el universo de la programación. Estos conceptos te ayudarán a entender el "porqué" detrás de cada línea de código.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105">
+                    <div class="flex items-center gap-4 mb-4">
+                        <i data-lucide="brain-circuit" class="w-10 h-10 text-orange-500"></i>
+                        <h3 class="text-xl font-bold">Lógica</h3>
+                    </div>
+                    <p class="text-stone-600">En su esencia, la lógica es el arte de razonar de manera coherente y sensata. Como menciona Omar Trejos Buriticá, la lógica es "la forma más **OBVIA y FÁCIL** de hacer cualquier cosa"[1]. Carlos Salazar Guaña la define como el "modo de pensar y de actuar sensato, de sentido común"[2]. En programación, se traduce en encontrar el camino más sencillo y eficiente para resolver un problema. Es el sentido común aplicado a las instrucciones que le darás a una máquina.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105">
+                     <div class="flex items-center gap-4 mb-4">
+                        <i data-lucide="code" class="w-10 h-10 text-blue-500"></i>
+                        <h3 class="text-xl font-bold">Programación</h3>
+                    </div>
+                    <p class="text-stone-600">La programación es el proceso de crear un conjunto de instrucciones que una computadora puede seguir para realizar una tarea. Omar Trejos Buriticá la describe como el "conocimiento de técnicas e instrucciones de un determinado lenguaje a través de los cuales se hace sencillo lograr que el computador obtenga unos resultados mucho más rápido que nosotros"[3]. Carlos Salazar Guaña añade que "la programación se la relaciona con la creación de aplicaciones o programas informáticos que permitan resolver un problema en particular, valiéndose de lenguajes de programación como, por ejemplo, Java, C#, PHP, etc., a través de un Integrated Development Environment (IDE)"[4]. Permiten a la máquina automatizar procesos, resolver cálculos complejos o crear aplicaciones interactivas.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105">
+                     <div class="flex items-center gap-4 mb-4">
+                        <i data-lucide="puzzle" class="w-10 h-10 text-teal-500"></i>
+                        <h3 class="text-xl font-bold">Lógica de Programación</h3>
+                    </div>
+                    <p class="text-stone-600">Es el puente entre el problema y su solución computacional. La lógica de programación es la habilidad de diseñar el **plan detallado y organizado** para resolver un problema, *antes* de siquiera pensar en el lenguaje de programación. Omar Trejos Buriticá enfatiza que "la segunda [Lógica de Programación] involucra, de una manera técnica y organizada, los conceptos que nos permiten diseñar, en términos generales, la solución a problemas que pueden llegar a ser implementados a través de un computador"[5]. Carlos Salazar Guaña refuerza que es "el paso previo a la construcción de un programa informático; únicamente busca una solución en términos generales para resolver un problema"[6]. Es la fase de "pensar" el problema para que luego la "programación" lo ejecute.</p>
+                </div>
+            </div>
+             <div class="mt-12 p-6 bg-yellow-50 rounded-xl shadow-inner text-center">
+                <h3 class="text-xl font-bold text-yellow-800 mb-2">¡Desmintiendo Mitos! Lo que NO necesitas para empezar</h3>
+                <p class="text-yellow-700">Para adentrarte en la lógica de programación, no requieres conocimientos previos de computadoras, tecnología avanzada, ni de ningún lenguaje de programación específico. Como se menciona en el material, "No se requieren conocimientos previos sobre computadores o tecnología en general. No se requieren conocimientos de un lenguaje de programación en particular."[7] Omar Trejos Buriticá también afirma que "El estudio de la Lógica de Programación no exige ningún conocimiento previo de computadores ni de tecnología en general; tampoco exige la presencia de algún lenguaje de programación específico"[8]. Lo único indispensable es tu tiempo, tu disposición para practicar y, sobre todo, ¡muchas ganas de aprender!</p>
+            </div>
+        </section>
+
+        <section id="algoritmos" class="scroll-mt-20 mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">El Corazón de la Lógica: Los Algoritmos</h2>
+                <p class="mt-2 text-md text-stone-600">Un algoritmo es la secuencia de pasos claros, precisos y finitos para resolver un problema. Es la receta detallada que le damos a la computadora. Omar Trejos Buriticá lo define como "un conjunto de pasos secuenciales y ordenados que permiten lograr un objetivo"[9]. Carlos Salazar Guaña lo describe de manera similar: "Un algoritmo no es más que un conjunto de pasos secuenciales y ordenados que permiten lograr un objetivo. Todos los algoritmos tienen un inicio y un fin."[10] Si te sientes perdido al crear uno, significa que tu objetivo aún no está lo suficientemente claro.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-lg mb-12">
+                <h3 class="text-2xl font-bold text-center mb-6">Las 3 Partes Esenciales de un Algoritmo (Sistema de Información)</h3>
+                <p class="text-center text-stone-600 mb-8">Todo algoritmo, sin importar su complejidad, se puede descomponer en estas tres fases fundamentales, planteadas como un sistema de información[11]:</p>
+                <div class="grid md:grid-cols-3 gap-4 text-center items-center">
+                    <div class="bg-blue-100 p-6 rounded-lg">
+                        <i data-lucide="log-in" class="mx-auto w-12 h-12 text-blue-600 mb-2"></i>
+                        <h4 class="text-lg font-semibold">1. ENTRADA</h4>
+                        <p class="text-sm text-blue-800">Se refiere a toda la información, datos o "ingredientes" que el algoritmo necesita para comenzar su ejecución. Como menciona Regino, "La entrada hace referencia a la información proporcionada al algoritmo, la cual debe sufrir un proceso para obtener los resultados. Un algoritmo tiene cero o más datos de entrada."[12] Puede ser desde un número ingresado por el usuario hasta datos complejos de una base de datos.</p>
+                    </div>
+                    <div class="text-center hidden md:block">
+                        <i data-lucide="arrow-right-circle" class="w-12 h-12 text-stone-400 mx-auto"></i>
+                    </div>
+                     <div class="text-center md:hidden">
+                        <i data-lucide="arrow-down-circle" class="w-12 h-12 text-stone-400 mx-auto"></i>
+                    </div>
+                    <div class="bg-teal-100 p-6 rounded-lg">
+                        <i data-lucide="settings-2" class="mx-auto w-12 h-12 text-teal-600 mb-2"></i>
+                        <h4 class="text-lg font-semibold">2. PROCESO</h4>
+                        <p class="text-sm text-teal-800">Son las acciones, cálculos u operaciones que el algoritmo realiza con los datos de entrada para transformar la información y acercarse al objetivo. Regino lo describe como los "cálculos necesarios para que a partir de un dato de entrada se llegue a los resultados"[13]. Aquí es donde ocurre la "magia" lógica.</p>
+                    </div>
+                     <div class="text-center hidden md:block">
+                        <i data-lucide="arrow-right-circle" class="w-12 h-12 text-stone-400 mx-auto"></i>
+                    </div>
+                     <div class="text-center md:hidden">
+                        <i data-lucide="arrow-down-circle" class="w-12 h-12 text-stone-400 mx-auto"></i>
+                    </div>
+                    <div class="bg-orange-100 p-6 rounded-lg">
+                        <i data-lucide="log-out" class="mx-auto w-12 h-12 text-orange-600 mb-2"></i>
+                        <h4 class="text-lg font-semibold">3. SALIDA</h4>
+                        <p class="text-sm text-orange-800">Es el resultado final del algoritmo, la información que se obtiene después de que el proceso ha sido completado. Regino la define como los "resultados finales o transformaciones que ha sufrido la información de entrada a través del proceso"[14]. Es la solución al problema planteado inicialmente.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-center mb-6">Ejemplos de Algoritmos en la Vida Diaria</h3>
+            <p class="text-center text-stone-600 mb-8">Los algoritmos no son solo para computadoras; los usamos constantemente en nuestro día a día sin darnos cuenta. Son secuencias de acciones con un objetivo claro.</p>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold mb-4">Ejemplo 1: Preparar un café ☕</h3>
+                    <p class="text-stone-700 mb-4">**Objetivo:** Obtener una taza de café caliente.</p>
+                    <ol class="list-decimal list-inside space-y-2 text-stone-700">
+                        <li>**Inicio**</li>
+                        <li>Llenar la cafetera con agua. <span class="text-xs text-blue-600 font-semibold">(ENTRADA: Agua)</span></li>
+                        <li>Poner el filtro en la cafetera. <span class="text-xs text-blue-600 font-semibold">(ENTRADA: Filtro)</span></li>
+                        <li>Añadir café molido al filtro. <span class="text-xs text-blue-600 font-semibold">(ENTRADA: Café molido)</span></li>
+                        <li>Encender la cafetera. <span class="text-xs text-teal-600 font-semibold">(PROCESO: Calentar agua, pasarla por el café)</span></li>
+                        <li>Esperar a que el café termine de prepararse. <span class="text-xs text-teal-600 font-semibold">(PROCESO)</span></li>
+                        <li>Servir el café en una taza. <span class="text-xs text-orange-600 font-semibold">(SALIDA: Café caliente)</span></li>
+                        <li>**Fin**</li>
+                    </ol>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold mb-4">Ejemplo 2: Cruzar la calle 🚶‍♀️</h3>
+                    <p class="text-stone-700 mb-4">**Objetivo:** Cruzar la calle de forma segura.</p>
+                     <ol class="list-decimal list-inside space-y-2 text-stone-700">
+                        <li>**Inicio**</li>
+                        <li>Llegar a la esquina.</li>
+                        <li>**Observar el semáforo para peatones:** <span class="text-xs text-blue-600 font-semibold">(ENTRADA: Estado del semáforo)</span></li>
+                        <li>¿Está en verde? <span class="text-xs text-teal-600 font-semibold">(PROCESO - Decisión)</span></li>
+                        <li>Si sí, cruzar la calle.</li>
+                        <li>Si no, esperar. <span class="text-xs text-teal-600 font-semibold">(PROCESO - Ciclo: Repetir hasta que esté en verde o no haya tráfico)</span></li>
+                        <li>**Observar el tráfico:** <span class="text-xs text-blue-600 font-semibold">(ENTRADA: Flujo de vehículos)</span></li>
+                        <li>¿Vienen carros? <span class="text-xs text-teal-600 font-semibold">(PROCESO - Decisión)</span></li>
+                        <li>Si no, cruzar la calle.</li>
+                        <li>Si sí, esperar. <span class="text-xs text-teal-600 font-semibold">(PROCESO - Ciclo: Repetir hasta que no vengan carros)</span></li>
+                        <li>Llegar al otro lado de la calle. <span class="text-xs text-orange-600 font-semibold">(SALIDA: Estar al otro lado)</span></li>
+                        <li>**Fin**</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="mt-12 p-6 bg-blue-50 rounded-xl shadow-inner text-center">
+                <h3 class="text-xl font-bold text-blue-800 mb-2">Tipos de Algoritmos</h3>
+                <p class="text-blue-700 mb-4">Existen dos tipos principales de algoritmos[15]:</p>
+                <ul class="list-disc list-inside text-blue-700 text-left mx-auto max-w-xl space-y-1">
+                    <li>**Informales:** Aquellos que son preferiblemente realizables por el ser humano (ej. dar un beso, cocinar). Omar Trejos Buriticá los describe como "aquellos algoritmos... que no son fácilmente implementables en un computador"[10]. Aunque la tecnología avanza, la ejecución humana sigue siendo la más natural.</li>
+                    <li>**Computacionales:** Aquellos que deben ser preferiblemente implementados en un computador para aprovechar su velocidad de procesamiento (ej. generar los primeros 100 números primos). Son el foco principal de la programación.</li>
+                </ul>
+                <p class="text-blue-700 mt-4">Todo algoritmo debe ser **preciso** (indicar el orden), **definido** (mismo resultado si se repite), y **finito** (debe terminar en algún momento)[16].</p>
+                <h4 class="text-lg font-bold text-blue-800 mt-6 mb-2">La Prueba de Escritorio</h4>
+                <p class="text-blue-700">La "prueba de escritorio" es la simulación manual de un algoritmo para verificar si cumple su objetivo. Omar Trejos Buriticá la define como "la simulación de la puesta en marcha de un algoritmo"[11]. Carlos Salazar Guaña la describe como "la simulación de la puesta en marcha de un algoritmo con el fin de conocer si el algoritmo que se ha diseñado logra el objetivo"[12]. Es la "prueba reina" que nos permite saber si el algoritmo está bien *antes* de codificarlo. Si el algoritmo no cumple el objetivo en esta prueba, debe corregirse.</p>
+            </div>
+        </section>
+
+        <section id="variables-constantes" class="scroll-mt-20 mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">Guardando Información: Variables y Constantes</h2>
+                <p class="mt-2 text-md text-stone-600">Para que un algoritmo trabaje, necesita guardar y manipular datos. Aquí es donde entran en juego las variables y las constantes, que son "campos de memoria" donde se almacena información.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="box" class="w-6 h-6 text-purple-500"></i> Variables</h3>
+                    <p class="text-stone-600">Imagina una variable como una **caja** en la memoria de la computadora[13]. Esta caja tiene un nombre y puede guardar un valor que **puede cambiar** a lo largo de la ejecución del programa. Carlos Salazar Guaña las describe como "pequeñas cajas de diferentes tamaños, lo que se debe aclarar previamente para que el computador asigne las dimensiones de memoria de acuerdo con las necesidades"[14]. Por ejemplo, la edad de una persona, el total de una compra, o un contador.</p>
+                    <h4 class="text-lg font-semibold mt-4 mb-2">Tipos de Datos Comunes[14]:</h4>
+                    <ul class="list-disc list-inside text-stone-700 space-y-1">
+                        <li>**Entero (Integer):** Números sin punto decimal (ej. 5, -10, 1000). En sus operaciones "jamás va a generar decimales"[15].</li>
+                        <li>**Real (Float/Decimal):** Números con punto decimal (ej. 3.14, 0.5, -9.99). En sus operaciones "puede generar decimales"[16].</li>
+                        <li>**Carácter (String):** Texto, letras, palabras, frases (ej. "Hola", "A", "Python"). Se encierran entre comillas. Pueden almacenar letras, signos de puntuación, números. El computador "no evalúa las cadenas"[17].</li>
+                        <li>**Lógico (Boolean):** Solo dos valores posibles: Verdadero (True) o Falso (False).</li>
+                    </ul>
+                    <div class="mt-4 p-3 bg-stone-100 rounded-md">
+                        <h5 class="font-semibold text-stone-700">Ejemplo de Clasificación de Datos[18]:</h5>
+                        <table class="w-full text-sm mt-2">
+                            <thead>
+                                <tr class="bg-stone-200">
+                                    <th class="p-2 text-left">Dato</th>
+                                    <th class="p-2 text-left">Tipo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="p-2 border-b border-stone-300">25</td><td class="p-2 border-b border-stone-300">Entero</td></tr>
+                                <tr><td class="p-2 border-b border-stone-300">'A'</td><td class="p-2 border-b border-stone-300">Carácter</td></tr>
+                                <tr><td class="p-2 border-b border-stone-300">-4</td><td class="p-2 border-b border-stone-300">Entero</td></tr>
+                                <tr><td class="p-2 border-b border-stone-300">2.5</td><td class="p-2 border-b border-stone-300">Real</td></tr>
+                                <tr><td class="p-2 border-b border-stone-300">':'</td><td class="p-2 border-b border-stone-300">Carácter</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="lock" class="w-6 h-6 text-red-500"></i> Constantes</h3>
+                    <p class="text-stone-600">Una constante es como una **caja sellada** que guarda un valor que **NO puede cambiar** una vez que ha sido definido[19]. Son útiles para valores fijos que se usan repetidamente en el programa, como el valor de PI ($\pi$), una tasa de impuestos fija o el número de días en una semana.</p>
+                    <p class="text-stone-600 mt-4">Al igual que las variables, las constantes también tienen un tipo de dato asociado, que define qué tipo de valor pueden almacenar (entero, real, carácter, lógico).</p>
+                    <h4 class="text-lg font-semibold mt-4 mb-2">Ejemplos de Constantes:</h4>
+                    <ul class="list-disc list-inside text-stone-700 space-y-1">
+                        <li>`PI = 3.14159` (Real)</li>
+                        <li>`DIAS_SEMANA = 7` (Entero)</li>
+                        <li>`MENSAJE_BIENVENIDA = "Bienvenido al sistema"` (Carácter)</li>
+                    </ul>
+
+                    <h4 class="text-lg font-semibold mt-6 mb-2">Asignaciones: El Operador `=`</h4>
+                    <p class="text-stone-600">El signo igual (`=`) en programación es el **operador de asignación**. Significa que el computador va a realizar lo que está a la derecha del igual y lo va a almacenar en la variable que se encuentre a la izquierda[20]. Carlos Salazar Guaña afirma que "el operador de asignación funciona para todos los tipos de datos"[21]. Cada vez que se asigna un nuevo valor a una variable, el valor anterior se pierde[22].</p>
+                    <ul class="list-disc list-inside text-stone-700 space-y-1">
+                        <li>A la izquierda del `=` solo puede haber una variable.</li>
+                        <li>A la derecha del `=` puede haber una constante, otra variable o una expresión.</li>
+                    </ul>
+                    <div class="mt-4 p-3 bg-stone-100 rounded-md">
+                        <h5 class="font-semibold text-stone-700">Ejemplo de Asignación:</h5>
+                        <pre class="text-sm font-mono mt-2"><code>A = 8       # Guarda la constante 8 en A
+B = A       # Guarda el contenido de A (8) en B
+C = A + B   # Guarda el resultado de (8 + 8 = 16) en C
+B = 9       # El valor anterior de B (8) se pierde, ahora B es 9</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-center mb-6">Ejemplos Prácticos: Variables y Constantes</h3>
+            <p class="text-center text-stone-600 mb-8">Veamos cómo se declaran y usan en pseudocódigo y luego en Python. La prueba de escritorio es crucial para entender el flujo de valores.</p>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2">Pseudocódigo: Declaración y Asignación</h4>
+                        <p class="text-stone-600 mb-4">Así es como se vería la definición y uso de variables y constantes en un pseudocódigo. La declaración indica el tipo de dato que almacenarán[23].</p>
+                        <div class="code-block">
+                            <pre><code>Proceso EjemploVariablesConstantes
+    // Declaración de variables
+    Definir edad Como Entero;
+    Definir precio_producto Como Real;
+    Definir nombre_usuario Como Caracter;
+    Definir es_activo Como Logico;
+
+    // Declaración de constantes (por convención, no hay 'Constante' en PSeInt)
+    Definir TASA_IVA Como Real;
+    TASA_IVA = 0.12; // 12%
+
+    // Asignación de valores a variables
+    edad = 25;
+    precio_producto = 99.99;
+    nombre_usuario = "Ana Perez";
+    es_activo = Verdadero;
+
+    // Operaciones con variables y constantes
+    precio_final = precio_producto * (1 + TASA_IVA);
+
+    // Mostrar valores
+    Escribir "Edad: ", edad;
+    Escribir "Producto: ", precio_producto;
+    Escribir "IVA: ", TASA_IVA;
+    Escribir "Precio Final (con IVA): ", precio_final;
+    Escribir "Usuario activo: ", es_activo;
+FinProceso
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2">Python: Declaración y Asignación</h4>
+                        <p class="text-stone-600 mb-4">En Python, la declaración es más implícita (se infiere el tipo al asignar), y las constantes se definen por convención (letras mayúsculas)[24].</p>
+                        <div class="code-block">
+                            <pre><code>num1 = float(input("Ingresa el primer número: "))
+num2 = float(input("Ingresa el segundo número: "))
+
+suma = num1 + num2
+resta = num1 - num2
+multiplicacion = num1 * num2
+
+# Condición: Si el segundo número no es cero, realiza la división
+if num2 != 0:
+    division = num1 / num2
+else:
+    division = "Indefinida (división por cero)"
+
+print(f"Suma: {suma}")
+print(f"Resta: {resta}")
+print(f"Multiplicación: {multiplicacion}")
+print(f"División: {division}")
+</code></pre>
+                        </div>
+                         <div class="p-6 bg-stone-100">
+                            <h5 class="text-lg font-semibold mb-2">Salida de este código:</h5>
+                            <div id="variablesOutput" class="p-4 bg-stone-200 rounded-md text-sm font-mono whitespace-pre-wrap">
+                                Edad: 25
+                                Producto: 99.99
+                                IVA: 0.12
+                                Precio Final (con IVA): 111.9888
+                                Usuario activo: True
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 p-6 bg-yellow-50 rounded-xl shadow-inner text-center">
+                <h3 class="text-xl font-bold text-yellow-800 mb-2">Operadores Aritméticos y Prioridad</h3>
+                <p class="text-yellow-700 mb-4">Los operadores son signos que permiten expresar relaciones entre variables y/o constantes[25]. Es crucial entender la **jerarquía de operadores** para evitar ambigüedades en las expresiones matemáticas[26].</p>
+                <div class="flex justify-center">
+                    <table class="w-full max-w-lg text-sm mt-2 bg-white rounded-md shadow-sm">
+                        <thead>
+                            <tr class="bg-yellow-200">
+                                <th class="p-2 text-left">Categoría</th>
+                                <th class="p-2 text-left">Operador</th>
+                                <th class="p-2 text-left">Prioridad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="p-2 border-b border-stone-300">Aritmético (Potencia)</td><td class="p-2 border-b border-stone-300">^</td><td class="p-2 border-b border-stone-300">1 (Derecha a izquierda)</td></tr>
+                            <tr><td class="p-2 border-b border-stone-300">Aritmético (Mult/Div)</td><td class="p-2 border-b border-stone-300">*, /, %</td><td class="p-2 border-b border-stone-300">2 (Izquierda a derecha)</td></tr>
+                            <tr><td class="p-2 border-b border-stone-300">Aritmético (Suma/Resta)</td><td class="p-2 border-b border-stone-300">+, -</td><td class="p-2 border-b border-stone-300">3 (Izquierda a derecha)</td></tr>
+                            <tr><td class="p-2 border-b border-stone-300">Relacionales</td><td class="p-2 border-b border-stone-300">&lt;, &lt;=, >, >=</td><td class="p-2 border-b border-stone-300">4</td></tr>
+                            <tr><td class="p-2 border-b border-stone-300">Igualdad</td><td class="p-2 border-b border-stone-300">==, !=</td><td class="p-2 border-b border-stone-300">5</td></tr>
+                            <tr><td class="p-2 border-b border-stone-300">Lógico AND</td><td class="p-2 border-b border-stone-300">Y (AND)</td><td class="p-2 border-b border-stone-300">6</td></tr>
+                            <tr><td class="p-2 border-b border-stone-300">Lógico OR</td><td class="p-2 border-b border-stone-300">O (OR)</td><td class="p-2 border-b border-stone-300">7</td></tr>
+                            <tr><td class="p-2 border-b border-stone-300">Asignación</td><td class="p-2 border-b border-stone-300">=</td><td class="p-2 border-b border-stone-300">8</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-yellow-700 mt-4">Los **paréntesis `()`** se usan para alterar esta jerarquía, forzando un orden específico de evaluación[27].</p>
+            </div>
+        </section>
+
+        <section id="estructuras" class="scroll-mt-20 mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">Las Estructuras del Pensamiento: Controlando el Flujo</h2>
+                <p class="mt-2 text-md text-stone-600">Los algoritmos no son solo una lista de pasos; necesitan lógica para tomar decisiones y repetir acciones. El pensamiento humano se mueve entre tres estructuras básicas[28]:</p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <article>
+                        <h3 class="text-xl font-bold mb-2 flex items-center gap-2"><i data-lucide="list-ordered" class="w-6 h-6 text-gray-500"></i> 1. Secuencia</h3>
+                        <p class="text-stone-600 mb-4">Es la estructura más básica. Las instrucciones se ejecutan una tras otra, en el orden exacto en que están escritas. Cada paso se completa antes de pasar al siguiente[29]. Carlos Salazar Guaña la define como "ejecutar un conjunto de acciones una tras otra hasta alcanzar el objetivo"[30]. Piensa en una línea de ensamblaje o los pasos para encender tu computadora.</p>
+                        <div class="space-y-2">
+                           <div class="bg-stone-200 p-2 rounded-md text-center">Paso 1: Abrir navegador</div>
+                           <div class="flex justify-center"><i data-lucide="arrow-down" class="text-stone-400"></i></div>
+                           <div class="bg-stone-200 p-2 rounded-md text-center">Paso 2: Escribir URL</div>
+                           <div class="flex justify-center"><i data-lucide="arrow-down" class="text-stone-400"></i></div>
+                           <div class="bg-stone-200 p-2 rounded-md text-center">Paso 3: Presionar Enter</div>
+                        </div>
+                        <h4 class="text-lg font-semibold mt-6 mb-2">Pseudocódigo de Secuencia:</h4>
+                        <div class="code-block">
+                            <pre><code>Proceso MiSecuencia
+    Escribir "Hola";
+    Escribir "Mundo";
+    Leer miVariable;
+    miVariable = miVariable + 1;
+FinProceso
+</code></pre>
+                        </div>
+                    </article>
+
+                    <article>
+                        <h3 class="text-xl font-bold mb-2 flex items-center gap-2"><i data-lucide="git-fork" class="w-6 h-6 text-orange-500"></i> 2. Decisión (Condición)</h3>
+                        <p class="text-stone-600 mb-4">Permite al algoritmo elegir un camino a seguir basándose en si una pregunta es **Verdadera** o **Falsa**. Siempre hay al menos dos caminos lógicos para elegir[31]. Omar Trejos Buriticá la describe como "la escogencia de uno de entre varios caminos lógicos dependientes todos de una condición"[32]. Es el "Si... Entonces... Sino..." de la programación.</p>
+                        <div class="border p-4 rounded-lg bg-stone-50">
+                            <label for="decisionInput" class="block text-sm font-medium text-stone-700">Ingresa un número para verificar si es 10:</label>
+                            <input type="number" id="decisionInput" class="mt-1 block w-full rounded-md border-stone-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm" placeholder="Ej: 10">
+                            <button id="decisionBtn" class="mt-2 w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-orange-600 transition-colors">Verificar</button>
+
+                            <div class="mt-4 space-y-2 text-center text-sm">
+                                <div id="pathStart" class="flow-path bg-stone-200 p-2 rounded-md">Inicio</div>
+                                <div class="flex justify-center"><i data-lucide="arrow-down" class="text-stone-400"></i></div>
+                                <div id="pathCondition" class="flow-path bg-stone-200 p-2 rounded-md border-2 border-dashed border-stone-400">¿Número == 10?</div>
+                                <div class="grid grid-cols-2 gap-2 relative">
+                                    <div class="absolute top-0 left-1/2 w-px h-4 bg-stone-300"></div>
+                                    <div class="absolute top-4 left-0 w-full h-px bg-stone-300"></div>
+                                    <div class="absolute top-4 left-1/4 w-px h-4 bg-stone-300"></div>
+                                    <div class="absolute top-4 right-1/4 w-px h-4 bg-stone-300"></div>
+                                    <span class="absolute top-0 left-1/4 ml-1 text-green-600 font-bold">Sí</span>
+                                    <span class="absolute top-0 right-1/4 mr-1 text-red-600 font-bold">No</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 pt-6">
+                                    <div id="pathYes" class="flow-path bg-stone-200 p-2 rounded-md">"Es igual a 10"</div>
+                                    <div id="pathNo" class="flow-path bg-stone-200 p-2 rounded-md">"No es igual a 10"</div>
+                                </div>
+                                <div class="relative h-4">
+                                    <div class="absolute bottom-0 left-1/4 w-px h-4 bg-stone-300"></div>
+                                    <div class="absolute bottom-0 right-1/4 w-px h-4 bg-stone-300"></div>
+                                    <div class="absolute bottom-0 left-1/4 w-1/2 h-px bg-stone-300"></div>
+                                     <div class="absolute bottom-[-16px] left-1/2 w-px h-4 bg-stone-300"></div>
+                                </div>
+                                 <div id="pathEnd" class="flow-path bg-stone-200 p-2 rounded-md mt-6">Fin</div>
+                            </div>
+                        </div>
+                        <p class="text-stone-600 mt-4 text-sm">Existen variantes como el "Si-Entonces simple" (solo actúa si la condición es verdadera), "Si-Entonces cascada" (múltiples decisiones encadenadas) y "Si-Entonces anidado" (un Si dentro de otro Si)[33]. Carlos Salazar Guaña también menciona la "Selección Múltiple" o "Estructura de Casos" para cuando se compara una variable con un determinado valor[34].</p>
+                        <h4 class="text-lg font-semibold mt-6 mb-2">Operadores Relacionales y Lógicos:</h4>
+                        <p class="text-stone-600 mb-2">Permiten comparar valores y combinar expresiones lógicas[35]:</p>
+                        <ul class="list-disc list-inside text-stone-700 space-y-1">
+                            <li>**Relacionales:** `==` (igual), `!=` (diferente), `>` (mayor), `<` (menor), `>=` (mayor o igual), `<=` (menor o igual). "Al utilizar este tipo de operadores, el resultado siempre será un valor lógico: Verdadero (1) o Falso (0)"[36].</li>
+                            <li>**Lógicos (Booleanos):** "Pueden o no trabajar en conjunto con los operadores relacionales permitiendo combinar expresiones lógicas sencillas para generar expresiones lógicas complejas"[37].
+                                <ul class="list-circle list-inside ml-4">
+                                    <li>`Y` (AND): Verdadero si *ambas* condiciones son Verdaderas.</li>
+                                    <li>`O` (OR): Verdadero si *al menos una* condición es Verdadera.</li>
+                                    <li>`NO` (NOT): Invierte el valor de una condición.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h4 class="text-lg font-semibold mt-6 mb-2">Pseudocódigo de Decisión:</h4>
+                        <div class="code-block">
+                            <pre><code>Si Condicion Entonces
+    // Instrucciones si es Verdadero
+Sino
+    // Instrucciones si es Falso
+FinSi
+</code></pre>
+                        </div>
+                    </article>
+
+                    <article>
+                        <h3 class="text-xl font-bold mb-2 flex items-center gap-2"><i data-lucide="repeat-2" class="w-6 h-6 text-blue-500"></i> 3. Ciclo (Repetición)</h3>
+                        <p class="text-stone-600 mb-4">Permite ejecutar un conjunto de acciones las veces que sea necesario, siempre y cuando se cumpla una condición[38]. Son fundamentales para automatizar tareas repetitivas.</p>
+                        <div class="border p-4 rounded-lg bg-stone-50">
+                             <button id="cycleBtn" class="w-full bg-orange-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-orange-600 transition-colors">Mostrar números del 1 al 10</button>
+                             <ul id="cycleOutput" class="mt-4 space-y-2 text-center">
+                             </ul>
+                        </div>
+                        <p class="text-stone-600 mt-4 text-sm">Los tipos comunes son "Mientras" (repite mientras la condición sea verdadera), "Repetir" (ejecuta al menos una vez y luego verifica la condición), y "Para" (repite un número fijo de veces)[39]. Carlos Salazar Guaña destaca que "la estructura Mientras está formada por dos partes: Expresión de tipo lógico y Conjunto de instrucciones"[40].</p>
+                        <h4 class="text-lg font-semibold mt-6 mb-2">Pseudocódigo de Ciclos:</h4>
+                        <div class="code-block mb-4">
+                            <h5 class="text-md font-medium text-stone-200 mb-2">Ciclo Mientras:</h5>
+                            <pre><code>Mientras Condicion Hacer
+    // Cuerpo del ciclo
+FinMientras
+</code></pre>
+                        </div>
+                        <div class="code-block mb-4">
+                            <h5 class="text-md font-medium text-stone-200 mb-2">Ciclo Repetir:</h5>
+                            <pre><code>Repetir
+    // Cuerpo del ciclo
+Hasta Que Condicion // Se ejecuta hasta que la condición sea verdadera
+</code></pre>
+                        </div>
+                        <div class="code-block">
+                            <h5 class="text-md font-medium text-stone-200 mb-2">Ciclo Para:</h5>
+                            <pre><code>Para Var = inicio Hasta fin Con Paso incremento Hacer
+    // Cuerpo del ciclo
+FinPara
+</code></pre>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="a-programar" class="scroll-mt-20">
+             <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">¡A Programar! Ejemplos en Python</h2>
+                <p class="mt-2 text-md text-stone-600">Ahora que conoces los conceptos, veamos cómo se aplican en código real. ¡Puedes interactuar con estos ejemplos para ver la lógica en acción! Recuerda la importancia del pseudocódigo como paso previo a la codificación[41].</p>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Calculadora Simple 🧮</h3>
+                        <p class="text-stone-600 mb-4">Este programa te permite ingresar dos números y realiza las operaciones básicas: suma, resta, multiplicación y división. Observa cómo el código maneja la división por cero usando una **condición**[42].</p>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <input type="number" id="calcNum1" placeholder="Primer número" class="block w-full rounded-md border-stone-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm">
+                            <input type="number" id="calcNum2" placeholder="Segundo número" class="block w-full rounded-md border-stone-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm">
+                        </div>
+                        <button id="calcBtn" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">Calcular</button>
+                        <div id="calcOutput" class="mt-4 p-4 bg-stone-100 rounded-md text-sm font-mono whitespace-pre-wrap"></div>
+                    </div>
+                    <div class="code-block">
+                        <h4 class="text-lg font-semibold text-stone-200 mb-2">Pseudocódigo:</h4>
+                        <pre><code>Proceso CalculadoraSimple
+    Definir num1, num2, suma, resta, multiplicacion, division Como Real;
+    Escribir "Ingresa el primer número: ";
+    Leer num1;
+    Escribir "Ingresa el segundo número: ";
+    Leer num2;
+
+    suma = num1 + num2;
+    resta = num1 - num2;
+    multiplicacion = num1 * num2;
+
+    Si num2 != 0 Entonces
+        division = num1 / num2;
+    Sino
+        Escribir "División Indefinida (división por cero)";
+        division = 0; // O manejar de otra forma, por ejemplo, un mensaje
+    FinSi
+
+    Escribir "Suma: ", suma;
+    Escribir "Resta: ", resta;
+    Escribir "Multiplicación: ", multiplicacion;
+    Si num2 != 0 Entonces
+        Escribir "División: ", division;
+    FinSi
+FinProceso
+</code></pre>
+                        <h4 class="text-lg font-semibold text-stone-200 mt-4 mb-2">Código Python:</h4>
+                        <pre><code>num1 = float(input("Ingresa el primer número: "))
+num2 = float(input("Ingresa el segundo número: "))
+
+suma = num1 + num2
+resta = num1 - num2
+multiplicacion = num1 * num2
+
+# Condición: Si el segundo número no es cero, realiza la división
+if num2 != 0:
+    division = num1 / num2
+else:
+    division = "Indefinida (división por cero)"
+
+print(f"Suma: {suma}")
+print(f"Resta: {resta}")
+print(f"Multiplicación: {multiplicacion}")
+print(f"División: {division}")
+</code></pre>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                     <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Verificador de Edad 🧑‍🎓</h3>
+                        <p class="text-stone-600 mb-4">Este programa simple te pide tu edad y, usando una **condición**, determina si eres mayor o menor de edad (mayor a 17 años). Es un ejemplo clásico de cómo la lógica de decisión se aplica en el código[43].</p>
+                        <div class="mb-4">
+                             <input type="number" id="ageInput" placeholder="Ingresa tu edad" class="block w-full rounded-md border-stone-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm">
+                        </div>
+                        <button id="ageBtn" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">Verificar Edad</button>
+                        <div id="ageOutput" class="mt-4 p-4 bg-stone-100 rounded-md text-sm font-mono h-12 flex items-center"></div>
+                    </div>
+                    <div class="code-block">
+                        <h4 class="text-lg font-semibold text-stone-200 mb-2">Pseudocódigo:</h4>
+                        <pre><code>Proceso VerificaEdad
+    Definir edad Como Entero;
+    Escribir "Por favor, ingresa tu edad: ";
+    Leer edad;
+
+    Si edad > 17 Entonces
+        Escribir "Eres mayor de edad.";
+    Sino
+        Escribir "Eres menor de edad.";
+    FinSi
+FinProceso
+</code></pre>
+                        <h4 class="text-lg font-semibold text-stone-200 mt-4 mb-2">Código Python:</h4>
+                        <pre><code>edad = int(input("Por favor, ingresa tu edad: "))
+
+# Condición: Si la edad es mayor a 17
+if edad > 17:
+    print("Eres mayor de edad.")
+else: # Si la edad no es mayor a 17 (es 17 o menos)
+    print("Eres menor de edad.")
+</code></pre>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden lg:col-span-2">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Tabla de Multiplicar con Ciclo "Para" 🔄</h3>
+                        <p class="text-stone-600 mb-4">Este programa genera la tabla de multiplicar de un número que elijas, del 1 al 10. Utiliza un **ciclo "Para"** para repetir la operación de multiplicación 10 veces, mostrando cómo automatizar tareas repetitivas[44].</p>
+                        <div class="mb-4">
+                             <input type="number" id="multTableInput" placeholder="Ingresa un número (ej: 7)" class="block w-full rounded-md border-stone-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm">
+                        </div>
+                        <button id="multTableBtn" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">Generar Tabla</button>
+                        <div id="multTableOutput" class="mt-4 p-4 bg-stone-100 rounded-md text-sm font-mono whitespace-pre-wrap"></div>
+                    </div>
+                    <div class="code-block">
+                        <h4 class="text-lg font-semibold text-stone-200 mb-2">Pseudocódigo:</h4>
+                        <pre><code>Proceso TablaMultiplicar
+    Definir numero, i Como Entero;
+    Escribir "Ingresa un número para su tabla de multiplicar: ";
+    Leer numero;
+
+    Para i = 1 Hasta 10 Con Paso 1 Hacer
+        Escribir numero, " x ", i, " = ", numero * i;
+    FinPara
+FinProceso
+</code></pre>
+                        <h4 class="text-lg font-semibold text-stone-200 mt-4 mb-2">Código Python:</h4>
+                        <pre><code>numero = int(input("Ingresa un número para su tabla de multiplicar: "))
+
+# Ciclo "Para" que va de 1 a 10
+for i in range(1, 11): # range(1, 11) genera números del 1 al 10
+    resultado = numero * i
+    print(f"{numero} x {i} = {resultado}")
+</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="notas-al-pie" class="scroll-mt-20 bg-stone-200 p-8 rounded-xl shadow-lg mt-16">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6 text-center">Notas al Pie</h2>
+            <ol class="list-decimal list-inside text-stone-700 space-y-2">
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 21)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 17, citando Diccionario de la Lengua Española, 2019)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 16)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 17)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 16)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 18)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 18)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 16)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 28)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 19)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 20)</li>
+                <li>Regino, E. M. (s.f.). *Lógica de programación*. (citado en Salazar Guaña, C. E., 2022, p. 21)</li>
+                <li>Regino, E. M. (s.f.). *Lógica de programación*. (citado en Salazar Guaña, C. E., 2022, p. 21)</li>
+                <li>Regino, E. M. (s.f.). *Lógica de programación*. (citado en Salazar Guaña, C. E., 2022, p. 21)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 20)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 20)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 30)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 21)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 37)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 27)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 38)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 38)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 39); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 28)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 28)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 40)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 27)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 39); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 28)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 28)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 40)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 45); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 28)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 46); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 31)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 49); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 31)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 58); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 22)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 58); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 23)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 32)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 59); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 45)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 149)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 49-56)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 61)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 85-87); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 29-30)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 29)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 30)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 61); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 64)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 176); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 65)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 65)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 25)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 47)</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 59)</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 177); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 72)</li>
+            </ol>
+        </section>
+
+        <section id="referencias" class="scroll-mt-20 bg-stone-200 p-8 rounded-xl shadow-lg mt-16">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6 text-center">Referencias</h2>
+            <ul class="list-disc list-inside text-stone-700 space-y-3">
+                <li>Diccionario de la Lengua Española. (2019). *Real Academia Española*. Recuperado de https://dle.rae.es/</li>
+                <li>García Cano, E. E. (s.f.). *Guía práctica de estudio 04: Pseudocódigo*.</li>
+                <li>Regino, E. M. (s.f.). *Lógica de programación*.</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD.</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U.</li>
+                <li>WIKIPEDIA. (2019). *WIKIPEDIA*. Recuperado de https://es.wikipedia.org/wiki/L%C3%B3gica</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+            <p>&copy; 2024 Lógica de Programación Interactiva. Inspirado en el trabajo de Carlos Salazar Guaña y Omar Iván Trejos Buriticá.</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            const decisionBtn = document.getElementById('decisionBtn');
+            const decisionInput = document.getElementById('decisionInput');
+            const pathCondition = document.getElementById('pathCondition');
+            const pathYes = document.getElementById('pathYes');
+            const pathNo = document.getElementById('pathNo');
+
+            const resetPaths = () => {
+                [pathCondition, pathYes, pathNo].forEach(p => p.classList.remove('bg-green-200', 'text-green-800', 'bg-red-200', 'text-red-800'));
+            };
+
+            decisionBtn.addEventListener('click', () => {
+                resetPaths();
+                const value = parseInt(decisionInput.value);
+
+                if (isNaN(value)) return;
+
+                setTimeout(() => {
+                    if (value === 10) {
+                        pathCondition.classList.add('bg-green-200', 'text-green-800');
+                        setTimeout(() => pathYes.classList.add('bg-green-200', 'text-green-800'), 500);
+                    } else {
+                        pathCondition.classList.add('bg-red-200', 'text-red-800');
+                        setTimeout(() => pathNo.classList.add('bg-red-200', 'text-red-800'), 500);
+                    }
+                }, 100);
+            });
+
+            const cycleBtn = document.getElementById('cycleBtn');
+            const cycleOutput = document.getElementById('cycleOutput');
+
+            cycleBtn.addEventListener('click', () => {
+                cycleOutput.innerHTML = '';
+                cycleBtn.disabled = true;
+                let i = 1;
+                const interval = setInterval(() => {
+                    if (i > 10) {
+                        clearInterval(interval);
+                        cycleBtn.disabled = false;
+                        return;
+                    }
+                    const li = document.createElement('li');
+                    li.textContent = i;
+                    li.className = 'bg-stone-200 p-2 rounded-md animate-pulse';
+                    cycleOutput.appendChild(li);
+                    setTimeout(() => li.classList.remove('animate-pulse'), 200);
+                    i++;
+                }, 200);
+            });
+
+            const calcBtn = document.getElementById('calcBtn');
+            const calcNum1 = document.getElementById('calcNum1');
+            const calcNum2 = document.getElementById('calcNum2');
+            const calcOutput = document.getElementById('calcOutput');
+
+            calcBtn.addEventListener('click', () => {
+                const n1 = parseFloat(calcNum1.value);
+                const n2 = parseFloat(calcNum2.value);
+
+                if(isNaN(n1) || isNaN(n2)) {
+                    calcOutput.textContent = "Por favor, ingresa dos números válidos.";
+                    return;
+                }
+
+                const suma = n1 + n2;
+                const resta = n1 - n2;
+                const multi = n1 * n2;
+                let div;
+
+                if (n2 !== 0) {
+                    div = n1 / n2;
+                } else {
+                    div = "Indefinida (división por cero)";
+                }
+
+                calcOutput.innerHTML = `> Suma: ${suma}\n> Resta: ${resta}\n> Multiplicación: ${multi}\n> División: ${div}`;
+            });
+
+            const ageBtn = document.getElementById('ageBtn');
+            const ageInput = document.getElementById('ageInput');
+            const ageOutput = document.getElementById('ageOutput');
+
+            ageBtn.addEventListener('click', () => {
+                const age = parseInt(ageInput.value);
+                if (isNaN(age) || age < 0) {
+                     ageOutput.textContent = "> Ingresa una edad válida.";
+                     return;
+                }
+
+                if (age > 17) {
+                    ageOutput.textContent = "> Eres mayor de edad.";
+                } else {
+                    ageOutput.textContent = "> Eres menor de edad.";
+                }
+            });
+
+            const multTableBtn = document.getElementById('multTableBtn');
+            const multTableInput = document.getElementById('multTableInput');
+            const multTableOutput = document.getElementById('multTableOutput');
+
+            multTableBtn.addEventListener('click', () => {
+                const numero = parseInt(multTableInput.value);
+                if (isNaN(numero)) {
+                    multTableOutput.textContent = "Por favor, ingresa un número válido.";
+                    return;
+                }
+
+                let output = '';
+                for (let i = 1; i <= 10; i++) {
+                    output += `${numero} x ${i} = ${numero * i}\n`;
+                }
+                multTableOutput.textContent = output;
+            });
+
+        });
+    </script>
+
+</body>
+</html>

@@ -90,7 +90,7 @@ programming_course/
 │   ├── tech_industries.html
 │   └── install_wsl.html
 ├── 📁 logic_algo/        # Logic and algorithms
-│   └── explicacion_breve.html
+│   └── week_1.html
 └── 📄 README.md
 ```
 
