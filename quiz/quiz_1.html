@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interactivo: Lógica y Python</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <!-- Chosen Palette: Modern Tech (Blues, Greens, Grays) -->
+    <!-- Application Structure Plan: La SPA es un quiz interactivo. La estructura principal es un contenedor centrado que muestra una pregunta a la vez. Incluye un área para el texto de la pregunta, botones para las opciones de respuesta, un área para mostrar la razón (rationale) y el hint, y botones de navegación (siguiente/anterior) y para mostrar el hint. Al final, muestra la puntuación. La interactividad se maneja con JavaScript para cambiar el estado del quiz (pregunta actual, si la respuesta fue seleccionada, puntuación) y actualizar dináforicamente la UI. -->
+    <!-- Visualization & Content Choices:
+        - Pregunta y Opciones: Goal:Test/Engage -> Method:Texto claro, botones para opciones. Justification:Facilitar la interacción directa del usuario.
+        - Feedback (Rationale/Hint): Goal:Inform/Guide -> Method:Texto dinámico que aparece al seleccionar o pedir hint. Justification:Proporcionar retroalimentación inmediata y explicaciones.
+        - Navegación/Puntuación: Goal:Inform/Track -> Method:Botones de navegación, contador de preguntas, pantalla final de resultados. Justification:Permitir al usuario controlar su ritmo y ver su progreso.
+        - Icons: Lucide icons para elementos de UI (bombilla, flechas).
+        - Library/Method: Vanilla JS para la lógica del quiz, Tailwind CSS para el diseño responsivo. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .quiz-option {
+            /* Now this is a div, so it's a block by default */
+            @apply w-full p-4 mb-4 border border-gray-300 rounded-lg transition-colors duration-200 cursor-pointer; /* Added cursor-pointer here */
+        }
+        .quiz-option label { /* Styling for the label inside the div */
+            @apply flex items-start w-full; /* Retain flex and alignment */
+        }
+        .quiz-option:hover:not(.selected):not(.answered) {
+            @apply bg-gray-50;
+        }
+        .quiz-option.selected {
+            @apply bg-blue-100 border-blue-500;
+        }
+        .quiz-option.correct {
+            @apply bg-green-100 border-green-500;
+        }
+        .quiz-option.incorrect {
+            @apply bg-red-100 border-red-500;
+        }
+        .quiz-option.answered {
+            cursor: default; /* Disable pointer for the div itself when answered */
+        }
+        .quiz-option input[type="radio"] {
+            @apply mr-4 mt-1; /* Increased mr-4 for more space */
+        }
+        .code-block {
+            background-color: #1f2937; /* Tailwind gray-800 */
+            color: #f9fafb; /* Tailwind gray-50 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            position: relative;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        .code-block pre { margin: 0; }
+        .code-block code {
+            display: block; /* Ensures code takes full width and wraps */
+            white-space: pre-wrap; /* Wraps long lines */
+            word-break: break-all; /* Breaks words if necessary */
+        }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800 flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white p-8 rounded-xl shadow-lg max-w-2xl w-full">
+        <h1 class="text-3xl font-bold text-center text-stone-900 mb-6">Quiz: Lógica de Programación y Python</h1>
+
+        <div id="quiz-container">
+            <div class="mb-4 text-center text-gray-600">
+                Pregunta <span id="current-question-number">1</span> de <span id="total-questions">10</span>
+            </div>
+
+            <h2 id="question-text" class="text-xl font-semibold mb-6 text-stone-800"></h2>
+
+            <div id="answer-options-container" class="flex flex-col space-y-3">
+                <!-- Answer options will be injected here by JavaScript -->
+            </div>
+
+            <div id="feedback-area" class="mt-6 p-4 rounded-lg hidden">
+                <p id="rationale-text" class="text-sm text-gray-700"></p>
+            </div>
+
+            <div id="hint-area" class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg hidden">
+                <div class="flex items-center text-yellow-800 font-medium">
+                    <i data-lucide="lightbulb" class="w-5 h-5 mr-2"></i>
+                    <span id="hint-text"></span>
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-between items-center">
+                <button id="prev-btn" class="bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-md hover:bg-gray-400 transition-colors flex items-center gap-2" disabled>
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i> Anterior
+                </button>
+                <button id="show-hint-btn" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors flex items-center gap-2">
+                    <i data-lucide="lightbulb" class="w-5 h-5"></i> Pista
+                </button>
+                <button id="next-btn" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors flex items-center gap-2" disabled>
+                    Siguiente <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="results-container" class="text-center hidden">
+            <h2 class="text-2xl font-bold text-stone-900 mb-4">¡Quiz Completado!</h2>
+            <p class="text-lg text-stone-700 mb-2">Tu puntuación: <span id="final-score" class="font-bold text-blue-600"></span> / <span id="total-questions-results" class="font-bold"></span></p>
+            <p id="score-message" class="text-md text-gray-600 mb-6"></p>
+            <button id="restart-btn" class="bg-green-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-green-600 transition-colors">
+                Reiniciar Quiz
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait for Lucide to be defined before creating icons
+            const checkLucide = setInterval(() => {
+                if (typeof lucide !== 'undefined' && lucide.createIcons) {
+                    lucide.createIcons();
+                    clearInterval(checkLucide); // Stop checking once it's done
+
+                    // Function to shuffle an array (Fisher-Yates algorithm)
+                    function shuffleArray(array) {
+                        for (let i = array.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+                        }
+                        return array;
+                    }
+
+                    // Rest of your DOMContentLoaded logic
+                    const quizData = {
+                        "questions": [
+                            {
+                                "question": "Un estudiante necesita un programa que calcule el costo total de 3 libros. El programa debe pedir el precio de cada libro y luego mostrar el total. ¿Cuál es la secuencia de pasos lógicos correcta para el algoritmo?",
+                                "hint": "Piensa en el orden en que necesitas la información. ¿Puedes calcular el total antes de conocer todos los precios?",
+                                "answerOptions": [
+                                    {
+                                        "text": "Leer precio 1, leer precio 2, leer precio 3, calcular total = precio 1 + precio 2 + precio 3, mostrar total.",
+                                        "rationale": "Esta secuencia sigue un flujo lógico: primero se recopilan todos los datos de entrada necesarios y luego se realiza el proceso de cálculo antes de mostrar la salida.",
+                                        "isCorrect": true
+                                    },
+                                    {
+                                        "text": "Calcular total, leer precio 1, leer precio 2, leer precio 3, mostrar total.",
+                                        "rationale": "El cálculo del total no se puede realizar al principio porque los valores de los precios aún no se conocen.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "Leer precio 1, calcular total, leer precio 2, leer precio 3, mostrar total.",
+                                        "rationale": "Al intentar calcular el total después de leer solo el primer precio, el cálculo sería incompleto y, por lo tanto, incorrecto.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "Mostrar total, leer precio 1, leer precio 2, leer precio 3, calcular total.",
+                                        "rationale": "Mostrar el total al principio no es posible, ya que el valor final aún no ha sido calculado.",
+                                        "isCorrect": false
+                                    }
+                                ]
+                            },
+                            {
+                                "question": "En Python, ¿qué imprimirá el siguiente código si el usuario ingresa el número -5?<div class=\"code-block mt-4\"><pre><code>num = int(input('Ingrese un número: '))&#10;&#10if num &lt; 0:&#10;    print('El número es negativo.')&#10;elif num == 0:&#10;    print('El número es cero.')&#10;else:&#10;    print('El número es positivo.')&#10;</code></pre></div>",
+                                "hint": "Sigue el flujo del código. La primera condición que sea verdadera determinará el bloque que se ejecuta.",
+                                "answerOptions": [
+                                    {
+                                        "text": "El número es negativo.",
+                                        "rationale": "La primera condición `if num < 0:` se evalúa como verdadera, por lo que se ejecuta su bloque de código y el resto de las condiciones `elif` y `else` son ignoradas.",
+                                        "isCorrect": true
+                                    },
+                                    {
+                                        "text": "El número es cero.",
+                                        "rationale": "Este bloque solo se ejecutaría si la primera condición (`num < 0`) fuera falsa y la condición `num == 0` fuera verdadera.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "El número es positivo.",
+                                        "rationale": "El bloque `else` se ejecuta únicamente si ninguna de las condiciones `if` o `elif` anteriores es verdadera.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "El número es negativo. El número es cero.",
+                                        "rationale": "Una vez que una condición en una cadena `if-elif-else` es verdadera, solo se ejecuta su bloque y el programa salta el resto de la estructura condicional.",
+                                        "isCorrect": false
+                                    }
+                                ]
+                            },
+                            {
+                                "question": "Un programa pide al usuario que adivine una palabra secreta. ¿Qué estructura condicional es la más adecuada para verificar si la entrada del usuario es igual a la palabra secreta \"Python\"?",
+                                "hint": "La comparación de cadenas de texto distingue entre mayúsculas y minúsculas.",
+                                "answerOptions": [
+                                    {
+                                        "text": "if entrada_usuario == \"Python\":",
+                                        "rationale": "El operador `==` realiza una comparación exacta entre dos cadenas, que es lo que se necesita para validar una contraseña o palabra secreta.",
+                                        "isCorrect": true
+                                    },
+                                    {
+                                        "text": "if entrada_usuario = \"Python\":",
+                                        "rationale": "El operador `=` es de asignación, no de comparación. Su uso en una condición `if` provocaría un error de sintaxis.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "if entrada_usuario.equals(\"Python\"):",
+                                        "rationale": "Python no tiene un método `.equals()` para cadenas como otros lenguajes (por ejemplo, Java). La comparación se hace directamente con el operador `==`.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "if entrada_usuario != \"Python\":",
+                                        "rationale": "El operador `!=` verifica si las cadenas son diferentes. Esta condición sería útil para el bloque de código que se ejecuta cuando el usuario se equivoca, no cuando acierta.",
+                                        "isCorrect": false
+                                    }
+                                ]
+                            },
+                            {
+                                "question": "Una empresa de paquetería cobra el envío según el peso del paquete: $5 si pesa menos de 2 kg, $10 si pesa entre 2 kg y 5 kg (inclusive), y $15 si pesa más de 5 kg. ¿Cuál es el pseudocódigo correcto para calcular el costo?",
+                                "hint": "Considera cómo las condiciones en cascada te permiten evaluar rangos de valores de forma excluyente.",
+                                "answerOptions": [
+                                    {
+                                        "text": "Si peso < 2 Entonces costo = 5 Sino Si peso <= 5 Entonces costo = 10 Sino costo = 15 FinSi FinSi",
+                                        "rationale": "Esta estructura en cascada evalúa correctamente los rangos. Si el peso no es menor a 2, entonces se verifica si es menor o igual a 5, cubriendo así el rango intermedio de forma lógica.",
+                                        "isCorrect": true
+                                    },
+                                    {
+                                        "text": "Si peso < 2 Entonces costo = 5 FinSi Si peso <= 5 Entonces costo = 10 FinSi Si peso > 5 Entonces costo = 15 FinSi",
+                                        "rationale": "Esta es una secuencia de decisiones, no una cascada. Un peso de 1 kg, por ejemplo, cumpliría las dos primeras condiciones, asignando `costo = 5` y luego sobrescribiéndolo con `costo = 10` incorrectamente.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "Si peso > 5 Entonces costo = 15 Sino Si peso > 2 Entonces costo = 10 Sino costo = 5 FinSi FinSi",
+                                        "rationale": "Aunque la lógica es correcta, el orden es menos intuitivo. La opción correcta sigue el flujo natural de los rangos de menor a mayor.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "Si peso < 2 Entonces costo = 5 Sino costo = 10 FinSi Si peso > 5 Entonces costo = 15 FinSi",
+                                        "rationale": "Esta lógica es incorrecta porque un paquete de más de 5 kg obtendría un costo de 10 y luego sería sobrescrito a 15, lo cual es ineficiente y confuso.",
+                                        "isCorrect": false
+                                    }
+                                ]
+                            },
+                            {
+                                "question": "En Python, ¿cuál es el propósito principal del operador módulo (`%`) dentro de un ciclo que recorre una lista de números?",
+                                "hint": "Este operador está relacionado con la división, pero no devuelve el cociente.",
+                                "answerOptions": [
+                                    {
+                                        "text": "Determinar si un número es divisible por otro, verificando si el residuo es cero.",
+                                        "rationale": "El operador módulo devuelve el residuo de una división. Es comúnmente usado con 2 (`numero % 2 == 0`) para saber si un número es par, o con otros divisores para verificar la divisibilidad.",
+                                        "isCorrect": true
+                                    },
+                                    {
+                                        "text": "Calcular el porcentaje de un número respecto a otro.",
+                                        "rationale": "Aunque el símbolo es el mismo, en programación el `%` no calcula porcentajes directamente. Para ello se requiere una operación matemática como `(parte / total) * 100`.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "Realizar la división entera de un número.",
+                                        "rationale": "La división entera en Python se realiza con el operador `//`, que descarta la parte decimal del resultado.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "Redondear un número a su entero más cercano.",
+                                        "rationale": "Para redondear un número en Python se utiliza la función incorporada `round()`.",
+                                        "isCorrect": false
+                                    }
+                                ]
+                            },
+                            {
+                                "question": "Se está diseñando un algoritmo para un juego donde el usuario debe ingresar números para acumular puntos. El juego termina cuando el usuario ingresa un número negativo. ¿Qué tipo de ciclo es el más adecuado para este escenario?",
+                                "hint": "El número de iteraciones no se conoce de antemano; depende de la acción del usuario.",
+                                "answerOptions": [
+                                    {
+                                        "text": "Un ciclo `Mientras` (while) que se ejecute mientras el número ingresado sea mayor o igual a cero.",
+                                        "rationale": "Un ciclo `Mientras` es ideal cuando la repetición depende de una condición que puede cambiar en cualquier momento y no de un número fijo de iteraciones.",
+                                        "isCorrect": true
+                                    },
+                                    {
+                                        "text": "Un ciclo `Para` (for) que vaya de 1 a 100, ya que es un número grande de posibles turnos.",
+                                        "rationale": "Un ciclo `Para` se usa cuando se conoce el número exacto de repeticiones. En este caso, el juego podría terminar en el primer turno o después de muchos, por lo que un `Para` no es flexible.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "Una estructura de decisión `Si-Entonces-Sino` sin ningún ciclo.",
+                                        "rationale": "Una estructura de decisión sola solo podría procesar una única entrada del usuario. No permitiría la repetición necesaria para acumular puntos en varios turnos.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "Un ciclo `Repetir` (do-while) que se ejecute mientras el número ingresado sea positivo.",
+                                        "rationale": "Esta opción es muy similar a la correcta. Sin embargo, un `Mientras` evalúa la condición al principio, lo que puede ser más directo para este tipo de lógica de finalización.",
+                                        "isCorrect": false
+                                    }
+                                ]
+                            },
+                            {
+                                "question": "En Python, ¿qué secuencia de números generará la expresión `range(2, 10, 3)`?",
+                                "hint": "Recuerda que la función `range` tiene tres argumentos: inicio, fin (no inclusivo) y paso.",
+                                "answerOptions": [
+                                    {
+                                        "text": "2, 5, 8",
+                                        "rationale": "La secuencia inicia en 2. El siguiente número es 2 + 3 = 5. El siguiente es 5 + 3 = 8. El próximo sería 8 + 3 = 11, que ya es mayor o igual al límite de 10 y no se incluye.",
+                                        "isCorrect": true
+                                    },
+                                    {
+                                        "text": "2, 5, 8, 11",
+                                        "rationale": "El valor de fin (10) en un `range` es exclusivo, lo que significa que la secuencia se detiene antes de alcanzar o superar ese valor.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "2, 10, 3",
+                                        "rationale": "Estos son los argumentos de la función `range`, no la secuencia de números que genera como resultado.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "3, 6, 9",
+                                        "rationale": "Esta secuencia parece ignorar el valor de inicio (2) y el paso (3) no se aplica correctamente desde el principio.",
+                                        "isCorrect": false
+                                    }
+                                ]
+                            },
+                            {
+                                "question": "Un usuario está creando una lista de invitados. El programa usa un ciclo `while` para añadir nombres a una lista hasta que el usuario escribe \"listo\". Si el usuario ingresa \"Ana\", \"Luis\", \"listo\", ¿qué contendrá la lista al final?",
+                                "hint": "La condición de parada del ciclo determina qué valor final no se incluye en la lista.",
+                                "answerOptions": [
+                                    {
+                                        "text": "['Ana', 'Luis']",
+                                        "rationale": "El ciclo añade 'Ana' y 'Luis' a la lista. Cuando la entrada es \"listo\", la condición del ciclo se vuelve falsa y el bucle termina, sin añadir la palabra \"listo\" a la lista.",
+                                        "isCorrect": true
+                                    },
+                                    {
+                                        "text": "['Ana', 'Luis', 'listo']",
+                                        "rationale": "La palabra \"listo\" se usa para terminar el ciclo, por lo que el algoritmo no debería añadirla a la propia lista de invitados.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "['Ana']",
+                                        "rationale": "El ciclo está diseñado para continuar mientras la entrada no sea \"listo\", por lo que procesará todas las entradas antes de la palabra de parada.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "La lista estará vacía.",
+                                        "rationale": "El método `.append()` añade elementos a la lista en cada iteración válida, por lo que la lista no quedará vacía si se ingresan nombres.",
+                                        "isCorrect": false
+                                    }
+                                ]
+                            },
+                            {
+                                "question": "Un algoritmo necesita calcular el interés compuesto usando la fórmula `Capital * (1 + Tasa/100) ** Años`. ¿Cómo se representaría correctamente el exponente (`** Años`) en Python?",
+                                "hint": "Python utiliza un operador aritmético de dos caracteres para la exponenciación.",
+                                "answerOptions": [
+                                    {
+                                        "text": "** Años",
+                                        "rationale": "En Python, el operador de exponenciación es `**`. Permite elevar un número a la potencia de otro.",
+                                        "isCorrect": true
+                                    },
+                                    {
+                                        "text": "^ Años",
+                                        "rationale": "El símbolo `^` en Python no es para la exponenciación. Es el operador XOR a nivel de bits, que se utiliza para operaciones binarias.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "pow(Años)",
+                                        "rationale": "La función `pow()` es correcta, pero requiere dos argumentos: la base y el exponente, como en `pow(base, Años)`. Usada con un solo argumento no cumpliría el objetivo.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "x Años",
+                                        "rationale": "Este no es un operador válido en Python para la exponenciación. La multiplicación se realiza con `*`.",
+                                        "isCorrect": false
+                                    }
+                                ]
+                            },
+                            {
+                                "question": "Un programa debe permitir a un usuario un máximo de 3 intentos para ingresar su PIN. ¿Cuál es la forma más lógica de controlar los intentos usando un ciclo `Mientras`?",
+                                "hint": "El ciclo debe detenerse si se acierta el PIN o si se agotan los intentos. ¿Cómo se puede expresar eso en una sola condición?",
+                                "answerOptions": [
+                                    {
+                                        "text": "Crear una variable `intentos = 0` y usar la condición `Mientras intentos < 3 Y pin_es_incorrecto`.",
+                                        "rationale": "Esta es la implementación más robusta, ya que el ciclo se detiene tan pronto como una de las dos condiciones de finalización se cumple (se agotan los intentos o se acierta el PIN).",
+                                        "isCorrect": true
+                                    },
+                                    {
+                                        "text": "Usar un ciclo `Mientras Verdadero` y contar los intentos dentro, usando `romper` (break) si se superan los 3.",
+                                        "rationale": "Aunque es funcional, usar `Mientras Verdadero` (un bucle infinito) con un `romper` (break) interno puede ser menos claro que expresar la condición de parada directamente en la declaración del ciclo.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "Crear una variable `intentos = 3` y usar la condición `Mientras intentos > 0`.",
+                                        "rationale": "Esta opción solo considera los intentos restantes, pero no se detendría inmediatamente si el usuario acierta el PIN en el primer o segundo intento.",
+                                        "isCorrect": false
+                                    },
+                                    {
+                                        "text": "Usar un ciclo `Para` que se repita 3 veces.",
+                                        "rationale": "Un ciclo `Para` se ejecutará siempre 3 veces, incluso si el usuario acierta el PIN en el primer intento. Un ciclo `Mientras` ofrece más flexibilidad para detenerse antes.",
+                                        "isCorrect": false
+                                    }
+                                ]
+                            }
+                        ]
+                    };
+
+                    let currentQuestionIndex = 0;
+                    let score = 0;
+                    let answeredQuestions = new Array(quizData.questions.length).fill(null); // Stores the index of the selected answer for each question
+
+                    const quizContainer = document.getElementById('quiz-container');
+                    const resultsContainer = document.getElementById('results-container');
+                    const questionText = document.getElementById('question-text');
+                    const answerOptionsContainer = document.getElementById('answer-options-container');
+                    const currentQuestionNumber = document.getElementById('current-question-number');
+                    const totalQuestions = document.getElementById('total-questions');
+                    const feedbackArea = document.getElementById('feedback-area');
+                    const rationaleText = document.getElementById('rationale-text');
+                    const hintArea = document.getElementById('hint-area');
+                    const hintText = document.getElementById('hint-text');
+                    const prevBtn = document.getElementById('prev-btn');
+                    const nextBtn = document.getElementById('next-btn');
+                    const showHintBtn = document.getElementById('show-hint-btn');
+                    const restartBtn = document.getElementById('restart-btn');
+                    const finalScore = document.getElementById('final-score');
+                    const totalQuestionsResults = document.getElementById('total-questions-results');
+                    const scoreMessage = document.getElementById('score-message');
+
+                    totalQuestions.textContent = quizData.questions.length;
+                    totalQuestionsResults.textContent = quizData.questions.length;
+
+                    // Function to shuffle an array (Fisher-Yates algorithm)
+                    function shuffleArray(array) {
+                        for (let i = array.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+                        }
+                        return array;
+                    }
+
+                    let currentShuffledOptions = []; // To store shuffled options for the current question
+
+                    function loadQuestion() {
+                        const question = quizData.questions[currentQuestionIndex];
+                        currentQuestionNumber.textContent = currentQuestionIndex + 1;
+                        questionText.innerHTML = question.question; // Use innerHTML to render code blocks
+
+                        answerOptionsContainer.innerHTML = ''; // Clear previous options
+                        feedbackArea.classList.add('hidden');
+                        hintArea.classList.add('hidden');
+                        showHintBtn.disabled = false; // Enable hint button for new question
+
+                        // Prepare options for shuffling, adding original index
+                        const optionsWithOriginalIndex = question.answerOptions.map((option, originalIdx) => ({
+                            ...option,
+                            originalIndex: originalIdx
+                        }));
+
+                        // Shuffle options for the current question
+                        currentShuffledOptions = shuffleArray(optionsWithOriginalIndex);
+
+                        currentShuffledOptions.forEach((option, shuffledIndex) => {
+                            const optionDiv = document.createElement('div'); // Create a div for each option
+                            optionDiv.classList.add('quiz-option');
+
+                            const optionLabel = document.createElement('label'); // Label inside for input association
+                            optionLabel.classList.add('flex', 'items-start', 'w-full', 'cursor-pointer'); // Apply flex and pointer to label
+
+                            const radioButton = document.createElement('input');
+                            radioButton.type = 'radio';
+                            radioButton.name = 'answerOption';
+                            radioButton.value = shuffledIndex; // Use shuffled index as value
+                            radioButton.disabled = answeredQuestions[currentQuestionIndex] !== null; // Disable if already answered
+
+                            // Check if this option (by its original index) was the one previously selected
+                            if (answeredQuestions[currentQuestionIndex] !== null &&
+                                answeredQuestions[currentQuestionIndex] === option.originalIndex) {
+                                radioButton.checked = true;
+                            }
+
+                            optionLabel.appendChild(radioButton);
+                            optionLabel.append(option.text); // Use append to add text node
+
+                            optionDiv.appendChild(optionLabel); // Add label to the div
+
+                            if (answeredQuestions[currentQuestionIndex] !== null) {
+                                // If already answered, apply feedback styles to the div
+                                optionDiv.classList.add('answered');
+                                if (option.isCorrect) {
+                                    optionDiv.classList.add('correct');
+                                } else if (answeredQuestions[currentQuestionIndex] === option.originalIndex && !option.isCorrect) {
+                                    optionDiv.classList.add('incorrect');
+                                }
+                                feedbackArea.classList.remove('hidden');
+                                // Find the rationale for the selected answer using its original index
+                                const originalSelectedOption = question.answerOptions[answeredQuestions[currentQuestionIndex]];
+                                rationaleText.textContent = originalSelectedOption.rationale;
+                                showHintBtn.disabled = true; // Disable hint if already answered
+                            } else {
+                                optionDiv.addEventListener('click', () => { // Add click listener to the div
+                                    selectAnswer(shuffledIndex); // Pass the shuffled index
+                                });
+                            }
+                            answerOptionsContainer.appendChild(optionDiv);
+                        });
+
+                        updateNavigationButtons();
+                    }
+
+                    function selectAnswer(shuffledIndex) {
+                        const selectedOption = currentShuffledOptions[shuffledIndex];
+
+                        // If already answered, prevent re-selection
+                        if (answeredQuestions[currentQuestionIndex] !== null) {
+                            return;
+                        }
+
+                        // Store the original index of the selected answer
+                        answeredQuestions[currentQuestionIndex] = selectedOption.originalIndex;
+
+                        // Update score
+                        if (selectedOption.isCorrect) {
+                            score++;
+                        }
+
+                        // Display feedback
+                        feedbackArea.classList.remove('hidden');
+                        rationaleText.textContent = selectedOption.rationale;
+
+                        // Apply styles to options and disable radio buttons
+                        Array.from(answerOptionsContainer.children).forEach((optionDivElement, index) => { // Iterate over optionDivs
+                            const radioButton = optionDivElement.querySelector('input[type="radio"]');
+                            radioButton.disabled = true; // Disable all radio buttons after selection
+                            optionDivElement.classList.add('answered'); // Mark the div as answered
+
+                            const optionInShuffledList = currentShuffledOptions[index];
+                            if (optionInShuffledList.isCorrect) {
+                                optionDivElement.classList.add('correct');
+                            } else if (index === shuffledIndex) { // Check against the shuffled index that was clicked
+                                optionDivElement.classList.add('incorrect');
+                            }
+                            // Remove click listener from the div, not the label
+                            optionDivElement.removeEventListener('click', (event) => { /* remove previous listener */ });
+                        });
+
+                        // Hint button logic: disable only if the answer was correct
+                        if (selectedOption.isCorrect) {
+                            showHintBtn.disabled = true;
+                        } else {
+                            showHintBtn.disabled = false; // Keep hint enabled if incorrect
+                        }
+
+                        updateNavigationButtons(); // Enable next button
+                    }
+
+                    function updateNavigationButtons() {
+                        prevBtn.disabled = currentQuestionIndex === 0;
+                        nextBtn.disabled = answeredQuestions[currentQuestionIndex] === null && currentQuestionIndex < quizData.questions.length - 1;
+
+                        if (currentQuestionIndex === quizData.questions.length - 1) {
+                            nextBtn.textContent = 'Ver Resultados';
+                            nextBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                            nextBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+                        } else {
+                            nextBtn.textContent = 'Siguiente';
+                            nextBtn.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                            nextBtn.classList.add('bg-blue-500', 'hover:bg-blue-600');
+                        }
+                    }
+
+                    function showResults() {
+                        quizContainer.classList.add('hidden');
+                        resultsContainer.classList.remove('hidden');
+                        finalScore.textContent = score;
+
+                        let message = '';
+                        const percentage = (score / quizData.questions.length) * 100;
+                        if (percentage === 100) {
+                            message = "¡Felicidades! ¡Dominas el tema por completo!";
+                        } else if (percentage >= 70) {
+                            message = "¡Buen trabajo! Tienes un sólido entendimiento.";
+                        } else if (percentage >= 50) {
+                            message = "Puedes mejorar. Repasa los conceptos clave.";
+                        } else {
+                            message = "Necesitas reforzar tus conocimientos. ¡No te rindas!";
+                        }
+                        scoreMessage.textContent = message;
+                    }
+
+                    prevBtn.addEventListener('click', () => {
+                        if (currentQuestionIndex > 0) {
+                            currentQuestionIndex--;
+                            loadQuestion();
+                        }
+                    });
+
+                    nextBtn.addEventListener('click', () => {
+                        if (currentQuestionIndex < quizData.questions.length - 1) {
+                            currentQuestionIndex++;
+                            loadQuestion();
+                        } else {
+                            showResults();
+                        }
+                    });
+
+                    showHintBtn.addEventListener('click', () => {
+                        hintText.textContent = quizData.questions[currentQuestionIndex].hint;
+                        hintArea.classList.remove('hidden');
+                        showHintBtn.disabled = true; // Disable hint button after showing
+                    });
+
+                    restartBtn.addEventListener('click', () => {
+                        currentQuestionIndex = 0;
+                        score = 0;
+                        answeredQuestions.fill(null);
+                        quizContainer.classList.remove('hidden');
+                        resultsContainer.classList.add('hidden');
+                        loadQuestion();
+                    });
+
+                    // Initial load
+                    loadQuestion();
+                }
+            }, 50); // Check every 50ms
+        });
+    </script>
+
+</body>
+</html>
