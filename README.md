@@ -96,6 +96,7 @@ This repository was created with the mission to **gather and share valuable know
 programming_course/
 ├── 📁 general/           # General topics and industry info
 │   ├── tech_industries.html    # Tech industry trends and roles
+│   ├── guia_salarios.html      # Tech salaries guide Colombia 2025
 │   └── install_wsl.html        # WSL installation guide
 ├── 📁 logic_algo/        # Logic and algorithms
 │   ├── week_1.html             # Week 1 - Programming Logic Fundamentals
@@ -115,6 +116,7 @@ programming_course/
 - **Roles profesionales** en desarrollo de software
 - **Tecnologías emergentes** y su impacto
 - **Futuro del desarrollo** de software
+- **Guía de salarios** tech en Colombia 2025
 
 #### ️ **Herramientas de Desarrollo**
 - **Instalación de WSL** (Windows Subsystem for Linux)

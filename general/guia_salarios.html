@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salarios Tech en Colombia - Infografía 2025</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .salary-box {
+            background-color: #e0f2fe; /* Light blue */
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px;
+        }
+        .salary-box.remote {
+            background-color: #e6fffa; /* Light teal */
+        }
+        .salary-amount {
+            font-size: 1.875rem; /* text-3xl */
+            color: #0d47a1; /* Darker blue */
+        }
+        .salary-amount.remote {
+            color: #00695c; /* Darker teal */
+        }
+        .section-title {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .subsection-title {
+            font-size: 1.75rem; /* text-3xl */
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .note {
+            font-size: 0.875rem; /* text-sm */
+            color: #6b7280;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .header-title {
+            font-size: 3rem; /* text-5xl */
+            font-weight: 800;
+            color: #1a202c;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .header-subtitle {
+            font-size: 1.25rem; /* text-xl */
+            color: #4a5568;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .job-platform-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Distribute space */
+            align-items: center; /* Center content horizontally */
+            text-align: center; /* Center text */
+        }
+        .job-platform-card:hover {
+            transform: translateY(-5px);
+        }
+        .job-platform-link {
+            display: inline-block;
+            margin-top: 1rem;
+            background-color: #4299e1; /* Blue-500 */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .job-platform-link:hover {
+            background-color: #3182ce; /* Blue-600 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container py-8">
+        <!-- Navigation link to index -->
+        <div class="text-center mb-6">
+            <a href="../index.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
+                ← Volver al Inicio
+            </a>
+        </div>
+
+        <header class="text-center mb-12">
+            <h1 class="header-title">📊 Salarios en el Mundo de la Tecnología en Colombia 🇨🇴</h1>
+            <p class="header-subtitle">Guía de Salarios Mensuales Promedio para 2025 (Local vs. Remoto con Inglés)</p>
+        </header>
+
+        <section class="mb-12">
+            <h2 class="section-title">💰 Salarios en Colombia (Empleo Local)</h2>
+            <p class="text-lg text-center mb-8">Estos son los salarios mensuales promedio estimados en pesos colombianos (COP) para roles tecnológicos en el mercado local, basados en datos recientes y tendencias.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tarjeta: Desarrollador de Software -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Desarrollador de Software</h3>
+                    <p class="text-gray-600 text-sm">Incluye Frontend, Backend, Fullstack.</p>
+                    <div class="salary-box">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount">$3.500.000 - $6.500.000 COP</span>
+                        <span class="text-xs text-gray-500 mt-1">Varía con experiencia (Junior a Senior)</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Analista de Datos -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Analista de Datos</h3>
+                    <p class="text-gray-600 text-sm">Recopilación, procesamiento y análisis de datos.</p>
+                    <div class="salary-box">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount">$2.800.000 - $5.000.000 COP</span>
+                        <span class="text-xs text-gray-500 mt-1">Según nivel de experiencia</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Científico de Datos -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Científico de Datos</h3>
+                    <p class="text-gray-600 text-sm">Modelado predictivo, machine learning.</p>
+                    <div class="salary-box">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount">$4.000.000 - $8.000.000 COP</span>
+                        <span class="text-xs text-gray-500 mt-1">Requiere alta especialización</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Ingeniero de Datos -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Ingeniero de Datos</h3>
+                    <p class="text-gray-600 text-sm">Construcción y mantenimiento de infraestructuras de datos.</p>
+                    <div class="salary-box">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount">$3.800.000 - $7.500.000 COP</span>
+                        <span class="text-xs text-gray-500 mt-1">Demanda creciente</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Diseñador UX/UI -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Diseñador UX/UI</h3>
+                    <p class="text-gray-600 text-sm">Diseño de experiencia de usuario e interfaz.</p>
+                    <div class="salary-box">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount">$2.500.000 - $5.500.000 COP</span>
+                        <span class="text-xs text-gray-500 mt-1">Importancia en la usabilidad</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Ingeniero DevOps -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Ingeniero DevOps</h3>
+                    <p class="text-gray-600 text-sm">Automatización de desarrollo y operaciones.</p>
+                    <div class="salary-box">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount">$4.000.000 - $8.500.000 COP</span>
+                        <span class="text-xs text-gray-500 mt-1">Rol estratégico</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Ingeniero de la Nube / Arquitecto Cloud -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Ingeniero de la Nube / Arquitecto Cloud</h3>
+                    <p class="text-gray-600 text-sm">Gestión y diseño de infraestructuras en la nube.</p>
+                    <div class="salary-box">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount">$4.500.000 - $9.000.000 COP</span>
+                        <span class="text-xs text-gray-500 mt-1">Alta demanda</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Especialista en Ciberseguridad -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Especialista en Ciberseguridad</h3>
+                    <p class="text-gray-600 text-sm">Protección de sistemas y datos.</p>
+                    <div class="salary-box">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount">$3.500.000 - $7.000.000 COP</span>
+                        <span class="text-xs text-gray-500 mt-1">Crecimiento constante</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Gerente de Proyectos TI -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Gerente de Proyectos TI</h3>
+                    <p class="text-gray-600 text-sm">Liderazgo y coordinación de proyectos tecnológicos.</p>
+                    <div class="salary-box">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount">$4.000.000 - $8.000.000 COP</span>
+                        <span class="text-xs text-gray-500 mt-1">Requiere experiencia y habilidades blandas</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Soporte Técnico / Help Desk -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Soporte Técnico / Help Desk</h3>
+                    <p class="text-gray-600 text-sm">Asistencia y resolución de problemas técnicos.</p>
+                    <div class="salary-box">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount">$1.500.000 - $2.800.000 COP</span>
+                        <span class="text-xs text-gray-500 mt-1">Punto de entrada común</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Administrador de Bases de Datos (DBA) -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Administrador de Bases de Datos (DBA)</h3>
+                    <p class="text-gray-600 text-sm">Gestión y optimización de bases de datos.</p>
+                    <div class="salary-box">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount">$3.000.000 - $6.000.000 COP</span>
+                        <span class="text-xs text-gray-500 mt-1">Rol fundamental</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Scrum Master / Agile Coach -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Scrum Master / Agile Coach</h3>
+                    <p class="text-gray-600 text-sm">Facilitador de metodologías ágiles.</p>
+                    <div class="salary-box">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount">$3.500.000 - $7.000.000 COP</span>
+                        <span class="text-xs text-gray-500 mt-1">Enfoque en procesos y equipos</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="section-title">🌎 Salarios Remotos con Inglés (Trabajando desde Colombia)</h2>
+            <p class="text-lg text-center mb-8">El dominio del inglés abre puertas a roles remotos con empresas extranjeras, ofreciendo salarios significativamente más altos, generalmente en dólares estadounidenses (USD).</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tarjeta: Desarrollador (Junior con Inglés) -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Desarrollador (Junior)</h3>
+                    <p class="text-gray-600 text-sm">Con inglés fluido para roles remotos.</p>
+                    <div class="salary-box remote">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount remote">$1.100 - $1.800 USD</span>
+                        <span class="text-xs text-gray-500 mt-1">Nivel de entrada con alta proyección</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Desarrollador (Mid con Inglés) -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Desarrollador (Mid)</h3>
+                    <p class="text-gray-600 text-sm">Con inglés fluido para roles remotos.</p>
+                    <div class="salary-box remote">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount remote">$1.800 - $3.000 USD</span>
+                        <span class="text-xs text-gray-500 mt-1">Experiencia intermedia y autonomía</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Desarrollador (Senior con Inglés) -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Desarrollador (Senior)</h3>
+                    <p class="text-gray-600 text-sm">Con inglés fluido para roles remotos.</p>
+                    <div class="salary-box remote">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount remote">$2.500 - $6.000 USD+</span>
+                        <span class="text-xs text-gray-500 mt-1">Alta experiencia y liderazgo técnico</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Científico de Datos / Ingeniero de Datos (Remoto con Inglés) -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Científico/Ingeniero de Datos</h3>
+                    <p class="text-gray-600 text-sm">Remoto con inglés fluido.</p>
+                    <div class="salary-box remote">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount remote">$2.000 - $5.000 USD+</span>
+                        <span class="text-xs text-gray-500 mt-1">Gran demanda internacional</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Diseñador UX/UI (Remoto con Inglés) -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Diseñador UX/UI</h3>
+                    <p class="text-gray-600 text-sm">Remoto con inglés fluido.</p>
+                    <div class="salary-box remote">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount remote">$1.500 - $3.500 USD+</span>
+                        <span class="text-xs text-gray-500 mt-1">Mercado global</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Ingeniero DevOps / Cloud (Remoto con Inglés) -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Ingeniero DevOps / Cloud</h3>
+                    <p class="text-gray-600 text-sm">Remoto con inglés fluido.</p>
+                    <div class="salary-box remote">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount remote">$2.500 - $6.000 USD+</span>
+                        <span class="text-xs text-gray-500 mt-1">Roles críticos en la infraestructura</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Especialista en Ciberseguridad (Remoto con Inglés) -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Especialista en Ciberseguridad</h3>
+                    <p class="text-gray-600 text-sm">Remoto con inglés fluido.</p>
+                    <div class="salary-box remote">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount remote">$2.000 - $4.500 USD+</span>
+                        <span class="text-xs text-gray-500 mt-1">Demanda internacional constante</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta: Gerente de Proyectos TI / Scrum Master (Remoto con Inglés) -->
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Gerente de Proyectos TI / Scrum Master</h3>
+                    <p class="text-gray-600 text-sm">Remoto con inglés fluido.</p>
+                    <div class="salary-box remote">
+                        <span class="text-sm text-gray-700">Promedio Mensual:</span>
+                        <span class="salary-amount remote">$2.500 - $5.500 USD+</span>
+                        <span class="text-xs text-gray-500 mt-1">Liderazgo y coordinación global</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nueva Sección: Dónde Buscar Ofertas Laborales Tech -->
+        <section class="mb-12">
+            <h2 class="section-title">🔍 Dónde Buscar Ofertas Laborales Tech</h2>
+            <p class="text-lg text-center mb-8">Encuentra tu próxima oportunidad en tecnología, tanto en el mercado local colombiano como en roles remotos internacionales.</p>
+
+            <h3 class="subsection-title">Plataformas Locales en Colombia</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tarjeta: Computrabajo -->
+                <div class="job-platform-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Computrabajo</h3>
+                    <p class="text-gray-600 text-sm flex-grow">Una de las plataformas más grandes y consolidadas en América Latina para todo tipo de empleos, incluyendo una amplia sección de tecnología.</p>
+                    <a href="https://www.computrabajo.com.co/" target="_blank" class="job-platform-link">Visitar Computrabajo</a>
+                </div>
+
+                <!-- Tarjeta: Elempleo.com -->
+                <div class="job-platform-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Elempleo.com</h3>
+                    <p class="text-gray-600 text-sm flex-grow">Portal líder en Colombia para buscar trabajo, con una gran variedad de ofertas y la posibilidad de recibir notificaciones directas.</p>
+                    <a href="https://www.elempleo.com/" target="_blank" class="job-platform-link">Visitar Elempleo.com</a>
+                </div>
+
+                <!-- Tarjeta: Indeed Colombia -->
+                <div class="job-platform-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Indeed Colombia</h3>
+                    <p class="text-gray-600 text-sm flex-grow">Versión colombiana de la plataforma global, con miles de ofertas de empleo en diversas industrias y filtros avanzados.</p>
+                    <a href="https://co.indeed.com/" target="_blank" class="job-platform-link">Visitar Indeed</a>
+                </div>
+
+                <!-- Tarjeta: Hireline Colombia -->
+                <div class="job-platform-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Hireline Colombia</h3>
+                    <p class="text-gray-600 text-sm flex-grow">Portal especializado en empleos de tecnología en Colombia, ideal para perfiles IT.</p>
+                    <a href="https://hireline.io/co" target="_blank" class="job-platform-link">Visitar Hireline</a>
+                </div>
+
+                <!-- Tarjeta: LinkedIn -->
+                <div class="job-platform-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">LinkedIn</h3>
+                    <p class="text-gray-600 text-sm flex-grow">La red profesional más grande del mundo, excelente para conectar con empresas y profesionales, y encontrar ofertas locales y remotas.</p>
+                    <a href="https://www.linkedin.com/jobs/search?location=Colombia&f_TP=1" target="_blank" class="job-platform-link">Buscar en LinkedIn</a>
+                </div>
+            </div>
+
+            <h3 class="subsection-title mt-10">Plataformas Remotas Globales (con enfoque en LATAM)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tarjeta: Workana -->
+                <div class="job-platform-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Workana</h3>
+                    <p class="text-gray-600 text-sm flex-grow">Plataforma líder para freelancers en América Latina y España, con proyectos en diseño, programación, redacción y marketing digital.</p>
+                    <a href="https://www.workana.com/es/" target="_blank" class="job-platform-link">Visitar Workana</a>
+                </div>
+
+                <!-- Tarjeta: WeRemoto -->
+                <div class="job-platform-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">WeRemoto</h3>
+                    <p class="text-gray-600 text-sm flex-grow">Especializada en trabajos remotos en programación, diseño gráfico y gestión de proyectos, con enfoque en Latinoamérica.</p>
+                    <a href="https://www.weremoto.com/" target="_blank" class="job-platform-link">Visitar WeRemoto</a>
+                </div>
+
+                <!-- Tarjeta: Get on Board -->
+                <div class="job-platform-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Get on Board</h3>
+                    <p class="text-gray-600 text-sm flex-grow">Plataforma enfocada en trabajos tech y digitales en startups y empresas tecnológicas, con muchas ofertas remotas en LATAM.</p>
+                    <a href="https://www.getonbrd.com.co/" target="_blank" class="job-platform-link">Visitar Get on Board</a>
+                </div>
+
+                <!-- Tarjeta: Torre.ai -->
+                <div class="job-platform-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Torre.ai</h3>
+                    <p class="text-gray-600 text-sm flex-grow">Red global de trabajos remotos y flexibles, que utiliza IA para conectar talentos con oportunidades en todo el mundo.</p>
+                    <a href="https://torre.ai/es" target="_blank" class="job-platform-link">Visitar Torre.ai</a>
+                </div>
+
+                <!-- Tarjeta: RemotoJOB -->
+                <div class="job-platform-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">RemotoJOB</h3>
+                    <p class="text-gray-600 text-sm flex-grow">Ofertas de empleo remoto y teletrabajo para España y Latinoamérica en diversas áreas, incluyendo tecnología.</p>
+                    <a href="https://remotojob.com/" target="_blank" class="job-platform-link">Visitar RemotoJOB</a>
+                </div>
+
+                <!-- Tarjeta: Upwork -->
+                <div class="job-platform-card">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Upwork</h3>
+                    <p class="text-gray-600 text-sm flex-grow">Una de las plataformas de talento freelance más grandes a nivel global, con una vasta cantidad de proyectos en desarrollo, diseño, y más.</p>
+                    <a href="https://www.upwork.com/" target="_blank" class="job-platform-link">Visitar Upwork</a>
+                </div>
+            </div>
+        </section>
+
+        <p class="note">
+            **Nota Importante:** Los salarios presentados son estimaciones promedio y pueden variar significativamente según la empresa, la ciudad, las habilidades técnicas específicas (ej. lenguajes de programación, frameworks), certificaciones, el nivel de experiencia individual y la demanda del mercado en el momento de la contratación. El dominio del inglés es un diferenciador clave para acceder a mejores oportunidades y salarios en el mercado global. Datos actualizados a Julio de 2025 basados en tendencias de mercado y reportes salariales.
+        </p>
+    </div>
+
+    <footer class="text-center py-6 text-gray-600 text-sm mt-8">
+        <p>&copy; 2025 Tech Explorer. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

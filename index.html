@@ -227,6 +227,9 @@
                     <a href="general/tech_industries.html" class="card-link">
                         <i>📊</i> Industria Tech - Tendencias y Roles
                     </a>
+                    <a href="general/guia_salarios.html" class="card-link">
+                        <i>💰</i> Guía de Salarios Tech en Colombia 2025
+                    </a>
                 </div>
             </div>
 
@@ -309,7 +312,8 @@
                     industry: {
                         title: '🏭 Industria Tecnológica',
                         description: 'Explora las tendencias actuales de la industria tech, roles profesionales, tecnologías emergentes y el futuro del desarrollo de software.',
-                        link: '📊 Industria Tech - Tendencias y Roles'
+                        link: '📊 Industria Tech - Tendencias y Roles',
+                        salaryLink: '💰 Guía de Salarios Tech en Colombia 2025'
                     },
                     tools: {
                         title: '🛠️ Herramientas de Desarrollo',
@@ -345,7 +349,8 @@
                     industry: {
                         title: '🏭 Tech Industry',
                         description: 'Explore current trends in the tech industry, professional roles, emerging technologies, and the future of software development.',
-                        link: '📊 Tech Industry - Trends and Roles'
+                        link: '📊 Tech Industry - Trends and Roles',
+                        salaryLink: '💰 Tech Salaries Guide Colombia 2025'
                     },
                     tools: {
                         title: '🛠️ Development Tools',
@@ -387,7 +392,8 @@
             const cards = document.querySelectorAll('.card');
             cards[0].querySelector('h2').innerHTML = `<span class="emoji">🏭</span> ${content.industry.title.split(' ').slice(1).join(' ')}`;
             cards[0].querySelector('p').textContent = content.industry.description;
-            cards[0].querySelector('.card-link').innerHTML = `<i>📊</i> ${content.industry.link}`;
+            cards[0].querySelectorAll('.card-link')[0].innerHTML = `<i>📊</i> ${content.industry.link}`;
+            cards[0].querySelectorAll('.card-link')[1].innerHTML = `<i>💰</i> ${content.industry.salaryLink}`;
 
             cards[1].querySelector('h2').innerHTML = `<span class="emoji">🛠️</span> ${content.tools.title.split(' ').slice(1).join(' ')}`;
             cards[1].querySelector('p').textContent = content.tools.description;
