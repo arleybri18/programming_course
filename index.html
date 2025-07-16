@@ -245,7 +245,20 @@
                 <p>Desarrolla tu pensamiento computacional y lógico a través de algoritmos, estructuras de datos y técnicas de resolución de problemas.</p>
                 <div class="card-links">
                     <a href="logic_algo/week_1.html" class="card-link">
-                        <i>🧠</i> Explicación Breve - Lógica y Algoritmos
+                        <i>🧠</i> Semana 1 - Fundamentos de Lógica de Programación
+                    </a>
+                    <a href="logic_algo/week_2.html" class="card-link">
+                        <i>⚡</i> Semana 2 - Lógica de Programación Avanzada
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🐍</span> Python</h2>
+                <p>Aprende Python desde cero con ejemplos prácticos, ejercicios interactivos y proyectos reales para desarrollar tus habilidades de programación.</p>
+                <div class="card-links">
+                    <a href="python/week_1.html" class="card-link">
+                        <i>🐍</i> Semana 1 - Introducción a Python
                     </a>
                 </div>
             </div>
@@ -354,7 +367,7 @@
             cards[2].querySelector('p').textContent = content.logic.description;
             cards[2].querySelector('.card-link').innerHTML = `<i>🧠</i> ${content.logic.link}`;
 
-            cards[3].querySelector('h2').innerHTML = `<span class="emoji">📚</span> ${content.resources.title.split(' ').slice(1).join(' ')}`;
+            cards[3].querySelector('h2').innerHTML = `<span class="emoji">🐍</span> ${content.resources.title.split(' ').slice(1).join(' ')}`;
             cards[3].querySelector('p').textContent = content.resources.description;
             cards[3].querySelectorAll('.card-link')[0].innerHTML = `<i>📖</i> ${content.resources.github}`;
             cards[3].querySelectorAll('.card-link')[1].innerHTML = `<i>🌐</i> ${content.resources.pages}`;

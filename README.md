@@ -26,6 +26,7 @@ Este repositorio nace con la misión de **reunir y compartir conocimiento valios
 - 🏭 **Explorar la industria tecnológica** y entender las tendencias actuales
 - 🔧 **Dominar herramientas de desarrollo** y entornos de trabajo
 - 🧠 **Desarrollar pensamiento lógico** y resolución de problemas
+- 🐍 **Programar en Python** con ejemplos prácticos e interactivos
 - 🌐 **Compartir conocimiento** con la comunidad de desarrolladores
 
 ### 🎓 Áreas de Aprendizaje
@@ -36,6 +37,7 @@ Este repositorio nace con la misión de **reunir y compartir conocimiento valios
 | **🏭 Industria Tech** | Tendencias, roles, tecnologías emergentes |
 | **🛠️ Herramientas** | IDEs, control de versiones, entornos de desarrollo |
 | **🧮 Lógica** | Pensamiento algorítmico y resolución de problemas |
+| **🐍 Python** | Lenguaje de programación versátil y popular |
 | **📈 Desarrollo Web** | Frontend, backend, y tecnologías web |
 
 ### 🚀 Características
@@ -45,6 +47,7 @@ Este repositorio nace con la misión de **reunir y compartir conocimiento valios
 - ✅ **Actualización Continua** - Contenido que evoluciona con la industria
 - ✅ **Código Abierto** - Contribuciones bienvenidas de la comunidad
 - ✅ **Gratuito** - Educación accesible para todos
+- ✅ **Interactivo** - Simuladores y ejercicios en línea
 
 ---
 
@@ -58,6 +61,7 @@ This repository was created with the mission to **gather and share valuable know
 - 🏭 **Explore the tech industry** and understand current trends
 - 🔧 **Master development tools** and work environments
 - 🧠 **Develop logical thinking** and problem-solving skills
+- 🐍 **Program in Python** with practical and interactive examples
 - 🌐 **Share knowledge** with the developer community
 
 ### 🎓 Learning Areas
@@ -68,6 +72,7 @@ This repository was created with the mission to **gather and share valuable know
 | **🏭 Tech Industry** | Trends, roles, emerging technologies |
 | **🛠️ Tools** | IDEs, version control, development environments |
 | **🧮 Logic** | Algorithmic thinking and problem solving |
+| **🐍 Python** | Versatile and popular programming language |
 | **📈 Web Development** | Frontend, backend, and web technologies |
 
 ### 🚀 Features
@@ -77,6 +82,7 @@ This repository was created with the mission to **gather and share valuable know
 - ✅ **Continuous Updates** - Content that evolves with the industry
 - ✅ **Open Source** - Community contributions welcome
 - ✅ **Free** - Accessible education for everyone
+- ✅ **Interactive** - Online simulators and exercises
 
 ---
 
@@ -86,19 +92,43 @@ This repository was created with the mission to **gather and share valuable know
 
 ```
 programming_course/
-├── 📁 general/           # General topics and industry info
-│   ├── tech_industries.html
-│   └── install_wsl.html
-├── 📁 logic_algo/        # Logic and algorithms
-│   └── week_1.html
-└── 📄 README.md
+├──  general/           # General topics and industry info
+│   ├── tech_industries.html    # Tech industry trends and roles
+│   └── install_wsl.html        # WSL installation guide
+├──  logic_algo/        # Logic and algorithms
+│   ├── week_1.html             # Week 1 - Programming Logic Fundamentals
+│   └── week_2.html             # Week 2 - Advanced Programming Logic
+├──  python/            # Python programming
+│   └── week_1.html             # Week 1 - Introduction to Python
+├──  index.html         # Main navigation page
+└──  README.md
 ```
 
 ### 🎯 Temas Cubiertos / Topics Covered
 
-- **🏭 Industria Tecnológica** - Tendencias y roles en la industria tech
-- **🛠️ Herramientas de Desarrollo** - Configuración de entornos de trabajo
-- **🧮 Lógica y Algoritmos** - Fundamentos del pensamiento computacional
+#### 🏭 **Industria Tecnológica**
+- **Tendencias actuales** de la industria tech
+- **Roles profesionales** en desarrollo de software
+- **Tecnologías emergentes** y su impacto
+- **Futuro del desarrollo** de software
+
+#### ️ **Herramientas de Desarrollo**
+- **Instalación de WSL** (Windows Subsystem for Linux)
+- **Configuración de entornos** de desarrollo
+- **Herramientas esenciales** para programadores
+
+####  **Lógica y Algoritmos**
+- **Fundamentos de lógica** de programación
+- **Algoritmos y estructuras** de control
+- **Variables, constantes** y tipos de datos
+- **Estructuras de decisión** y ciclos
+- **Metodología** para resolver problemas computables
+
+#### 🐍 **Python**
+- **Introducción al lenguaje** Python
+- **Tipos de datos** básicos
+- **Control de flujo** con condicionales y bucles
+- **Ejercicios interactivos** y ejemplos prácticos
 
 ---
 
@@ -120,10 +150,12 @@ programming_course/
 - Sigue las mejores prácticas de documentación
 - Asegúrate de que el contenido sea educativo y claro
 - Incluye ejemplos prácticos cuando sea posible
+- Usa HTML semántico y CSS moderno
+- Incluye funcionalidad interactiva con JavaScript
 
 ---
 
-## 📄 Licencia / License
+##  Licencia / License
 
 Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.
 
@@ -131,7 +163,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-## 📞 Contacto / Contact
+##  Contacto / Contact
 
 - **GitHub**: [@arleybri18](https://github.com/arleybri18)
 - **Proyecto**: [programming_course](https://github.com/arleybri18/programming_course)

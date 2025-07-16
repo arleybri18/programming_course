@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 2: Lógica de Programación Avanzada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chosen Palette: Modern Tech (Blues, Greens, Grays) -->
+    <!-- Application Structure Plan: La SPA está diseñada como una guía de clase lineal y progresiva para la Semana 2. Incluye: 1) Una sección sobre la tecnología en programación (lenguajes, errores, historia). 2) Una sección detallada sobre la metodología completa de solución de problemas computables, incluyendo transcripción, compilación, etc. 3) Una inmersión profunda en las estructuras de decisión (Si-Entonces-Sino, Casos) con ejemplos interactivos. 4) Una exploración exhaustiva de las estructuras de ciclos (Mientras, Para, Repetir) con demostraciones. Esta estructura permite una clase guiada, con pausas para la práctica interactiva y la discusión, consolidando las bases de la lógica de programación. -->
+    <!-- Visualization & Content Choices:
+        - Tecnología: Goal:Inform/Contextualize -> Method:Text, simple diagrams for language types, error explanations. Justification:Proporcionar una visión general del entorno de desarrollo.
+        - Metodología: Goal:Explain/Guide -> Method:Text, step-by-step breakdown, code examples (pseudocódigo/Python) for "Número Par" problem. Justification:Reforzar el proceso sistemático de creación de algoritmos y programas.
+        - Decisiones: Goal:Explain/Practice -> Method:Text, pseudocódigo for each type, interactive "If-Else" simulator, "Switch/Case" concept. Justification:Demostrar las diferentes formas de control de flujo condicional.
+        - Ciclos: Goal:Explain/Practice -> Method:Text, pseudocódigo for each type, interactive counter/accumulator, "For" loop simulator. Justification:Clarificar las estructuras de repetición y su aplicación.
+        - Ejercicios en Clase: Goal:Reinforce -> Method:Dedicated sections with prompts. Justification:Fomentar la aplicación inmediata de conocimientos.
+        - Icons: Lucide icons para todos los elementos visuales.
+        - Library/Method: Vanilla JS para toda la lógica interactiva, Tailwind CSS para el diseño y responsividad. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .nav-link.active { color: #2563eb; font-weight: 600; } /* Tailwind blue-600 */
+        .code-block {
+            background-color: #1f2937; /* Tailwind gray-800 */
+            color: #f9fafb; /* Tailwind gray-50 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            position: relative;
+        }
+        .code-block pre { margin: 0; }
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #374151; /* Tailwind gray-700 */
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+        .simulated-console {
+            background-color: #0f172a; /* Tailwind slate-900 */
+            color: #e2e8f0; /* Tailwind slate-200 */
+            font-family: 'monospace', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-top: 1rem;
+        }
+        .console-input {
+            background-color: #1e293b; /* Tailwind slate-800 */
+            color: #e2e8f0;
+            border: 1px solid #475569; /* Tailwind slate-600 */
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .footnote-ref {
+            vertical-align: super;
+            font-size: 0.75em;
+            color: #f97316;
+            text-decoration: none;
+            margin-left: 2px;
+        }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800">
+
+    <header id="navbar" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-xl font-bold text-blue-600">Lógica 101 - Semana 2</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#tecnologia" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-blue-600 transition-colors duration-300">La Tecnología</a>
+                        <a href="#metodologia" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-blue-600 transition-colors duration-300">Metodología</a>
+                        <a href="#decisiones" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-blue-600 transition-colors duration-300">Decisiones</a>
+                        <a href="#ciclos" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-blue-600 transition-colors duration-300">Ciclos</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+        <section id="inicio" class="text-center mb-16">
+            <h1 class="text-4xl sm:text-5xl font-bold text-stone-900 leading-tight">Semana 2: Profundizando en Lógica de Programación</h1>
+            <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Esta semana, exploraremos cómo la lógica se une con la tecnología para crear programas funcionales. Abordaremos la metodología completa para resolver problemas computables y profundizaremos en las estructuras de control de flujo que permiten a nuestros programas tomar decisiones y repetir acciones.</p>
+            <div class="mt-8 flex justify-center">
+                <i data-lucide="cpu" class="w-24 h-24 text-teal-500"></i>
+            </div>
+        </section>
+
+        <section id="tecnologia" class="scroll-mt-20 mb-16 bg-white p-8 rounded-xl shadow-lg">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">1. La Tecnología en la Programación</h2>
+                <p class="mt-2 text-md text-stone-600">La tecnología es el puente que permite que nuestros algoritmos cobren vida y sean ejecutados por las computadoras a velocidades asombrosas. Un lenguaje de programación es ese "puente perfecto" que permite al computador ejecutar lo que concebimos como algoritmo<a href="#footnote-1" class="footnote-ref">[1]</a>.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="binary" class="w-6 h-6 text-blue-500"></i> Lenguajes de Bajo Nivel</h3>
+                    <p class="text-stone-700 mb-4">Son lenguajes cuyas instrucciones son complejas de entender para los humanos, pero muy sencillas para el computador. El ejemplo más claro es el Lenguaje Ensamblador (Assembler), que es el "lenguaje verdadero de los computadores"<a href="#footnote-2" class="footnote-ref">[2]</a>. La programación a bajo nivel era la utilizada en los inicios de la programación, requiriendo programadores muy especializados debido a su complejidad.</p>
+                    <div class="code-block mb-4">
+                        <pre><code>mov bp, sp ; Ejemplo de instrucción en Ensamblador</code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="type" class="w-6 h-6 text-green-500"></i> Lenguajes de Alto Nivel</h3>
+                    <p class="text-stone-700 mb-4">Fueron creados para ser más entendibles al ser humano, facilitando la programación. Sin embargo, el computador necesita un programa adicional para "traducir" este código a lenguaje de bajo nivel. Aquí es donde entran los <strong>intérpretes</strong> y <strong>compiladores</strong><a href="#footnote-3" class="footnote-ref">[3]</a>.</p>
+                    <ul class="list-disc list-inside text-stone-700 mb-4 space-y-1">
+                        <li><strong>Lenguajes Interpretados:</strong> Un programa "intérprete" convierte y ejecuta el código línea por línea. Si hay un error, se detiene al llegar a esa línea. Ej: Python (en su ejecución interactiva), JavaScript.</li>
+                        <li><strong>Lenguajes Compilados:</strong> Un programa "compilador" revisa <em>todo</em> el código (programa fuente) y, si no hay errores, lo convierte a un "objeto compilado" y luego a un "programa ejecutable". Esto reduce el riesgo de interrupciones durante la ejecución. Ej: C++, Java.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="bug" class="w-6 h-6 text-red-500"></i> Errores en un Programa</h3>
+                <p class="text-stone-700 mb-4">Existen dos tipos principales de errores que podemos encontrar al programar<a href="#footnote-4" class="footnote-ref">[4]</a>:</p>
+                <ul class="list-disc list-inside text-stone-700 mb-4 space-y-1">
+                    <li><strong>Errores Humanos:</strong> Dependen exclusivamente del programador y su lógica. Son los más difíciles de detectar por una máquina<a href="#footnote-5" class="footnote-ref">[5]</a>.
+                        <ul class="list-circle list-inside ml-4">
+                            <li><strong>De Concepción:</strong> Cuando el programador no entiende bien el objetivo del problema<a href="#footnote-6" class="footnote-ref">[6]</a>.</li>
+                            <li><strong>Lógicos:</strong> El algoritmo está mal diseñado y no produce el resultado esperado, aunque sintácticamente sea correcto. Se detectan en la <strong>prueba de escritorio</strong><a href="#footnote-7" class="footnote-ref">[7]</a>.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Errores Detectados por un Compilador:</strong> Son los errores más sencillos, ya que los compiladores modernos no solo indican el error, sino también su ubicación aproximada<a href="#footnote-8" class="footnote-ref">[8]</a>.
+                        <ul class="list-circle list-inside ml-4">
+                            <li><strong>De Sintaxis:</strong> Omisiones o violaciones de las reglas del lenguaje (ej. olvidar cerrar un paréntesis)<a href="#footnote-9" class="footnote-ref">[9]</a>. El programa no se ejecuta.</li>
+                            <li><strong>De Precaución:</strong> Recomendaciones para mejorar o asegurar el programa. El programa puede ejecutarse, pero los resultados podrían no ser los esperados<a href="#footnote-10" class="footnote-ref">[10]</a>.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="mt-12 p-6 bg-blue-50 rounded-xl shadow-inner">
+                <h3 class="text-xl font-bold text-blue-800 mb-2">¡Ejercicio en Clase! 🧑‍💻</h3>
+                <p class="text-blue-700 mb-4">Discute con tu compañero:</p>
+                <ul class="list-disc list-inside text-blue-700 space-y-2">
+                    <li>¿Por qué es importante la "prueba de escritorio" si el compilador ya nos dice los errores de sintaxis?</li>
+                    <li>Si escribes `print("Hola" + 5)` en Python, ¿qué tipo de error esperarías? ¿Humano o detectado por el compilador? (Pista: Python es un lenguaje interpretado, pero tiene verificaciones).</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="metodologia" class="scroll-mt-20 mb-16 bg-white p-8 rounded-xl shadow-lg">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">2. Metodología para Solucionar un Problema Computable</h2>
+                <p class="mt-2 text-md text-stone-600">Para resolver cualquier problema en el mundo de la programación, seguimos una metodología estructurada que nos asegura llegar a una solución eficiente y confiable<a href="#footnote-11" class="footnote-ref">[11]</a>.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="list-ordered" class="w-6 h-6 text-purple-500"></i> Pasos Clave de la Metodología</h3>
+                    <ol class="list-decimal list-inside text-stone-700 mb-4 space-y-2">
+                        <li><strong>Clarificación del Objetivo:</strong> El primer y más importante paso. Debes tener "muy claro no solo hacia dónde debemos ir, sino hasta dónde debemos llegar"<a href="#footnote-12" class="footnote-ref">[12]</a>. Un objetivo claro es el "faro" que ilumina el camino<a href="#footnote-13" class="footnote-ref">[13]</a>.</li>
+                        <li><strong>Algoritmo:</strong> Es el conjunto de pasos secuenciales y ordenados para lograr el objetivo. Solo se puede vislumbrar claramente cuando el objetivo es claro<a href="#footnote-14" class="footnote-ref">[14]</a>.</li>
+                        <li><strong>Prueba de Escritorio:</strong> La "prueba reina" de un algoritmo. Simulación manual para verificar si el algoritmo logra el objetivo propuesto<a href="#footnote-15" class="footnote-ref">[15]</a>. Aquí se detectan los <strong>errores lógicos</strong>.</li>
+                        <li><strong>Transcripción (Codificación):</strong> Convertir el algoritmo (informal o pseudocódigo) en un listado de instrucciones entendibles por un computador, ajustándose a las reglas sintácticas de un lenguaje de programación. El algoritmo escrito con estas reglas se llama <strong>programa</strong><a href="#footnote-16" class="footnote-ref">[16]</a>.</li>
+                        <li><strong>Digitación:</strong> Escribir el programa en el computador usando un editor de texto o un Entorno Integrado de Desarrollo (IDE)<a href="#footnote-17" class="footnote-ref">[17]</a>.</li>
+                        <li><strong>Compilación:</strong> El computador revisa que el programa se ajuste a las reglas sintácticas del lenguaje. Lo realiza un "compilador", que detecta errores de sintaxis y de precaución<a href="#footnote-18" class="footnote-ref">[18]</a>.</li>
+                        <li><strong>Ejecución o Puesta en Marcha:</strong> Una vez sin errores de compilación, el programa se "pone a correr" en el computador<a href="#footnote-19" class="footnote-ref">[19]</a>.</li>
+                        <li><strong>Verificación de Resultados:</strong> Comprobar si la salida del programa cumple con el objetivo inicial. Si no, se debe revisar el objetivo, la prueba de escritorio o la transcripción<a href="#footnote-20" class="footnote-ref">[20]</a>.</li>
+                    </ol>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="lightbulb" class="w-6 h-6 text-amber-500"></i> Ejemplo: Determinar si un Número es Par</h3>
+                    <p class="text-stone-700 mb-4">Vamos a aplicar la metodología para resolver un problema clásico: leer un número entero y determinar si es par.</p>
+                    <h4 class="text-lg font-semibold mt-4 mb-2">Pseudocódigo (Versión Técnica)<a href="#footnote-21" class="footnote-ref">[21]</a>:</h4>
+                    <div class="code-block mb-4">
+                        <pre><code>Proceso Numero_Par
+    Variables
+        Entero : num
+    Inicio
+        Escriba "Digite un número entero"
+        Lea num
+        Si num < 0 Entonces
+            Escriba "El número debe ser positivo"
+        Sino
+            Si num / 2 * 2 = num Entonces
+                Escriba "El número leído es par"
+            Sino
+                Escriba "El número leído no es par"
+            FinSi
+        FinSi
+    Fin
+</code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                    <h4 class="text-lg font-semibold mt-4 mb-2">Código Python:</h4>
+                    <div class="code-block mb-4">
+                        <pre><code>num = int(input("Digite un número entero: "))
+
+if num < 0:
+    print("El número debe ser positivo")
+else:
+    # La lógica para saber si es par en aritmética entera
+    if num // 2 * 2 == num: # Usamos // para división entera
+        print("El número leído es par")
+    else:
+        print("El número leído no es par")
+                        </code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                    <div class="p-6 bg-stone-100 rounded-md">
+                        <h5 class="text-lg font-semibold mb-2">¡Prueba este código!</h5>
+                        <p class="text-sm text-stone-700">Copia el código Python en tu entorno de desarrollo o en la consola simulada de la clase anterior para ver cómo funciona.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 p-6 bg-blue-50 rounded-xl shadow-inner">
+                <h3 class="text-xl font-bold text-blue-800 mb-2">¡Ejercicio en Clase! 🧑‍💻</h3>
+                <p class="text-blue-700 mb-4">En parejas, apliquen la metodología completa para el siguiente problema:</p>
+                <ul class="list-disc list-inside text-blue-700 space-y-2">
+                    <li><strong>Problema:</strong> Leer dos números enteros y determinar si el último dígito de un número es igual al último dígito del otro.</li>
+                    <li><strong>Pasos:</strong>
+                        <ol class="list-decimal list-inside ml-4">
+                            <li>Clarificación del Objetivo (Análisis: Entrada, Proceso, Salida).</li>
+                            <li>Diseño del Algoritmo (en pseudocódigo).</li>
+                            <li>Realización de la Prueba de Escritorio (con al menos dos escenarios: dígitos iguales y diferentes).</li>
+                            <li>(Opcional para los más avanzados) Transcripción a Python.</li>
+                        </ol>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="decisiones" class="scroll-mt-20 mb-16 bg-white p-8 rounded-xl shadow-lg">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">3. Decisiones: Controlando el Flujo Condicional</h2>
+                <p class="mt-2 text-md text-stone-600">Una decisión es la elección de uno entre varios caminos lógicos, dependiendo de una condición<a href="#footnote-22" class="footnote-ref">[22]</a>. En programación, esto nos permite que el programa reaccione de diferentes maneras según los datos o el estado actual.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="git-merge" class="w-6 h-6 text-purple-500"></i> Estructura `Si-Entonces-Sino` (if-else)</h3>
+                    <p class="text-stone-700 mb-4">Es la estructura de decisión más común. Permite ejecutar un bloque de código si una condición es verdadera, y otro bloque si es falsa<a href="#footnote-23" class="footnote-ref">[23]</a>.</p>
+                    <h4 class="text-lg font-semibold mt-4 mb-2">Pseudocódigo Básico:</h4>
+                    <div class="code-block mb-4">
+                        <pre><code>Si Condicion Entonces
+    // Instrucciones si la condición es Verdadera
+Sino
+    // Instrucciones si la condición es Falsa
+FinSi
+</code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                    <h4 class="text-lg font-semibold mt-4 mb-2">Variaciones Comunes:</h4>
+                    <ul class="list-disc list-inside text-stone-700 space-y-1">
+                        <li><strong>Decisión Simple:</strong> Solo tiene el bloque `Si-Entonces`. No hay `Sino` si no se necesita una acción para el caso falso<a href="#footnote-24" class="footnote-ref">[24]</a>.</li>
+                        <li><strong>Decisión en Cascada (`elif`):</strong> Múltiples `Si-Entonces` anidados en los `Sino`, para evaluar varias condiciones en orden. Si una se cumple, las demás no se evalúan<a href="#footnote-25" class="footnote-ref">[25]</a>.</li>
+                        <li><strong>Decisión en Secuencia:</strong> Varios `Si` independientes. Todas las condiciones se evalúan, y se ejecutan los bloques correspondientes si son verdaderos. Se usa cuando las condiciones no son mutuamente excluyentes o cuando se necesita evaluar todas<a href="#footnote-26" class="footnote-ref">[26]</a>.</li>
+                        <li><strong>Decisión Anidada:</strong> Un `Si-Entonces-Sino` completo dentro de otro `Si-Entonces-Sino`. Permite evaluar condiciones más complejas donde una depende de la otra<a href="#footnote-27" class="footnote-ref">[27]</a>.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="list-tree" class="w-6 h-6 text-teal-500"></i> Estructura `Casos` (Selección Múltiple)</h3>
+                    <p class="text-stone-700 mb-4">Esta estructura permite abreviar una serie de decisiones en cascada o en secuencia cuando se compara una variable con múltiples valores específicos. Ejecuta instrucciones que coinciden con el valor de una variable<a href="#footnote-28" class="footnote-ref">[28]</a>.</p>
+                    <h4 class="text-lg font-semibold mt-4 mb-2">Pseudocódigo:</h4>
+                    <div class="code-block mb-4">
+                        <pre><code>Evalúe (variable)
+    Si vale (valor_1) : Instrucciones para valor_1
+    Si vale (valor_2) : Instrucciones para valor_2
+    ...
+    Si vale (valor_n) : Instrucciones para valor_n
+    Sino : Instrucciones si no coincide con ningún valor anterior
+Fin_Evalúe
+                        </code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                    <p class="text-stone-700 mt-4"><strong>Ventaja:</strong> Más legible y eficiente que muchos `if-elif-else` anidados para comparaciones de igualdad.</p>
+                    <h4 class="text-lg font-semibold mt-4 mb-2">Ejemplo: Día de la Semana con `Casos`</h4>
+                    <p class="text-stone-700 mb-2">Lee un número del 1 al 7 y muestra el día de la semana correspondiente.</p>
+                    <div class="code-block mb-4">
+                        <pre><code>Proceso dia_de_la_semana
+    Definir dia Como Entero
+    Escribir "Ingrese un número del 1 al 7:"
+    Leer dia
+
+    Segun dia Hacer
+        1: Escribir "Lunes"
+        2: Escribir "Martes"
+        3: Escribir "Miércoles"
+        4: Escribir "Jueves"
+        5: Escribir "Viernes"
+        6: Escribir "Sábado"
+        7: Escribir "Domingo"
+        De Otro Modo: Escribir "No pertenece a un día de la semana"
+    Fin Segun
+FinProceso
+                        </code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 p-6 bg-blue-50 rounded-xl shadow-inner">
+                <h3 class="text-xl font-bold text-blue-800 mb-2">¡Ejercicio en Clase! 🧑‍💻</h3>
+                <p class="text-blue-700 mb-4">En pseudocódigo, resuelve el siguiente problema utilizando la estructura de decisión más adecuada:</p>
+                <ul class="list-disc list-inside text-blue-700 space-y-2">
+                    <li><strong>Problema:</strong> Una frutería ofrece descuentos según la cantidad de manzanas compradas:
+                        <ul class="list-circle list-inside ml-4">
+                            <li>0-4 manzanas: 0% de descuento</li>
+                            <li>5-8 manzanas: 10% de descuento</li>
+                            <li>9-12 manzanas: 15% de descuento</li>
+                            <li>13 o más manzanas: 20% de descuento</li>
+                        </ul>
+                    </li>
+                    <li><strong>Tarea:</strong> Elabora un algoritmo que pida la cantidad de manzanas y el precio por manzana, y determine cuánto pagará el cliente.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="ciclos" class="scroll-mt-20 mb-16 bg-white p-8 rounded-xl shadow-lg">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">4. Ciclos: Automatizando Tareas Repetitivas</h2>
+                <p class="mt-2 text-md text-stone-600">Los ciclos, también conocidos como estructuras repetitivas o bucles, permiten ejecutar un conjunto de acciones las veces que sea necesario, siempre y cuando se cumpla una condición<a href="#footnote-29" class="footnote-ref">[29]</a>. Son fundamentales para automatizar tareas y evitar escribir código repetitivo.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="counterclockwise-arrow" class="w-6 h-6 text-purple-500"></i> Conceptos Clave en Ciclos</h3>
+                    <ul class="list-disc list-inside text-stone-700 mb-4 space-y-1">
+                        <li><strong>Contador:</strong> Una variable de tipo entero que se incrementa o disminuye en un valor constante en cada repetición. Se usa para "conocer el número de veces que se repite un procedimiento"<a href="#footnote-30" class="footnote-ref">[30]</a>. Ej: `contador = contador + 1`.</li>
+                        <li><strong>Acumulador (o Totalizador):</strong> Una variable que almacena cantidades resultantes de procesos sucesivos. Se incrementa con un valor variable en cada repetición<a href="#footnote-31" class="footnote-ref">[31]</a>. Ej: `total = total + valor_venta`.</li>
+                    </ul>
+                    <h3 class="text-xl font-bold mt-6 mb-3 flex items-center gap-2"><i data-lucide="repeat" class="w-6 h-6 text-blue-500"></i> Tipos de Ciclos</h3>
+                    <p class="text-stone-700 mb-4">La mayoría de lenguajes de programación ofrecen tres formas principales de ciclos<a href="#footnote-32" class="footnote-ref">[32]</a>:</p>
+                    <ul class="list-disc list-inside text-stone-700 space-y-1">
+                        <li><strong>Ciclo `Mientras` (While):</strong> Controla la ejecución de instrucciones basándose en una expresión lógica. El bloque de código se repite <em>mientras</em> la condición sea verdadera. La condición se evalúa <em>antes</em> de cada iteración.</li>
+                        <li><strong>Ciclo `Repetir` (Do-While / Repeat-Until):</strong> Primero realiza las acciones y <em>después</em> comprueba la expresión lógica. Esto garantiza que las acciones se ejecuten al menos una vez. El bloque se repite hasta que la condición sea verdadera.</li>
+                        <li><strong>Ciclo `Para` (For):</strong> Permite implementar un conjunto de instrucciones un número <em>predeterminado</em> de veces. Utiliza una variable de control con un valor de inicio, un valor final y un incremento/decremento.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="code" class="w-6 h-6 text-green-500"></i> Ejemplos en Pseudocódigo y Python</h3>
+                    <h4 class="text-lg font-semibold mt-4 mb-2">Ciclo `Mientras` (Mostrar números del 1 al 10)<a href="#footnote-33" class="footnote-ref">[33]</a>:</h4>
+                    <div class="code-block mb-4">
+                        <pre><code>Proceso ImprimirNumerosMientras
+    Definir num Como Entero;
+    num = 1;
+    Mientras num <= 10 Hacer
+        Escribir num;
+        num = num + 1;
+    FinMientras
+FinProceso
+</code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                    <h4 class="text-lg font-semibold mt-4 mb-2">Ciclo `Repetir` (Mostrar números del 1 al 10)<a href="#footnote-34" class="footnote-ref">[34]</a>:</h4>
+                    <div class="code-block mb-4">
+                        <pre><code>Proceso ImprimirNumerosRepetir
+    Definir num Como Entero;
+    num = 1;
+    Repetir
+        Escribir num;
+        num = num + 1;
+    Hasta Que num > 10
+FinProceso
+</code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                    <h4 class="text-lg font-semibold mt-4 mb-2">Ciclo `Para` (Mostrar números del 1 al 10)<a href="#footnote-35" class="footnote-ref">[35]</a>:</h4>
+                    <div class="code-block mb-4">
+                        <pre><code>Proceso ImprimirNumerosPara
+    Definir num Como Entero;
+    Para num = 1 Hasta 10 Con Paso 1 Hacer
+        Escribir num;
+    FinPara
+FinProceso
+</code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 p-6 bg-blue-50 rounded-xl shadow-inner">
+                <h3 class="text-xl font-bold text-blue-800 mb-2">¡Ejercicio en Clase! 🧑‍💻</h3>
+                <p class="text-blue-700 mb-4">En pseudocódigo, resuelve el siguiente problema utilizando los tres tipos de ciclos (`Mientras`, `Repetir`, `Para`).</p>
+                <ul class="list-disc list-inside text-blue-700 space-y-2">
+                    <li><strong>Problema:</strong> Crear un algoritmo que capture un número entero y realice la tabla de multiplicar de dicho número del 1 al 10.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="notas-al-pie" class="scroll-mt-20 bg-stone-200 p-8 rounded-xl shadow-lg mt-16">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6 text-center">Notas al Pie</h2>
+            <ol class="list-decimal list-inside text-stone-700 space-y-2">
+                <li><a id="footnote-1-ref" href="#footnote-1-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 95)</a></li>
+                <li><a id="footnote-2-ref" href="#footnote-2-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 96)</a></li>
+                <li><a id="footnote-3-ref" href="#footnote-3-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 97)</a></li>
+                <li><a id="footnote-4-ref" href="#footnote-4-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 99)</a></li>
+                <li><a id="footnote-5-ref" href="#footnote-5-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 100)</a></li>
+                <li><a id="footnote-6-ref" href="#footnote-6-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 100)</a></li>
+                <li><a id="footnote-7-ref" href="#footnote-7-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 101)</a></li>
+                <li><a id="footnote-8-ref" href="#footnote-8-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 102)</a></li>
+                <li><a id="footnote-9-ref" href="#footnote-9-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 103)</a></li>
+                <li><a id="footnote-10-ref" href="#footnote-10-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 103)</a></li>
+                <li><a id="footnote-11-ref" href="#footnote-11-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 109)</a></li>
+                <li><a id="footnote-12-ref" href="#footnote-12-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 110)</a></li>
+                <li><a id="footnote-13-ref" href="#footnote-13-ref">Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 28)</a></li>
+                <li><a id="footnote-14-ref" href="#footnote-14-ref">Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 28)</a></li>
+                <li><a id="footnote-15-ref" href="#footnote-15-ref">Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 30)</a></li>
+                <li><a id="footnote-16-ref" href="#footnote-16-ref">Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 32)</a></li>
+                <li><a id="footnote-17-ref" href="#footnote-17-ref">Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 32)</a></li>
+                <li><a id="footnote-18-ref" href="#footnote-18-ref">Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 33)</a></li>
+                <li><a id="footnote-19-ref" href="#footnote-19-ref">Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 34)</a></li>
+                <li><a id="footnote-20-ref" href="#footnote-20-ref">Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 34)</a></li>
+                <li><a id="footnote-21-ref" href="#footnote-21-ref">Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 117)</a></li>
+                <li><a id="footnote-22-ref" href="#footnote-22-ref">Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 149)</a></li>
+                <li><a id="footnote-23-ref" href="#footnote-23-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 45)</a></li>
+                <li><a id="footnote-24-ref" href="#footnote-24-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 46)</a></li>
+                <li><a id="footnote-25-ref" href="#footnote-25-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 49)</a></li>
+                <li><a id="footnote-26-ref" href="#footnote-26-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 53)</a></li>
+                <li><a id="footnote-27-ref" href="#footnote-27-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 56)</a></li>
+                <li><a id="footnote-28-ref" href="#footnote-28-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 61)</a></li>
+                <li><a id="footnote-29-ref" href="#footnote-29-ref">Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U. (p. 171); Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 64)</a></li>
+                <li><a id="footnote-30-ref" href="#footnote-30-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 64)</a></li>
+                <li><a id="footnote-31-ref" href="#footnote-31-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 64)</a></li>
+                <li><a id="footnote-32-ref" href="#footnote-32-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 176)</a></li>
+                <li><a id="footnote-33-ref" href="#footnote-33-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 67)</a></li>
+                <li><a id="footnote-34-ref" href="#footnote-34-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 70)</a></li>
+                <li><a id="footnote-35-ref" href="#footnote-35-ref">Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD. (p. 73)</a></li>
+            </ol>
+        </section>
+
+        <section id="referencias" class="scroll-mt-20 bg-stone-200 p-8 rounded-xl shadow-lg mt-16">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6 text-center">Referencias</h2>
+            <ul class="list-disc list-inside text-stone-700 space-y-3">
+                <li>Diccionario de la Lengua Española. (2019). *Real Academia Española*. Recuperado de https://dle.rae.es/</li>
+                <li>García Cano, E. E. (s.f.). *Guía práctica de estudio 04: Pseudocódigo*.</li>
+                <li>Regino, E. M. (s.f.). *Lógica de programación*.</li>
+                <li>Salazar Guaña, C. E. (2022). *Lógica de Programación*. Instituto Superior Tecnológico CEMLAD.</li>
+                <li>Trejos Buriticá, O. I. (2017). *Lógica de programación*. Ediciones de la U.</li>
+                <li>WIKIPEDIA. (2019). *WIKIPEDIA*. Recuperado de https://es.wikipedia.org/wiki/L%C3%B3gica</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+            <p>&copy; 2024 Clase de Lógica de Programación. Inspirado en el trabajo de Carlos Salazar Guaña y Omar Iván Trejos Buriticá.</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Interactive elements for Decision section
+            const decisionBtn = document.getElementById('decisionBtn');
+            const decisionInput = document.getElementById('decisionInput');
+            const pathCondition = document.getElementById('pathCondition');
+            const pathYes = document.getElementById('pathYes');
+            const pathNo = document.getElementById('pathNo');
+
+            const resetPaths = () => {
+                if (pathCondition) pathCondition.classList.remove('bg-green-200', 'text-green-800', 'bg-red-200', 'text-red-800');
+                if (pathYes) pathYes.classList.remove('bg-green-200', 'text-green-800');
+                if (pathNo) pathNo.classList.remove('bg-red-200', 'text-red-800');
+            };
+
+            if (decisionBtn && decisionInput) {
+                decisionBtn.addEventListener('click', () => {
+                    resetPaths();
+                    const value = parseInt(decisionInput.value);
+
+                    if (isNaN(value)) return;
+
+                    setTimeout(() => {
+                        if (value === 10) {
+                            if (pathCondition) pathCondition.classList.add('bg-green-200', 'text-green-800');
+                            if (pathYes) setTimeout(() => pathYes.classList.add('bg-green-200', 'text-green-800'), 500);
+                        } else {
+                            if (pathCondition) pathCondition.classList.add('bg-red-200', 'text-red-800');
+                            if (pathNo) setTimeout(() => pathNo.classList.add('bg-red-200', 'text-red-800'), 500);
+                        }
+                    }, 100);
+                });
+            }
+
+
+            // Interactive elements for Cycles section
+            const cycleBtn = document.getElementById('cycleBtn');
+            const cycleOutput = document.getElementById('cycleOutput');
+
+            if (cycleBtn && cycleOutput) {
+                cycleBtn.addEventListener('click', () => {
+                    cycleOutput.innerHTML = '';
+                    cycleBtn.disabled = true;
+                    let i = 1;
+                    const interval = setInterval(() => {
+                        if (i > 10) {
+                            clearInterval(interval);
+                            cycleBtn.disabled = false;
+                            return;
+                        }
+                        const li = document.createElement('li');
+                        li.textContent = i;
+                        li.className = 'bg-stone-200 p-2 rounded-md animate-pulse';
+                        cycleOutput.appendChild(li);
+                        setTimeout(() => li.classList.remove('animate-pulse'), 200);
+                        i++;
+                    }, 200);
+                });
+            }
+
+            // Interactive elements for "A Programar!" section (Calculadora Simple)
+            const calcBtn = document.getElementById('calcBtn');
+            const calcNum1 = document.getElementById('calcNum1');
+            const calcNum2 = document.getElementById('calcNum2');
+            const calcOutput = document.getElementById('calcOutput');
+
+            if (calcBtn && calcNum1 && calcNum2 && calcOutput) {
+                calcBtn.addEventListener('click', () => {
+                    const n1 = parseFloat(calcNum1.value);
+                    const n2 = parseFloat(calcNum2.value);
+
+                    if(isNaN(n1) || isNaN(n2)) {
+                        calcOutput.textContent = "Por favor, ingresa dos números válidos.";
+                        return;
+                    }
+
+                    const suma = n1 + n2;
+                    const resta = n1 - n2;
+                    const multi = n1 * n2;
+                    let div;
+
+                    if (n2 !== 0) {
+                        div = n1 / n2;
+                    } else {
+                        div = "Indefinida (división por cero)";
+                    }
+
+                    calcOutput.innerHTML = `> Suma: ${suma}\n> Resta: ${resta}\n> Multiplicación: ${multi}\n> División: ${div}`;
+                });
+            }
+
+            // Interactive elements for "A Programar!" section (Verificador de Edad)
+            const ageBtn = document.getElementById('ageBtn');
+            const ageInput = document.getElementById('ageInput');
+            const ageOutput = document.getElementById('ageOutput');
+
+            if (ageBtn && ageInput && ageOutput) {
+                ageBtn.addEventListener('click', () => {
+                    const age = parseInt(ageInput.value);
+                    if (isNaN(age) || age < 0) {
+                         ageOutput.textContent = "> Ingresa una edad válida.";
+                         return;
+                    }
+
+                    if (age > 17) {
+                        ageOutput.textContent = "> Eres mayor de edad.";
+                    } else {
+                        ageOutput.textContent = "> Eres menor de edad.";
+                    }
+                });
+            }
+
+            // Interactive elements for "A Programar!" section (Tabla de Multiplicar)
+            const multTableBtn = document.getElementById('multTableBtn');
+            const multTableInput = document.getElementById('multTableInput');
+            const multTableOutput = document.getElementById('multTableOutput');
+
+            if (multTableBtn && multTableInput && multTableOutput) {
+                multTableBtn.addEventListener('click', () => {
+                    const numero = parseInt(multTableInput.value);
+                    if (isNaN(numero)) {
+                        multTableOutput.textContent = "Por favor, ingresa un número válido.";
+                        return;
+                    }
+
+                    let output = '';
+                    for (let i = 1; i <= 10; i++) {
+                        output += `${numero} x ${i} = ${numero * i}\n`;
+                    }
+                    multTableOutput.textContent = output;
+                });
+            }
+
+            // Copy to clipboard functionality
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetCodeBlock = button.previousElementSibling;
+                    const codeToCopy = targetCodeBlock.textContent.trim();
+                    navigator.clipboard.writeText(codeToCopy).then(() => {
+                        const originalText = button.textContent;
+                        button.textContent = '¡Copiado!';
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                        }, 1500);
+                    }).catch(err => {
+                        console.error('Error al copiar: ', err);
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 1: Introducción a Python</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chosen Palette: Modern Tech (Blues, Greens, Grays) -->
+    <!-- Application Structure Plan: La SPA está diseñada como una guía de clase lineal y progresiva. Incluye: 1) Una introducción motivacional a Python. 2) Una sección sobre el intérprete y Python como calculadora, con un simulador de consola. 3) Una introducción informal a tipos de datos (números, cadenas, listas) con ejemplos de código. 4) Una sección detallada sobre herramientas de control de flujo (if, for, range, break/continue) con simuladores y ejercicios. Esta estructura permite una clase guiada, con pausas para la práctica interactiva y la discusión. -->
+    <!-- Visualization & Content Choices:
+        - Introducción: Goal:Motivate -> Method:Hero section with engaging text. Justification:Captar el interés inicial.
+        - Intérprete/Calculadora: Goal:Explain/Practice -> Method:Text, code blocks, and a simulated interactive console. Justification:Permite a los estudiantes experimentar Python de inmediato sin instalaciones.
+        - Tipos de Datos: Goal:Explain/Illustrate -> Method:Text, code blocks with pre-defined outputs, simple diagrams for indexing/slicing. Justification:Clarificar conceptos fundamentales con ejemplos directos.
+        - Control de Flujo: Goal:Explain/Practice -> Method:Text, code blocks, interactive "run code" buttons for examples, simple visual representations of flow. Justification:Demostrar cómo la lógica se traduce en control de programa y permitir la experimentación.
+        - Ejercicios en Clase: Goal:Reinforce -> Method:Dedicated sections with simple prompts and space for mental or simulated execution. Justification:Fomentar la aplicación inmediata de conocimientos.
+        - Icons: Lucide icons para todos los elementos visuales.
+        - Library/Method: Vanilla JS para toda la lógica interactiva, Tailwind CSS para el diseño y responsividad. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .nav-link.active { color: #2563eb; font-weight: 600; } /* Tailwind blue-600 */
+        .code-block {
+            background-color: #1f2937; /* Tailwind gray-800 */
+            color: #f9fafb; /* Tailwind gray-50 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            position: relative;
+        }
+        .code-block pre { margin: 0; }
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #374151; /* Tailwind gray-700 */
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+        .simulated-console {
+            background-color: #0f172a; /* Tailwind slate-900 */
+            color: #e2e8f0; /* Tailwind slate-200 */
+            font-family: 'monospace', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-top: 1rem;
+        }
+        .console-input {
+            background-color: #1e293b; /* Tailwind slate-800 */
+            color: #e2e8f0;
+            border: 1px solid #475569; /* Tailwind slate-600 */
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800">
+
+    <header id="navbar" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-xl font-bold text-blue-600">Python 101</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#introduccion" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-blue-600 transition-colors duration-300">Introducción</a>
+                        <a href="#interprete" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-blue-600 transition-colors duration-300">El Intérprete</a>
+                        <a href="#tipos-datos" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-blue-600 transition-colors duration-300">Tipos de Datos</a>
+                        <a href="#control-flujo" class="nav-link px-3 py-2 rounded-md text-sm font-medium text-stone-600 hover:text-blue-600 transition-colors duration-300">Control de Flujo</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+
+        <section id="introduccion" class="text-center mb-16">
+            <h1 class="text-4xl sm:text-5xl font-bold text-stone-900 leading-tight">¡Bienvenido al Mundo de Python! 🐍</h1>
+            <p class="mt-4 text-lg text-stone-600 max-w-3xl mx-auto">Python es uno de los lenguajes de programación más populares y versátiles del mundo. Es conocido por su simplicidad, legibilidad y una comunidad enorme que lo apoya. Desde el desarrollo web hasta la inteligencia artificial, Python está en todas partes. ¡Prepárate para dar tus primeros pasos!</p>
+            <div class="mt-8 flex justify-center">
+                <i data-lucide="sparkles" class="w-24 h-24 text-yellow-500"></i>
+            </div>
+        </section>
+
+        <section id="interprete" class="scroll-mt-20 mb-16 bg-white p-8 rounded-xl shadow-lg">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">1. Apetece Python & 2. Usando el Intérprete de Python</h2>
+                <p class="mt-2 text-md text-stone-600">El intérprete de Python es tu puerta de entrada al lenguaje. Te permite escribir y ejecutar código línea por línea, ¡como una conversación con la computadora! Es perfecto para experimentar y aprender.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="terminal" class="w-6 h-6 text-blue-500"></i> El Intérprete como Calculadora</h3>
+                    <p class="text-stone-700 mb-4">Puedes usar Python para realizar operaciones matemáticas básicas. Prueba a escribir operaciones y presionar Enter en la consola de abajo para ver los resultados.</p>
+                    <ul class="list-disc list-inside text-stone-700 mb-4 space-y-1">
+                        <li>`+` Suma</li>
+                        <li>`-` Resta</li>
+                        <li>`*` Multiplicación</li>
+                        <li>`/` División (siempre devuelve un flotante)</li>
+                        <li>`//` División entera (descarta la parte decimal)</li>
+                        <li>`%` Módulo (el resto de la división)</li>
+                        <li>`**` Potencia</li>
+                    </ul>
+                    <p class="text-stone-700 mb-4">Python maneja números enteros (como 2) y números de punto flotante (como 3.14). ¡También respeta el orden de las operaciones!</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="code" class="w-6 h-6 text-green-500"></i> ¡Tu Primera Consola de Python! (Simulada)</h3>
+                    <p class="text-stone-700">Escribe tus operaciones o código Python aquí y presiona `Enter` o el botón "Ejecutar".</p>
+                    <div id="pythonConsoleOutput" class="simulated-console"></div>
+                    <input type="text" id="pythonConsoleInput" class="console-input" placeholder=">>> Escribe tu código aquí...">
+                    <button id="runConsoleBtn" class="mt-2 w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">Ejecutar</button>
+                </div>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="text-select" class="w-6 h-6 text-purple-500"></i> Cadenas de Texto (Strings)</h3>
+                <p class="text-stone-700 mb-4">Las cadenas de texto se usan para almacenar palabras, frases o cualquier secuencia de caracteres. Se encierran entre comillas simples (`'...'`) o dobles (`"..."`).</p>
+                <div class="code-block mb-4">
+                    <pre><code>'Hola Mundo'
+"Python es genial"
+'No puedes usar "comillas dobles" aquí' # Esto causaría un error
+"Puedes usar 'comillas simples' aquí"
+'C:\algun\nombre' # \n es un salto de línea!
+r'C:\algun\nombre' # r al inicio crea una "cadena cruda" (raw string), ignorando \n
+print("Primera línea\nSegunda línea") # \n crea un salto de línea
+print("Hola" + " " + "Mundo") # Concatenación de cadenas
+print("Python" * 3) # Repetición de cadenas
+mi_cadena = "abcdefg"
+print(mi_cadena[0]) # Indexación: 'a' (el primer carácter está en la posición 0)
+print(mi_cadena[1:4]) # Slicing: 'bcd' (desde el índice 1 hasta antes del 4)
+print(len(mi_cadena)) # len() devuelve la longitud de la cadena
+                    </code></pre>
+                    <button class="copy-btn">Copiar</button>
+                </div>
+                <p class="text-stone-700 mt-4">Las cadenas son <strong>inmutables</strong>, lo que significa que no puedes cambiar un carácter individual en una cadena existente.</p>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="list" class="w-6 h-6 text-red-500"></i> Listas</h3>
+                <p class="text-stone-700 mb-4">Las listas son colecciones ordenadas y <strong>mutables</strong> de elementos. Puedes almacenar diferentes tipos de datos en una misma lista.</p>
+                <div class="code-block mb-4">
+                    <pre><code>mis_numeros = [10, 20, 30, 40, 50]
+print(mis_numeros[0]) # Acceder a un elemento: 10
+print(mis_numeros[1:3]) # Slicing: [20, 30]
+print(mis_numeros + [60, 70]) # Concatenar listas
+mis_numeros[0] = 5 # Las listas son mutables: cambia el primer elemento a 5
+print(mis_numeros) # [5, 20, 30, 40, 50]
+mis_numeros.append(60) # Añadir un elemento al final
+print(mis_numeros) # [5, 20, 30, 40, 50, 60]
+mis_numeros[1:3] = [] # Asignar una lista vacía a un slice para eliminar elementos
+print(mis_numeros) # [5, 40, 50, 60]
+print(len(mis_numeros)) # Longitud de la lista
+                    </code></pre>
+                    <button class="copy-btn">Copiar</button>
+                </div>
+                <p class="text-stone-700 mt-4">Las listas son muy flexibles y se usan constantemente en Python.</p>
+            </div>
+
+            <div class="mt-12 p-6 bg-blue-50 rounded-xl shadow-inner">
+                <h3 class="text-xl font-bold text-blue-800 mb-2">¡Ejercicio en Clase! 🧑‍💻</h3>
+                <p class="text-blue-700 mb-4">Usa la consola de Python (simulada) para probar los siguientes comandos:</p>
+                <ul class="list-disc list-inside text-blue-700 space-y-2">
+                    <li>Calcula el resultado de `(5 + 3) * 2 - 10 / 5`.</li>
+                    <li>Crea una cadena con tu nombre completo y usa `len()` para saber cuántos caracteres tiene.</li>
+                    <li>Crea una lista con tus 3 comidas favoritas. Luego, accede al segundo elemento.</li>
+                    <li>Intenta cambiar una letra de tu nombre en la cadena que creaste (ej: `mi_nombre[0] = 'J'`). ¿Qué ocurre? (¡Recuerda que las cadenas son inmutables!)</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="tipos-datos" class="scroll-mt-20 mb-16 bg-white p-8 rounded-xl shadow-lg">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">3. Una Introducción Informal a Python (Tipos de Datos)</h2>
+                <p class="mt-2 text-md text-stone-600">En esta sección profundizaremos un poco más en los tipos de datos fundamentales de Python y cómo se manejan.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="hash" class="w-6 h-6 text-indigo-500"></i> Números</h3>
+                    <p class="text-stone-700 mb-4">Python soporta números enteros (`int`), números de punto flotante (`float`) y números complejos. Las operaciones aritméticas se comportan como esperarías.</p>
+                    <div class="code-block mb-4">
+                        <pre><code># Números enteros (int)
+entero_a = 10
+entero_b = -5
+print(type(entero_a)) # <class 'int'>
+
+# Números de punto flotante (float)
+flotante_a = 3.14
+flotante_b = 2.0
+print(type(flotante_a)) # <class 'float'>
+
+# Operaciones mixtas
+resultado_mixto = entero_a + flotante_b
+print(resultado_mixto) # 12.0 (el resultado es float)
+print(type(resultado_mixto)) # <class 'float'>
+                        </code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="quote" class="w-6 h-6 text-amber-500"></i> Cadenas (Strings) - Inmutabilidad</h3>
+                    <p class="text-stone-700 mb-4">Ya vimos que las cadenas son secuencias de caracteres. Es vital recordar que son <strong>inmutables</strong>. Esto significa que una vez que creas una cadena, no puedes cambiar sus caracteres individuales. Si necesitas una cadena modificada, debes crear una nueva.</p>
+                    <div class="code-block mb-4">
+                        <pre><code>saludo = "Hola"
+# saludo[0] = 'h' # Esto daría un error: TypeError
+nuevo_saludo = 'h' + saludo[1:] # Creamos una nueva cadena
+print(nuevo_saludo) # hola
+
+# Métodos útiles de cadenas
+nombre = "juan perez"
+print(nombre.capitalize()) # Juan perez
+print(nombre.upper()) # JUAN PEREZ
+print(nombre.replace("perez", "gomez")) # juan gomez
+                        </code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="list-checks" class="w-6 h-6 text-teal-500"></i> Listas - Mutabilidad y Métodos</h3>
+                <p class="text-stone-700 mb-4">Las listas son muy potentes porque son <strong>mutables</strong> (puedes cambiar sus elementos) y pueden contener elementos de diferentes tipos.</p>
+                <div class="code-block mb-4">
+                    <pre><code>frutas = ['manzana', 'banana', 'cereza']
+print(frutas)
+
+# Modificar un elemento
+frutas[0] = 'kiwi'
+print(frutas) # ['kiwi', 'banana', 'cereza']
+
+# Añadir elementos
+frutas.append('naranja') # Añade al final
+print(frutas) # ['kiwi', 'banana', 'cereza', 'naranja']
+frutas.insert(1, 'uva') # Inserta en una posición específica
+print(frutas) # ['kiwi', 'uva', 'banana', 'cereza', 'naranja']
+
+# Eliminar elementos
+frutas.pop() # Elimina el último elemento
+print(frutas) # ['kiwi', 'uva', 'banana', 'cereza']
+frutas.remove('uva') # Elimina el primer elemento con ese valor
+print(frutas) # ['kiwi', 'banana', 'cereza']
+
+# Otras operaciones
+print(len(frutas)) # Longitud
+print('banana' in frutas) # ¿Está 'banana' en la lista? (True)
+                    </code></pre>
+                    <button class="copy-btn">Copiar</button>
+                </div>
+            </div>
+
+            <div class="mt-12 p-6 bg-blue-50 rounded-xl shadow-inner">
+                <h3 class="text-xl font-bold text-blue-800 mb-2">¡Ejercicio en Clase! 🧑‍💻</h3>
+                <p class="text-blue-700 mb-4">Copia y pega el siguiente código en la consola simulada y predice la salida. Luego, ejecútalo para verificar.</p>
+                <div class="code-block mb-4">
+                    <pre><code>mi_lista = ["rojo", "verde", "azul"]
+mi_lista.append("amarillo")
+mi_lista[0] = "blanco"
+print(mi_lista[1])
+print(len(mi_lista))
+mi_lista.remove("azul")
+print(mi_lista)
+                    </code></pre>
+                    <button class="copy-btn">Copiar</button>
+                </div>
+                <p class="text-blue-700 mt-4">¿Pudiste predecir correctamente todas las salidas? ¡Si no, no te preocupes, es parte del aprendizaje!</p>
+            </div>
+        </section>
+
+        <section id="control-flujo" class="scroll-mt-20 mb-16 bg-white p-8 rounded-xl shadow-lg">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-stone-900">4. Más Herramientas de Control de Flujo</h2>
+                <p class="mt-2 text-md text-stone-600">El control de flujo es la capacidad de tu programa para tomar decisiones y repetir acciones. ¡Aquí es donde la lógica de programación cobra vida en Python!</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="git-branch" class="w-6 h-6 text-purple-500"></i> 4.1 La Sentencia `if` (Condicionales)</h3>
+                    <p class="text-stone-700 mb-4">La sentencia `if` se usa para ejecutar código solo si una condición es verdadera. Puedes añadir `elif` (else if) para múltiples condiciones y `else` para un caso por defecto.</p>
+                    <ul class="list-disc list-inside text-stone-700 mb-4 space-y-1">
+                        <li><strong>Indentation es CLAVE:</strong> Python usa la indentación (espacios al inicio de la línea) para definir bloques de código. ¡No uses tabulaciones y espacios mezclados!</li>
+                    </ul>
+                    <div class="code-block mb-4">
+                        <pre><code>edad = 20
+
+if edad < 18:
+    print("Eres menor de edad.")
+elif edad >= 18 and edad < 65:
+    print("Eres un adulto.")
+else:
+    print("Eres un adulto mayor.")
+
+temperatura = 25
+
+if temperatura > 30:
+    print("Hace mucho calor.")
+elif temperatura > 20: # Esto significa entre 21 y 30
+    print("Temperatura agradable.")
+else:
+    print("Hace frío.")
+                        </code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="rotate-cw" class="w-6 h-6 text-teal-500"></i> 4.2 La Sentencia `for` (Bucles)</h3>
+                    <p class="text-stone-700 mb-4">La sentencia `for` se usa para iterar (recorrer) sobre los elementos de una secuencia (como una lista o una cadena) o sobre otros objetos iterables.</p>
+                    <div class="code-block mb-4">
+                        <pre><code># Iterar sobre una lista
+frutas = ["manzana", "banana", "cereza"]
+for fruta in frutas:
+    print(f"Me gusta la {fruta}")
+
+# Iterar sobre una cadena
+for letra in "Python":
+    print(letra)
+
+# 4.2.1 La función range()
+# Genera secuencias de números. Muy útil con for.
+for i in range(5): # Genera 0, 1, 2, 3, 4
+    print(i)
+
+for i in range(2, 6): # Genera 2, 3, 4, 5
+    print(i)
+
+for i in range(0, 10, 2): # Genera 0, 2, 4, 6, 8 (paso de 2)
+    print(i)
+                        </code></pre>
+                        <button class="copy-btn">Copiar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-xl font-bold mb-3 flex items-center gap-2"><i data-lucide="fast-forward" class="w-6 h-6 text-orange-500"></i> 4.2.2 `break`, `continue` y `else` en Bucles</h3>
+                <p class="text-stone-700 mb-4">Estas palabras clave te dan más control sobre cómo se comportan los bucles:</p>
+                <ul class="list-disc list-inside text-stone-700 mb-4 space-y-1">
+                    <li>`break`: Sale completamente del bucle.</li>
+                    <li>`continue`: Salta el resto del código de la iteración actual y pasa a la siguiente.</li>
+                    <li>`else` en bucles: El bloque `else` se ejecuta si el bucle termina *normalmente* (es decir, no por un `break`).</li>
+                </ul>
+                <div class="code-block mb-4">
+                    <pre><code># Ejemplo con break
+for numero in range(1, 10):
+    if numero == 5:
+        print("Encontré el 5, ¡saliendo del bucle!")
+        break
+    print(numero) # Imprime 1, 2, 3, 4
+
+# Ejemplo con continue
+for i in range(1, 6):
+    if i % 2 == 0: # Si es par
+        print(f"Saltando el número par {i}")
+        continue # Pasa a la siguiente iteración
+    print(f"Número impar: {i}") # Imprime 1, 3, 5
+
+# Ejemplo con else en bucle for
+for n in range(5):
+    print(n)
+else:
+    print("El bucle terminó sin un 'break'.")
+
+# Ejemplo con else en bucle for (con break)
+for n in range(5):
+    if n == 3:
+        print("Encontré el 3, rompiendo el bucle.")
+        break
+    print(n)
+else:
+    print("Este mensaje NO se imprimirá.")
+                        </code></pre>
+                    <button class="copy-btn">Copiar</button>
+                </div>
+            </div>
+
+            <div class="mt-12 p-6 bg-blue-50 rounded-xl shadow-inner">
+                <h3 class="text-xl font-bold text-blue-800 mb-2">¡Ejercicio en Clase! 🧑‍💻</h3>
+                <p class="text-blue-700 mb-4">Copia y pega los siguientes códigos en la consola simulada. Intenta predecir la salida antes de ejecutar.</p>
+                <div class="code-block mb-4">
+                    <pre><code># Ejercicio 1: if/elif/else
+puntuacion = 75
+if puntuacion >= 90:
+    print("Excelente")
+elif puntuacion >= 70:
+    print("Notable")
+else:
+    print("Necesitas mejorar")
+
+# Ejercicio 2: for y range
+total = 0
+for num in range(1, 5): # ¿Qué números incluye?
+    total += num
+print(f"La suma es: {total}")
+
+# Ejercicio 3: break y continue
+for x in range(10):
+    if x == 3:
+        continue
+    if x == 7:
+        break
+    print(x)
+                    </code></pre>
+                    <button class="copy-btn">Copiar</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-800 text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+            <p>&copy; 2024 Clase de Introducción a Python. Basado en el tutorial oficial de Python.</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Simulated Python Console Logic
+            const consoleInput = document.getElementById('pythonConsoleInput');
+            const consoleOutput = document.getElementById('pythonConsoleOutput');
+            const runConsoleBtn = document.getElementById('runConsoleBtn');
+
+            const simulatePython = (code) => {
+                let output = '';
+                try {
+                    // Basic simulation for common Python operations
+                    if (code.includes('print(') || code.includes('print ')) {
+                        // Very basic print simulation
+                        const printMatch = code.match(/print\((.*)\)/) || code.match(/print\s+(.*)/);
+                        if (printMatch && printMatch[1]) {
+                            let content = printMatch[1].trim();
+                            // Remove quotes for string literals
+                            if ((content.startsWith("'") && content.endsWith("'")) || (content.startsWith('"') && content.endsWith('"'))) {
+                                content = content.slice(1, -1);
+                            }
+                             // Basic f-string simulation
+                            if (content.includes('f"') || content.includes('f\'')) {
+                                content = content.replace(/f["'](.*?)["']/g, (match, p1) => {
+                                    return p1.replace(/\{(.*?)\}/g, (m, varName) => {
+                                        // This is a very simplistic eval, only for direct variable names
+                                        try {
+                                            return eval(varName); // UNSAFE in real world, but okay for this sandbox
+                                        } catch (e) {
+                                            return `{${varName}}`;
+                                        }
+                                    });
+                                });
+                            }
+                            output = content + '\n';
+                        } else {
+                            output = eval(code) + '\n'; // Direct eval for simple expressions
+                        }
+                    } else if (code.includes('=')) {
+                        eval(code); // For variable assignments, they persist in this scope
+                        output = ''; // No direct output for assignments
+                    } else if (code.includes('len(')) {
+                         const lenMatch = code.match(/len\((.*)\)/);
+                         if (lenMatch && lenMatch[1]) {
+                             const target = eval(lenMatch[1]);
+                             if (target && typeof target.length !== 'undefined') {
+                                 output = target.length + '\n';
+                             } else {
+                                 output = 'Error: len() argument has no length\n';
+                             }
+                         }
+                    }
+                    else {
+                        output = eval(code) + '\n'; // Direct eval for simple expressions
+                    }
+                } catch (e) {
+                    output = `Error: ${e.message}\n`;
+                }
+                return output;
+            };
+
+            const appendToConsole = (text, isInput = false) => {
+                const prefix = isInput ? '>>> ' : '';
+                consoleOutput.textContent += prefix + text;
+                consoleOutput.scrollTop = consoleOutput.scrollHeight; // Auto-scroll to bottom
+            };
+
+            runConsoleBtn.addEventListener('click', () => {
+                const code = consoleInput.value;
+                if (code.trim() === '') return;
+
+                appendToConsole(code + '\n', true);
+                const output = simulatePython(code);
+                appendToConsole(output);
+                consoleInput.value = ''; // Clear input
+            });
+
+            consoleInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevent default Enter behavior (new line)
+                    runConsoleBtn.click();
+                }
+            });
+
+
+            // Copy to clipboard functionality
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetCodeBlock = button.previousElementSibling;
+                    const codeToCopy = targetCodeBlock.textContent.trim();
+                    navigator.clipboard.writeText(codeToCopy).then(() => {
+                        const originalText = button.textContent;
+                        button.textContent = '¡Copiado!';
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                        }, 1500);
+                    }).catch(err => {
+                        console.error('Error al copiar: ', err);
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
