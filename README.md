@@ -38,6 +38,7 @@ Este repositorio nace con la misión de **reunir y compartir conocimiento valios
 | **🛠️ Herramientas** | IDEs, control de versiones, entornos de desarrollo |
 | **🧮 Lógica** | Pensamiento algorítmico y resolución de problemas |
 | **🐍 Python** | Lenguaje de programación versátil y popular |
+| **🎯 Quizzes** | Evaluaciones interactivas para medir progreso |
 | **📈 Desarrollo Web** | Frontend, backend, y tecnologías web |
 
 ### 🚀 Características
@@ -48,6 +49,7 @@ Este repositorio nace con la misión de **reunir y compartir conocimiento valios
 - ✅ **Código Abierto** - Contribuciones bienvenidas de la comunidad
 - ✅ **Gratuito** - Educación accesible para todos
 - ✅ **Interactivo** - Simuladores y ejercicios en línea
+- ✅ **Evaluaciones** - Quizzes para medir el progreso
 
 ---
 
@@ -92,16 +94,18 @@ This repository was created with the mission to **gather and share valuable know
 
 ```
 programming_course/
-├──  general/           # General topics and industry info
+├── 📁 general/           # General topics and industry info
 │   ├── tech_industries.html    # Tech industry trends and roles
 │   └── install_wsl.html        # WSL installation guide
-├──  logic_algo/        # Logic and algorithms
+├── 📁 logic_algo/        # Logic and algorithms
 │   ├── week_1.html             # Week 1 - Programming Logic Fundamentals
 │   └── week_2.html             # Week 2 - Advanced Programming Logic
-├──  python/            # Python programming
+├── 📁 python/            # Python programming
 │   └── week_1.html             # Week 1 - Introduction to Python
-├──  index.html         # Main navigation page
-└──  README.md
+├── 📁 quizzes/            # Interactive quizzes and assessments
+│   └── quiz_1.html             # Quiz 1 - Basic Concepts Assessment
+├── 📄 index.html         # Main navigation page
+└── 📄 README.md
 ```
 
 ### 🎯 Temas Cubiertos / Topics Covered
@@ -129,6 +133,12 @@ programming_course/
 - **Tipos de datos** básicos
 - **Control de flujo** con condicionales y bucles
 - **Ejercicios interactivos** y ejemplos prácticos
+
+#### 🎯 **Quizzes y Evaluaciones**
+- **Evaluaciones interactivas** para medir progreso
+- **Quizzes de conceptos** básicos y avanzados
+- **Retroalimentación inmediata** sobre respuestas
+- **Seguimiento del aprendizaje** continuo
 
 ---
 

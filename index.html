@@ -202,11 +202,11 @@
 
         <div class="stats">
             <div class="stat-card">
-                <div class="stat-number">3</div>
+                <div class="stat-number">4</div>
                 <div class="stat-label">Módulos</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">5+</div>
+                <div class="stat-number">6+</div>
                 <div class="stat-label">Temas</div>
             </div>
             <div class="stat-card">
@@ -214,8 +214,8 @@
                 <div class="stat-label">Gratuito</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">🌐</div>
-                <div class="stat-label">Accesible</div>
+                <div class="stat-number">🎯</div>
+                <div class="stat-label">Interactivo</div>
             </div>
         </div>
 
@@ -259,6 +259,16 @@
                 <div class="card-links">
                     <a href="python/week_1.html" class="card-link">
                         <i>🐍</i> Semana 1 - Introducción a Python
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><span class="emoji">🎯</span> Quizzes y Evaluaciones</h2>
+                <p>Pon a prueba tus conocimientos con quizzes interactivos que te ayudarán a evaluar tu progreso y reforzar los conceptos aprendidos.</p>
+                <div class="card-links">
+                    <a href="quizzes/quiz_1.html" class="card-link">
+                        <i>📝</i> Quiz 1 - Evaluación de Conceptos Básicos
                     </a>
                 </div>
             </div>
@@ -311,6 +321,16 @@
                         description: 'Desarrolla tu pensamiento computacional y lógico a través de algoritmos, estructuras de datos y técnicas de resolución de problemas.',
                         link: '🧠 Explicación Breve - Lógica y Algoritmos'
                     },
+                    python: {
+                        title: '🐍 Python',
+                        description: 'Aprende Python desde cero con ejemplos prácticos, ejercicios interactivos y proyectos reales para desarrollar tus habilidades de programación.',
+                        link: '🐍 Semana 1 - Introducción a Python'
+                    },
+                    quizzes: {
+                        title: '🎯 Quizzes y Evaluaciones',
+                        description: 'Pon a prueba tus conocimientos con quizzes interactivos que te ayudarán a evaluar tu progreso y reforzar los conceptos aprendidos.',
+                        link: '📝 Quiz 1 - Evaluación de Conceptos Básicos'
+                    },
                     resources: {
                         title: '📚 Recursos Adicionales',
                         description: 'Enlaces útiles y recursos complementarios para continuar tu aprendizaje en programación y tecnología.',
@@ -336,6 +356,16 @@
                         title: '🧮 Logic and Algorithms',
                         description: 'Develop your computational and logical thinking through algorithms, data structures, and problem-solving techniques.',
                         link: '🧠 Brief Explanation - Logic and Algorithms'
+                    },
+                    python: {
+                        title: '🐍 Python',
+                        description: 'Learn Python from scratch with practical examples, interactive exercises, and real projects to develop your programming skills.',
+                        link: '🐍 Week 1 - Introduction to Python'
+                    },
+                    quizzes: {
+                        title: '🎯 Quizzes and Assessments',
+                        description: 'Test your knowledge with interactive quizzes that will help you evaluate your progress and reinforce learned concepts.',
+                        link: '📝 Quiz 1 - Basic Concepts Assessment'
                     },
                     resources: {
                         title: '📚 Additional Resources',
@@ -365,12 +395,21 @@
 
             cards[2].querySelector('h2').innerHTML = `<span class="emoji">🧮</span> ${content.logic.title.split(' ').slice(1).join(' ')}`;
             cards[2].querySelector('p').textContent = content.logic.description;
-            cards[2].querySelector('.card-link').innerHTML = `<i>🧠</i> ${content.logic.link}`;
+            cards[2].querySelectorAll('.card-link')[0].innerHTML = `<i>🧠</i> ${content.logic.link}`;
+            cards[2].querySelectorAll('.card-link')[1].innerHTML = `<i>⚡</i> Semana 2 - Lógica de Programación Avanzada`;
 
-            cards[3].querySelector('h2').innerHTML = `<span class="emoji">🐍</span> ${content.resources.title.split(' ').slice(1).join(' ')}`;
-            cards[3].querySelector('p').textContent = content.resources.description;
-            cards[3].querySelectorAll('.card-link')[0].innerHTML = `<i>📖</i> ${content.resources.github}`;
-            cards[3].querySelectorAll('.card-link')[1].innerHTML = `<i>🌐</i> ${content.resources.pages}`;
+            cards[3].querySelector('h2').innerHTML = `<span class="emoji">🐍</span> ${content.python.title.split(' ').slice(1).join(' ')}`;
+            cards[3].querySelector('p').textContent = content.python.description;
+            cards[3].querySelector('.card-link').innerHTML = `<i>🐍</i> ${content.python.link}`;
+
+            cards[4].querySelector('h2').innerHTML = `<span class="emoji">🎯</span> ${content.quizzes.title.split(' ').slice(1).join(' ')}`;
+            cards[4].querySelector('p').textContent = content.quizzes.description;
+            cards[4].querySelector('.card-link').innerHTML = `<i>📝</i> ${content.quizzes.link}`;
+
+            cards[5].querySelector('h2').innerHTML = `<span class="emoji">📚</span> ${content.resources.title.split(' ').slice(1).join(' ')}`;
+            cards[5].querySelector('p').textContent = content.resources.description;
+            cards[5].querySelectorAll('.card-link')[0].innerHTML = `<i>📖</i> ${content.resources.github}`;
+            cards[5].querySelectorAll('.card-link')[1].innerHTML = `<i>🌐</i> ${content.resources.pages}`;
 
             // Update footer
             document.querySelector('.footer p').textContent = content.footer;
